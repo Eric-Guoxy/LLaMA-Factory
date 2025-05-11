@@ -1,0 +1,1069 @@
+[2025-05-11 22:48:45,750] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[INFO|2025-05-11 22:48:49] llamafactory.cli:143 >> Initializing 8 distributed tasks at: 127.0.0.1:44265
+[2025-05-11 22:48:54,785] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-11 22:48:54,835] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-11 22:48:54,838] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-11 22:48:54,843] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-11 22:48:54,844] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-11 22:48:54,846] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-11 22:48:54,848] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-11 22:48:54,848] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-11 22:48:56,911] [INFO] [comm.py:669:init_distributed] cdb=None
+[2025-05-11 22:48:56,940] [INFO] [comm.py:669:init_distributed] cdb=None
+[2025-05-11 22:48:56,944] [INFO] [comm.py:669:init_distributed] cdb=None
+[2025-05-11 22:48:57,083] [INFO] [comm.py:669:init_distributed] cdb=None
+[2025-05-11 22:48:57,084] [INFO] [comm.py:669:init_distributed] cdb=None
+[2025-05-11 22:48:57,093] [INFO] [comm.py:669:init_distributed] cdb=None
+[2025-05-11 22:48:57,104] [INFO] [comm.py:669:init_distributed] cdb=None
+[2025-05-11 22:48:57,166] [INFO] [comm.py:669:init_distributed] cdb=None
+[2025-05-11 22:48:57,166] [INFO] [comm.py:700:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+[INFO|2025-05-11 22:48:57] llamafactory.hparams.parser:401 >> Process rank: 4, world size: 8, device: cuda:4, distributed training: True, compute dtype: torch.bfloat16
+[INFO|2025-05-11 22:48:57] llamafactory.hparams.parser:401 >> Process rank: 6, world size: 8, device: cuda:6, distributed training: True, compute dtype: torch.bfloat16
+[INFO|2025-05-11 22:48:57] llamafactory.hparams.parser:401 >> Process rank: 3, world size: 8, device: cuda:3, distributed training: True, compute dtype: torch.bfloat16
+[INFO|2025-05-11 22:48:57] llamafactory.hparams.parser:143 >> Set `ddp_find_unused_parameters` to False in DDP training since LoRA is enabled.
+[INFO|2025-05-11 22:48:57] llamafactory.hparams.parser:401 >> Process rank: 0, world size: 8, device: cuda:0, distributed training: True, compute dtype: torch.bfloat16
+[INFO|2025-05-11 22:48:57] llamafactory.hparams.parser:401 >> Process rank: 1, world size: 8, device: cuda:1, distributed training: True, compute dtype: torch.bfloat16
+[INFO|2025-05-11 22:48:57] llamafactory.hparams.parser:401 >> Process rank: 2, world size: 8, device: cuda:2, distributed training: True, compute dtype: torch.bfloat16
+[INFO|2025-05-11 22:48:57] llamafactory.hparams.parser:401 >> Process rank: 5, world size: 8, device: cuda:5, distributed training: True, compute dtype: torch.bfloat16
+[INFO|2025-05-11 22:48:57] llamafactory.hparams.parser:401 >> Process rank: 7, world size: 8, device: cuda:7, distributed training: True, compute dtype: torch.bfloat16
+[INFO|2025-05-11 22:48:58] llamafactory.data.template:143 >> Replace eos token: <|eot_id|>.
+[WARNING|2025-05-11 22:48:58] llamafactory.data.template:148 >> New tokens have been added, make sure `resize_vocab` is True.
+[INFO|2025-05-11 22:48:58] llamafactory.data.template:143 >> Add <|eom_id|> to stop words.
+[WARNING|2025-05-11 22:48:58] llamafactory.data.template:148 >> New tokens have been added, make sure `resize_vocab` is True.
+[INFO|2025-05-11 22:48:58] llamafactory.data.loader:143 >> Loading dataset identity.json...
+[INFO|2025-05-11 22:48:59] llamafactory.data.loader:143 >> Loading dataset alpaca_en_demo.json...
+iv-ydv80j2j28wh2yontsl6:3998732:3998732 [0] NCCL INFO Bootstrap: Using eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998732:3998732 [0] NCCL INFO cudaDriverVersion 12020
+iv-ydv80j2j28wh2yontsl6:3998732:3998732 [0] NCCL INFO NCCL version 2.26.2+cuda12.2
+iv-ydv80j2j28wh2yontsl6:3998732:3998732 [0] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998735:3998735 [3] NCCL INFO cudaDriverVersion 12020
+iv-ydv80j2j28wh2yontsl6:3998735:3998735 [3] NCCL INFO Bootstrap: Using eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998735:3998735 [3] NCCL INFO NCCL version 2.26.2+cuda12.2
+iv-ydv80j2j28wh2yontsl6:3998738:3998738 [6] NCCL INFO cudaDriverVersion 12020
+iv-ydv80j2j28wh2yontsl6:3998736:3998736 [4] NCCL INFO cudaDriverVersion 12020
+iv-ydv80j2j28wh2yontsl6:3998737:3998737 [5] NCCL INFO cudaDriverVersion 12020
+iv-ydv80j2j28wh2yontsl6:3998734:3998734 [2] NCCL INFO cudaDriverVersion 12020
+iv-ydv80j2j28wh2yontsl6:3998739:3998739 [7] NCCL INFO cudaDriverVersion 12020
+iv-ydv80j2j28wh2yontsl6:3998733:3998733 [1] NCCL INFO cudaDriverVersion 12020
+iv-ydv80j2j28wh2yontsl6:3998735:3998735 [3] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998738:3998738 [6] NCCL INFO Bootstrap: Using eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998738:3998738 [6] NCCL INFO NCCL version 2.26.2+cuda12.2
+iv-ydv80j2j28wh2yontsl6:3998737:3998737 [5] NCCL INFO Bootstrap: Using eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998736:3998736 [4] NCCL INFO Bootstrap: Using eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998733:3998733 [1] NCCL INFO Bootstrap: Using eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998734:3998734 [2] NCCL INFO Bootstrap: Using eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998739:3998739 [7] NCCL INFO Bootstrap: Using eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998737:3998737 [5] NCCL INFO NCCL version 2.26.2+cuda12.2
+iv-ydv80j2j28wh2yontsl6:3998736:3998736 [4] NCCL INFO NCCL version 2.26.2+cuda12.2
+iv-ydv80j2j28wh2yontsl6:3998733:3998733 [1] NCCL INFO NCCL version 2.26.2+cuda12.2
+iv-ydv80j2j28wh2yontsl6:3998734:3998734 [2] NCCL INFO NCCL version 2.26.2+cuda12.2
+iv-ydv80j2j28wh2yontsl6:3998739:3998739 [7] NCCL INFO NCCL version 2.26.2+cuda12.2
+iv-ydv80j2j28wh2yontsl6:3998733:3998733 [1] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998734:3998734 [2] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998737:3998737 [5] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998736:3998736 [4] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998739:3998739 [7] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998738:3998738 [6] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO NET/IB : Using [0]mlx5_0:1/RoCE [1]mlx5_1:1/RoCE [2]mlx5_2:1/RoCE [3]mlx5_3:1/RoCE [4]mlx5_4:1/RoCE [RO]; OOB eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO NET/IB : Using [0]mlx5_0:1/RoCE [1]mlx5_1:1/RoCE [2]mlx5_2:1/RoCE [3]mlx5_3:1/RoCE [4]mlx5_4:1/RoCE [RO]; OOB eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO NET/IB : Using [0]mlx5_0:1/RoCE [1]mlx5_1:1/RoCE [2]mlx5_2:1/RoCE [3]mlx5_3:1/RoCE [4]mlx5_4:1/RoCE [RO]; OOB eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO NET/IB : Using [0]mlx5_0:1/RoCE [1]mlx5_1:1/RoCE [2]mlx5_2:1/RoCE [3]mlx5_3:1/RoCE [4]mlx5_4:1/RoCE [RO]; OOB eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO NET/IB : Using [0]mlx5_0:1/RoCE [1]mlx5_1:1/RoCE [2]mlx5_2:1/RoCE [3]mlx5_3:1/RoCE [4]mlx5_4:1/RoCE [RO]; OOB eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO NET/IB : Using [0]mlx5_0:1/RoCE [1]mlx5_1:1/RoCE [2]mlx5_2:1/RoCE [3]mlx5_3:1/RoCE [4]mlx5_4:1/RoCE [RO]; OOB eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO NET/IB : Using [0]mlx5_0:1/RoCE [1]mlx5_1:1/RoCE [2]mlx5_2:1/RoCE [3]mlx5_3:1/RoCE [4]mlx5_4:1/RoCE [RO]; OOB eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO NET/IB : Using [0]mlx5_0:1/RoCE [1]mlx5_1:1/RoCE [2]mlx5_2:1/RoCE [3]mlx5_3:1/RoCE [4]mlx5_4:1/RoCE [RO]; OOB eth0:172.31.32.2<0>
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO ncclCommInitRankConfig comm 0x5637b7ca6a40 rank 0 nranks 8 cudaDev 0 nvmlDev 0 busId 65020 commId 0xb534c7fe2f2e919a - Init START
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO ncclCommInitRankConfig comm 0x556865e48c10 rank 4 nranks 8 cudaDev 4 nvmlDev 4 busId 69020 commId 0xb534c7fe2f2e919a - Init START
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO ncclCommInitRankConfig comm 0x558156f57cf0 rank 6 nranks 8 cudaDev 6 nvmlDev 6 busId 6b020 commId 0xb534c7fe2f2e919a - Init START
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO ncclCommInitRankConfig comm 0x55a7f3b79760 rank 2 nranks 8 cudaDev 2 nvmlDev 2 busId 67020 commId 0xb534c7fe2f2e919a - Init START
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO ncclCommInitRankConfig comm 0x558606dc5660 rank 7 nranks 8 cudaDev 7 nvmlDev 7 busId 6b030 commId 0xb534c7fe2f2e919a - Init START
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO ncclCommInitRankConfig comm 0x55a40e26acf0 rank 5 nranks 8 cudaDev 5 nvmlDev 5 busId 69030 commId 0xb534c7fe2f2e919a - Init START
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO ncclCommInitRankConfig comm 0x55f1f675e9c0 rank 3 nranks 8 cudaDev 3 nvmlDev 3 busId 67030 commId 0xb534c7fe2f2e919a - Init START
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO ncclCommInitRankConfig comm 0x562bb2598da0 rank 1 nranks 8 cudaDev 1 nvmlDev 1 busId 65030 commId 0xb534c7fe2f2e919a - Init START
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO Bootstrap timings total 0.002800 (create 0.000028, send 0.000095, recv 0.000113, ring 0.002283, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO Bootstrap timings total 0.019434 (create 0.000029, send 0.000090, recv 0.016715, ring 0.001026, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO Bootstrap timings total 0.001808 (create 0.000028, send 0.000090, recv 0.000073, ring 0.001379, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO Bootstrap timings total 0.000542 (create 0.000028, send 0.000089, recv 0.000064, ring 0.000120, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Bootstrap timings total 0.129127 (create 0.000047, send 0.000104, recv 0.128606, ring 0.000067, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO Bootstrap timings total 0.025197 (create 0.000037, send 0.000098, recv 0.023422, ring 0.000806, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO Bootstrap timings total 0.001238 (create 0.000028, send 0.000089, recv 0.000071, ring 0.000838, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO Bootstrap timings total 0.015513 (create 0.000028, send 0.000079, recv 0.014335, ring 0.000126, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO Setting affinity for GPU 2 to 03ffffff,ffffffff,ffffffff
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO Setting affinity for GPU 1 to 03ffffff,ffffffff,ffffffff
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO NCCL_NVLS_ENABLE set by environment to 0.
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO Setting affinity for GPU 3 to 03ffffff,ffffffff,ffffffff
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO NCCL_NVLS_ENABLE set by environment to 0.
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO NCCL_NVLS_ENABLE set by environment to 0.
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Setting affinity for GPU 0 to 03ffffff,ffffffff,ffffffff
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO NCCL_NVLS_ENABLE set by environment to 0.
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO Setting affinity for GPU 4 to 0fffff,ffffffff,ffffffff,fc000000,00000000,00000000
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO NCCL_NVLS_ENABLE set by environment to 0.
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO Setting affinity for GPU 5 to 0fffff,ffffffff,ffffffff,fc000000,00000000,00000000
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO NCCL_NVLS_ENABLE set by environment to 0.
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO Setting affinity for GPU 7 to 0fffff,ffffffff,ffffffff,fc000000,00000000,00000000
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO NCCL_NVLS_ENABLE set by environment to 0.
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO Setting affinity for GPU 6 to 0fffff,ffffffff,ffffffff,fc000000,00000000,00000000
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO NCCL_NVLS_ENABLE set by environment to 0.
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO comm 0x562bb2598da0 rank 1 nRanks 8 nNodes 1 localRanks 8 localRank 1 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO comm 0x558156f57cf0 rank 6 nRanks 8 nNodes 1 localRanks 8 localRank 6 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO comm 0x55a40e26acf0 rank 5 nRanks 8 nNodes 1 localRanks 8 localRank 5 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO comm 0x556865e48c10 rank 4 nRanks 8 nNodes 1 localRanks 8 localRank 4 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO comm 0x558606dc5660 rank 7 nRanks 8 nNodes 1 localRanks 8 localRank 7 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO comm 0x5637b7ca6a40 rank 0 nRanks 8 nNodes 1 localRanks 8 localRank 0 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO Trees [0] 7/-1/-1->6->5 [1] 7/-1/-1->6->5 [2] 7/-1/-1->6->5 [3] 7/-1/-1->6->5 [4] 7/-1/-1->6->5 [5] 7/-1/-1->6->5 [6] 7/-1/-1->6->5 [7] 7/-1/-1->6->5 [8] 7/-1/-1->6->5 [9] 7/-1/-1->6->5 [10] 7/-1/-1->6->5 [11] 7/-1/-1->6->5 [12] 7/-1/-1->6->5 [13] 7/-1/-1->6->5 [14] 7/-1/-1->6->5 [15] 7/-1/-1->6->5 [16] 7/-1/-1->6->5 [17] 7/-1/-1->6->5 [18] 7/-1/-1->6->5 [19] 7/-1/-1->6->5 [20] 7/-1/-1->6->5 [21] 7/-1/-1->6->5 [22] 7/-1/-1->6->5 [23] 7/-1/-1->6->5
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO Trees [0] 6/-1/-1->5->4 [1] 6/-1/-1->5->4 [2] 6/-1/-1->5->4 [3] 6/-1/-1->5->4 [4] 6/-1/-1->5->4 [5] 6/-1/-1->5->4 [6] 6/-1/-1->5->4 [7] 6/-1/-1->5->4 [8] 6/-1/-1->5->4 [9] 6/-1/-1->5->4 [10] 6/-1/-1->5->4 [11] 6/-1/-1->5->4 [12] 6/-1/-1->5->4 [13] 6/-1/-1->5->4 [14] 6/-1/-1->5->4 [15] 6/-1/-1->5->4 [16] 6/-1/-1->5->4 [17] 6/-1/-1->5->4 [18] 6/-1/-1->5->4 [19] 6/-1/-1->5->4 [20] 6/-1/-1->5->4 [21] 6/-1/-1->5->4 [22] 6/-1/-1->5->4 [23] 6/-1/-1->5->4
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO Trees [0] 2/-1/-1->1->0 [1] 2/-1/-1->1->0 [2] 2/-1/-1->1->0 [3] 2/-1/-1->1->0 [4] 2/-1/-1->1->0 [5] 2/-1/-1->1->0 [6] 2/-1/-1->1->0 [7] 2/-1/-1->1->0 [8] 2/-1/-1->1->0 [9] 2/-1/-1->1->0 [10] 2/-1/-1->1->0 [11] 2/-1/-1->1->0 [12] 2/-1/-1->1->0 [13] 2/-1/-1->1->0 [14] 2/-1/-1->1->0 [15] 2/-1/-1->1->0 [16] 2/-1/-1->1->0 [17] 2/-1/-1->1->0 [18] 2/-1/-1->1->0 [19] 2/-1/-1->1->0 [20] 2/-1/-1->1->0 [21] 2/-1/-1->1->0 [22] 2/-1/-1->1->0 [23] 2/-1/-1->1->0
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO Trees [0] 5/-1/-1->4->3 [1] 5/-1/-1->4->3 [2] 5/-1/-1->4->3 [3] 5/-1/-1->4->3 [4] 5/-1/-1->4->3 [5] 5/-1/-1->4->3 [6] 5/-1/-1->4->3 [7] 5/-1/-1->4->3 [8] 5/-1/-1->4->3 [9] 5/-1/-1->4->3 [10] 5/-1/-1->4->3 [11] 5/-1/-1->4->3 [12] 5/-1/-1->4->3 [13] 5/-1/-1->4->3 [14] 5/-1/-1->4->3 [15] 5/-1/-1->4->3 [16] 5/-1/-1->4->3 [17] 5/-1/-1->4->3 [18] 5/-1/-1->4->3 [19] 5/-1/-1->4->3 [20] 5/-1/-1->4->3 [21] 5/-1/-1->4->3 [22] 5/-1/-1->4->3 [23] 5/-1/-1->4->3
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO Trees [0] -1/-1/-1->7->6 [1] -1/-1/-1->7->6 [2] -1/-1/-1->7->6 [3] -1/-1/-1->7->6 [4] -1/-1/-1->7->6 [5] -1/-1/-1->7->6 [6] -1/-1/-1->7->6 [7] -1/-1/-1->7->6 [8] -1/-1/-1->7->6 [9] -1/-1/-1->7->6 [10] -1/-1/-1->7->6 [11] -1/-1/-1->7->6 [12] -1/-1/-1->7->6 [13] -1/-1/-1->7->6 [14] -1/-1/-1->7->6 [15] -1/-1/-1->7->6 [16] -1/-1/-1->7->6 [17] -1/-1/-1->7->6 [18] -1/-1/-1->7->6 [19] -1/-1/-1->7->6 [20] -1/-1/-1->7->6 [21] -1/-1/-1->7->6 [22] -1/-1/-1->7->6 [23] -1/-1/-1->7->6
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 00/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 01/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 02/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 03/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 04/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 05/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 06/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 07/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 08/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 09/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 10/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 11/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 12/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 13/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 14/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 15/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 16/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 17/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 18/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 19/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 20/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 21/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 22/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Channel 23/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] 1/-1/-1->0->-1 [2] 1/-1/-1->0->-1 [3] 1/-1/-1->0->-1 [4] 1/-1/-1->0->-1 [5] 1/-1/-1->0->-1 [6] 1/-1/-1->0->-1 [7] 1/-1/-1->0->-1 [8] 1/-1/-1->0->-1 [9] 1/-1/-1->0->-1 [10] 1/-1/-1->0->-1 [11] 1/-1/-1->0->-1 [12] 1/-1/-1->0->-1 [13] 1/-1/-1->0->-1 [14] 1/-1/-1->0->-1 [15] 1/-1/-1->0->-1 [16] 1/-1/-1->0->-1 [17] 1/-1/-1->0->-1 [18] 1/-1/-1->0->-1 [19] 1/-1/-1->0->-1 [20] 1/-1/-1->0->-1 [21] 1/-1/-1->0->-1 [22] 1/-1/-1->0->-1 [23] 1/-1/-1->0->-1
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO comm 0x55f1f675e9c0 rank 3 nRanks 8 nNodes 1 localRanks 8 localRank 3 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO comm 0x55a7f3b79760 rank 2 nRanks 8 nNodes 1 localRanks 8 localRank 2 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO Trees [0] 4/-1/-1->3->2 [1] 4/-1/-1->3->2 [2] 4/-1/-1->3->2 [3] 4/-1/-1->3->2 [4] 4/-1/-1->3->2 [5] 4/-1/-1->3->2 [6] 4/-1/-1->3->2 [7] 4/-1/-1->3->2 [8] 4/-1/-1->3->2 [9] 4/-1/-1->3->2 [10] 4/-1/-1->3->2 [11] 4/-1/-1->3->2 [12] 4/-1/-1->3->2 [13] 4/-1/-1->3->2 [14] 4/-1/-1->3->2 [15] 4/-1/-1->3->2 [16] 4/-1/-1->3->2 [17] 4/-1/-1->3->2 [18] 4/-1/-1->3->2 [19] 4/-1/-1->3->2 [20] 4/-1/-1->3->2 [21] 4/-1/-1->3->2 [22] 4/-1/-1->3->2 [23] 4/-1/-1->3->2
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO Trees [0] 3/-1/-1->2->1 [1] 3/-1/-1->2->1 [2] 3/-1/-1->2->1 [3] 3/-1/-1->2->1 [4] 3/-1/-1->2->1 [5] 3/-1/-1->2->1 [6] 3/-1/-1->2->1 [7] 3/-1/-1->2->1 [8] 3/-1/-1->2->1 [9] 3/-1/-1->2->1 [10] 3/-1/-1->2->1 [11] 3/-1/-1->2->1 [12] 3/-1/-1->2->1 [13] 3/-1/-1->2->1 [14] 3/-1/-1->2->1 [15] 3/-1/-1->2->1 [16] 3/-1/-1->2->1 [17] 3/-1/-1->2->1 [18] 3/-1/-1->2->1 [19] 3/-1/-1->2->1 [20] 3/-1/-1->2->1 [21] 3/-1/-1->2->1 [22] 3/-1/-1->2->1 [23] 3/-1/-1->2->1
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998737:4000066 [5] NCCL INFO [Proxy Service] Device 5 CPU core 141
+iv-ydv80j2j28wh2yontsl6:3998737:4000067 [5] NCCL INFO [Proxy Service UDS] Device 5 CPU core 142
+iv-ydv80j2j28wh2yontsl6:3998738:4000065 [6] NCCL INFO [Proxy Service] Device 6 CPU core 95
+iv-ydv80j2j28wh2yontsl6:3998738:4000068 [6] NCCL INFO [Proxy Service UDS] Device 6 CPU core 97
+iv-ydv80j2j28wh2yontsl6:3998736:4000069 [4] NCCL INFO [Proxy Service] Device 4 CPU core 116
+iv-ydv80j2j28wh2yontsl6:3998736:4000070 [4] NCCL INFO [Proxy Service UDS] Device 4 CPU core 118
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Check P2P Type intraNodeP2pSupport 1 directMode 0
+iv-ydv80j2j28wh2yontsl6:3998733:4000071 [1] NCCL INFO [Proxy Service] Device 1 CPU core 19
+iv-ydv80j2j28wh2yontsl6:3998732:4000073 [0] NCCL INFO [Proxy Service UDS] Device 0 CPU core 48
+iv-ydv80j2j28wh2yontsl6:3998733:4000074 [1] NCCL INFO [Proxy Service UDS] Device 1 CPU core 22
+iv-ydv80j2j28wh2yontsl6:3998732:4000072 [0] NCCL INFO [Proxy Service] Device 0 CPU core 46
+iv-ydv80j2j28wh2yontsl6:3998739:4000075 [7] NCCL INFO [Proxy Service] Device 7 CPU core 121
+iv-ydv80j2j28wh2yontsl6:3998739:4000076 [7] NCCL INFO [Proxy Service UDS] Device 7 CPU core 123
+iv-ydv80j2j28wh2yontsl6:3998735:4000078 [3] NCCL INFO [Proxy Service UDS] Device 3 CPU core 54
+iv-ydv80j2j28wh2yontsl6:3998735:4000077 [3] NCCL INFO [Proxy Service] Device 3 CPU core 53
+iv-ydv80j2j28wh2yontsl6:3998734:4000079 [2] NCCL INFO [Proxy Service] Device 2 CPU core 2
+iv-ydv80j2j28wh2yontsl6:3998734:4000080 [2] NCCL INFO [Proxy Service UDS] Device 2 CPU core 4
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO CC Off, workFifoBytes 1048576
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO ncclCommInitRankConfig comm 0x556865e48c10 rank 4 nranks 8 cudaDev 4 nvmlDev 4 busId 69020 commId 0xb534c7fe2f2e919a - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO ncclCommInitRankConfig comm 0x558156f57cf0 rank 6 nranks 8 cudaDev 6 nvmlDev 6 busId 6b020 commId 0xb534c7fe2f2e919a - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO ncclCommInitRankConfig comm 0x558606dc5660 rank 7 nranks 8 cudaDev 7 nvmlDev 7 busId 6b030 commId 0xb534c7fe2f2e919a - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO ncclCommInitRankConfig comm 0x55a40e26acf0 rank 5 nranks 8 cudaDev 5 nvmlDev 5 busId 69030 commId 0xb534c7fe2f2e919a - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998736:4000008 [4] NCCL INFO Init timings - ncclCommInitRankConfig: rank 4 nranks 8 total 1.78 (kernels 0.21, alloc 0.94, bootstrap 0.03, allgathers 0.01, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998738:4000010 [6] NCCL INFO Init timings - ncclCommInitRankConfig: rank 6 nranks 8 total 1.78 (kernels 0.21, alloc 0.94, bootstrap 0.02, allgathers 0.00, topo 0.51, graphs 0.01, connections 0.05, rest 0.03)
+iv-ydv80j2j28wh2yontsl6:3998739:4000009 [7] NCCL INFO Init timings - ncclCommInitRankConfig: rank 7 nranks 8 total 1.78 (kernels 0.21, alloc 0.96, bootstrap 0.00, allgathers 0.01, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998737:4000012 [5] NCCL INFO Init timings - ncclCommInitRankConfig: rank 5 nranks 8 total 1.78 (kernels 0.21, alloc 0.96, bootstrap 0.00, allgathers 0.01, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO ncclCommInitRankConfig comm 0x562bb2598da0 rank 1 nranks 8 cudaDev 1 nvmlDev 1 busId 65030 commId 0xb534c7fe2f2e919a - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998733:4000011 [1] NCCL INFO Init timings - ncclCommInitRankConfig: rank 1 nranks 8 total 1.78 (kernels 0.21, alloc 0.96, bootstrap 0.00, allgathers 0.01, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO ncclCommInitRankConfig comm 0x5637b7ca6a40 rank 0 nranks 8 cudaDev 0 nvmlDev 0 busId 65020 commId 0xb534c7fe2f2e919a - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998732:4000005 [0] NCCL INFO Init timings - ncclCommInitRankConfig: rank 0 nranks 8 total 1.80 (kernels 0.21, alloc 0.85, bootstrap 0.13, allgathers 0.01, topo 0.51, graphs 0.01, connections 0.05, rest 0.03)
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO ncclCommInitRankConfig comm 0x55a7f3b79760 rank 2 nranks 8 cudaDev 2 nvmlDev 2 busId 67020 commId 0xb534c7fe2f2e919a - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998734:4000007 [2] NCCL INFO Init timings - ncclCommInitRankConfig: rank 2 nranks 8 total 1.78 (kernels 0.21, alloc 0.95, bootstrap 0.02, allgathers 0.00, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO ncclCommInitRankConfig comm 0x55f1f675e9c0 rank 3 nranks 8 cudaDev 3 nvmlDev 3 busId 67030 commId 0xb534c7fe2f2e919a - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998735:4000006 [3] NCCL INFO Init timings - ncclCommInitRankConfig: rank 3 nranks 8 total 1.79 (kernels 0.21, alloc 0.96, bootstrap 0.00, allgathers 0.00, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 00/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 01/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 00/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 02/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 01/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 03/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 02/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 00/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 04/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 03/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 01/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 05/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 04/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 02/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 06/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 05/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 03/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 07/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 00/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 00/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 06/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 04/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 08/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 01/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 01/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 07/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 05/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 09/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 02/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 02/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 08/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 06/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 10/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 03/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 03/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 09/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 07/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 11/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 00/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 04/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 04/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 10/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 08/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 00/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 12/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 01/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 05/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 05/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 11/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 09/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 01/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 13/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 02/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 06/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 06/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 12/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 10/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 02/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 14/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 03/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 07/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 07/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 13/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 11/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 03/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 15/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 04/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 08/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 08/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 14/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 12/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 04/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 16/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 05/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 09/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 09/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 15/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 13/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 05/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 17/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 06/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 10/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 10/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 16/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 14/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 06/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 18/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 11/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 15/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 07/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 19/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 12/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 16/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 08/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 07/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 09/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 08/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 11/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 17/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 13/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 12/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 18/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 14/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 13/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 19/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 15/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 14/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 20/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 16/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 15/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 20/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 10/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 17/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 16/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 21/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 11/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 18/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 17/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 22/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 12/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 19/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 18/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Channel 23/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 13/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 20/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 19/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 14/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 21/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 20/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 15/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 22/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 21/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 16/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Channel 23/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 22/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 17/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Channel 23/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 18/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 09/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 00/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 19/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 10/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 21/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 20/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 11/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 02/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 22/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 21/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 12/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 03/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Channel 23/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 22/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 13/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 04/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Channel 23/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 14/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 05/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 17/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 15/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 06/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 18/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 16/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 07/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 19/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 17/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 08/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 20/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 18/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 21/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 09/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 22/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 10/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 19/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Channel 23/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 11/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 20/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 21/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 12/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 22/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 13/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Channel 23/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 14/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 15/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 16/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 17/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 18/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 19/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 20/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 21/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 22/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Channel 23/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4000082 [7] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998738:4000083 [6] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998736:4000087 [4] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998735:4000086 [3] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998734:4000085 [2] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998737:4000088 [5] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998733:4000081 [1] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998732:4000084 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+training example:
+input_ids:
+[151646, 27, 91, 2468, 8757, 842, 91, 29, 872, 27, 91, 408, 8757, 842, 91, 1339, 6023, 151665, 27, 91, 2468, 8757, 842, 91, 29, 77091, 27, 91, 408, 8757, 842, 91, 1339, 9707, 0, 358, 1079, 5867, 606, 38154, 458, 15235, 17847, 7881, 553, 5867, 3094, 3417, 13, 2585, 646, 358, 7789, 498, 3351, 30, 151665]
+inputs:
+<｜begin▁of▁sentence｜><|start_header_id|>user<|end_header_id|>
+
+hi<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+Hello! I am {{name}}, an AI assistant developed by {{author}}. How can I assist you today?<|eot_id|>
+label_ids:
+[-100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, -100, 9707, 0, 358, 1079, 5867, 606, 38154, 458, 15235, 17847, 7881, 553, 5867, 3094, 3417, 13, 2585, 646, 358, 7789, 498, 3351, 30, 151665]
+labels:
+Hello! I am {{name}}, an AI assistant developed by {{author}}. How can I assist you today?<|eot_id|>
+[INFO|2025-05-11 22:49:04] llamafactory.model.model_utils.kv_cache:143 >> KV cache is disabled during training.
+[2025-05-11 22:49:04,224] [INFO] [config.py:735:__init__] Config mesh_device None world_size = 8
+[2025-05-11 22:49:04,336] [INFO] [config.py:735:__init__] Config mesh_device None world_size = 8
+[2025-05-11 22:49:04,336] [INFO] [config.py:735:__init__] Config mesh_device None world_size = 8
+[2025-05-11 22:49:04,337] [INFO] [config.py:735:__init__] Config mesh_device None world_size = 8
+[2025-05-11 22:49:04,341] [INFO] [config.py:735:__init__] Config mesh_device None world_size = 8
+[2025-05-11 22:49:04,351] [INFO] [config.py:735:__init__] Config mesh_device None world_size = 8
+[2025-05-11 22:49:04,434] [INFO] [config.py:735:__init__] Config mesh_device None world_size = 8
+[2025-05-11 22:49:04,434] [INFO] [config.py:735:__init__] Config mesh_device None world_size = 8
+[2025-05-11 22:49:04,840] [INFO] [partition_parameters.py:348:__exit__] finished initializing model - num_params = 339, num_elems = 1.78B
+[INFO|2025-05-11 22:49:05] llamafactory.model.model_utils.checkpointing:143 >> Gradient checkpointing enabled.
+[INFO|2025-05-11 22:49:05] llamafactory.model.model_utils.attention:143 >> Using torch SDPA for faster training and inference.
+[INFO|2025-05-11 22:49:05] llamafactory.model.adapter:143 >> DeepSpeed ZeRO3 detected, remaining trainable params in float32.
+[INFO|2025-05-11 22:49:05] llamafactory.model.adapter:143 >> Fine-tuning method: LoRA
+[INFO|2025-05-11 22:49:05] llamafactory.model.model_utils.misc:143 >> Found linear modules: o_proj,gate_proj,k_proj,up_proj,down_proj,q_proj,v_proj
+[INFO|2025-05-11 22:49:05] llamafactory.model.loader:143 >> trainable params: 9,232,384 || all params: 1,786,320,384 || trainable%: 0.5168
+[WARNING|2025-05-11 22:49:05] llamafactory.train.callbacks:154 >> Previous trainer log in this folder will be deleted.
+[2025-05-11 22:49:06,237] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed info: version=0.16.7, git-hash=unknown, git-branch=unknown
+[2025-05-11 22:49:06,237] [INFO] [config.py:735:__init__] Config mesh_device None world_size = 8
+[2025-05-11 22:49:06,263] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed Flops Profiler Enabled: False
+[2025-05-11 22:49:06,266] [INFO] [logging.py:107:log_dist] [Rank 0] Using client Optimizer as basic optimizer
+[2025-05-11 22:49:06,266] [INFO] [logging.py:107:log_dist] [Rank 0] Removing param_group that has no 'params' in the basic Optimizer
+[2025-05-11 22:49:06,289] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed Basic Optimizer = AdamW
+[2025-05-11 22:49:06,289] [INFO] [utils.py:59:is_zero_supported_optimizer] Checking ZeRO support for optimizer=AdamW type=<class 'torch.optim.adamw.AdamW'>
+[2025-05-11 22:49:06,289] [INFO] [logging.py:107:log_dist] [Rank 0] Creating fp16 ZeRO stage 3 optimizer, MiCS is enabled False, Hierarchical params gather False
+[2025-05-11 22:49:06,289] [INFO] [logging.py:107:log_dist] [Rank 0] Creating torch.bfloat16 ZeRO stage 3 optimizer
+[2025-05-11 22:49:06,515] [INFO] [utils.py:781:see_memory_usage] Stage 3 initialize beginning
+[2025-05-11 22:49:06,515] [INFO] [utils.py:782:see_memory_usage] MA 0.43 GB         Max_MA 1.66 GB         CA 0.46 GB         Max_CA 2 GB 
+[2025-05-11 22:49:06,516] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 60.91 GB, percent = 3.2%
+[2025-05-11 22:49:06,521] [INFO] [stage3.py:170:__init__] Reduce bucket size 2359296
+[2025-05-11 22:49:06,521] [INFO] [stage3.py:171:__init__] Prefetch bucket size 2123366
+[2025-05-11 22:49:06,733] [INFO] [utils.py:781:see_memory_usage] DeepSpeedZeRoOffload initialize [begin]
+[2025-05-11 22:49:06,734] [INFO] [utils.py:782:see_memory_usage] MA 0.43 GB         Max_MA 0.43 GB         CA 0.46 GB         Max_CA 0 GB 
+[2025-05-11 22:49:06,734] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 60.97 GB, percent = 3.2%
+Parameter Offload: Total persistent parameters: 3356160 in 449 params
+[2025-05-11 22:49:07,475] [INFO] [utils.py:781:see_memory_usage] DeepSpeedZeRoOffload initialize [end]
+[2025-05-11 22:49:07,476] [INFO] [utils.py:782:see_memory_usage] MA 0.42 GB         Max_MA 0.43 GB         CA 0.46 GB         Max_CA 0 GB 
+[2025-05-11 22:49:07,476] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 61.0 GB, percent = 3.2%
+[2025-05-11 22:49:07,703] [INFO] [utils.py:781:see_memory_usage] Before creating fp16 partitions
+[2025-05-11 22:49:07,704] [INFO] [utils.py:782:see_memory_usage] MA 0.42 GB         Max_MA 0.42 GB         CA 0.46 GB         Max_CA 0 GB 
+[2025-05-11 22:49:07,704] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 61.0 GB, percent = 3.2%
+[2025-05-11 22:49:08,251] [INFO] [utils.py:781:see_memory_usage] After creating fp16 partitions: 1
+[2025-05-11 22:49:08,252] [INFO] [utils.py:782:see_memory_usage] MA 0.42 GB         Max_MA 0.42 GB         CA 0.43 GB         Max_CA 0 GB 
+[2025-05-11 22:49:08,252] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 61.03 GB, percent = 3.2%
+[2025-05-11 22:49:08,474] [INFO] [utils.py:781:see_memory_usage] Before creating fp32 partitions
+[2025-05-11 22:49:08,474] [INFO] [utils.py:782:see_memory_usage] MA 0.42 GB         Max_MA 0.42 GB         CA 0.43 GB         Max_CA 0 GB 
+[2025-05-11 22:49:08,474] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 61.03 GB, percent = 3.2%
+[2025-05-11 22:49:08,693] [INFO] [utils.py:781:see_memory_usage] After creating fp32 partitions
+[2025-05-11 22:49:08,694] [INFO] [utils.py:782:see_memory_usage] MA 0.42 GB         Max_MA 0.42 GB         CA 0.43 GB         Max_CA 0 GB 
+[2025-05-11 22:49:08,694] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 61.03 GB, percent = 3.2%
+[2025-05-11 22:49:08,913] [INFO] [utils.py:781:see_memory_usage] Before initializing optimizer states
+[2025-05-11 22:49:08,913] [INFO] [utils.py:782:see_memory_usage] MA 0.42 GB         Max_MA 0.42 GB         CA 0.43 GB         Max_CA 0 GB 
+[2025-05-11 22:49:08,913] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 61.03 GB, percent = 3.2%
+[2025-05-11 22:49:09,161] [INFO] [utils.py:781:see_memory_usage] After initializing optimizer states
+[2025-05-11 22:49:09,161] [INFO] [utils.py:782:see_memory_usage] MA 0.42 GB         Max_MA 0.42 GB         CA 0.45 GB         Max_CA 0 GB 
+[2025-05-11 22:49:09,162] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 61.04 GB, percent = 3.2%
+[2025-05-11 22:49:09,162] [INFO] [stage3.py:534:_setup_for_real_optimizer] optimizer state initialized
+[2025-05-11 22:49:09,578] [INFO] [utils.py:781:see_memory_usage] After initializing ZeRO optimizer
+[2025-05-11 22:49:09,579] [INFO] [utils.py:782:see_memory_usage] MA 0.43 GB         Max_MA 0.43 GB         CA 0.45 GB         Max_CA 0 GB 
+[2025-05-11 22:49:09,579] [INFO] [utils.py:789:see_memory_usage] CPU Virtual Memory:  used = 62.06 GB, percent = 3.2%
+[2025-05-11 22:49:09,579] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed Final Optimizer = DeepSpeedZeroOptimizer_Stage3
+[2025-05-11 22:49:09,579] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed using configured LR scheduler = None
+[2025-05-11 22:49:09,579] [INFO] [logging.py:107:log_dist] [Rank 0] DeepSpeed LR Scheduler = None
+[2025-05-11 22:49:09,579] [INFO] [logging.py:107:log_dist] [Rank 0] step=0, skipped=0, lr=[0.0], mom=[(0.9, 0.999)]
+[2025-05-11 22:49:09,584] [INFO] [config.py:1003:print] DeepSpeedEngine configuration:
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   activation_checkpointing_config  {
+    "partition_activations": false, 
+    "contiguous_memory_optimization": false, 
+    "cpu_checkpointing": false, 
+    "number_checkpoints": null, 
+    "synchronize_checkpoint_boundary": false, 
+    "profile": false
+}
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   aio_config ................... {'block_size': 1048576, 'queue_depth': 8, 'intra_op_parallelism': 1, 'single_submit': False, 'overlap_events': True, 'use_gds': False}
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   amp_enabled .................. False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   amp_params ................... False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   autotuning_config ............ {
+    "enabled": false, 
+    "start_step": null, 
+    "end_step": null, 
+    "metric_path": null, 
+    "arg_mappings": null, 
+    "metric": "throughput", 
+    "model_info": null, 
+    "results_dir": "autotuning_results", 
+    "exps_dir": "autotuning_exps", 
+    "overwrite": true, 
+    "fast": true, 
+    "start_profile_step": 3, 
+    "end_profile_step": 5, 
+    "tuner_type": "gridsearch", 
+    "tuner_early_stopping": 5, 
+    "tuner_num_trials": 50, 
+    "model_info_path": null, 
+    "mp_size": 1, 
+    "max_train_batch_size": null, 
+    "min_train_batch_size": 1, 
+    "max_train_micro_batch_size_per_gpu": 1.024000e+03, 
+    "min_train_micro_batch_size_per_gpu": 1, 
+    "num_tuning_micro_batch_sizes": 3
+}
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   bfloat16_enabled ............. True
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   bfloat16_immediate_grad_update  True
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   checkpoint_parallel_write_pipeline  False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   checkpoint_tag_validation_enabled  True
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   checkpoint_tag_validation_fail  False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   comms_config ................. <deepspeed.comm.config.DeepSpeedCommsConfig object at 0x7fb96735a620>
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   communication_data_type ...... None
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   compile_config ............... deepcompile=False free_activation=False offload_activation=False offload_opt_states=False double_buffer=True symmetric_memory=False debug_log=False offload_parameters=False sync_before_reduce=False sync_after_reduce=False sync_before_allgather=False sync_after_allgather=False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   compression_config ........... {'weight_quantization': {'shared_parameters': {'enabled': False, 'quantizer_kernel': False, 'schedule_offset': 0, 'quantize_groups': 1, 'quantize_verbose': False, 'quantization_type': 'symmetric', 'quantize_weight_in_forward': False, 'rounding': 'nearest', 'fp16_mixed_quantize': False, 'quantize_change_ratio': 0.001}, 'different_groups': {}}, 'activation_quantization': {'shared_parameters': {'enabled': False, 'quantization_type': 'symmetric', 'range_calibration': 'dynamic', 'schedule_offset': 1000}, 'different_groups': {}}, 'sparse_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'row_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'head_pruning': {'shared_parameters': {'enabled': False, 'method': 'topk', 'schedule_offset': 1000}, 'different_groups': {}}, 'channel_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'layer_reduction': {'enabled': False}}
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   curriculum_enabled_legacy .... False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   curriculum_params_legacy ..... False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   data_efficiency_config ....... {'enabled': False, 'seed': 1234, 'data_sampling': {'enabled': False, 'num_epochs': 1000, 'num_workers': 0, 'pin_memory': False, 'curriculum_learning': {'enabled': False}, 'dynamic_batching': {'enabled': False, 'lr_scaling_method': 'linear', 'min_batch_size': 1, 'max_batch_size': None, 'sequence_picking_order': 'dataloader', 'verbose': False}}, 'data_routing': {'enabled': False, 'random_ltd': {'enabled': False, 'layer_token_lr_schedule': {'enabled': False}}}}
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   data_efficiency_enabled ...... False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   dataloader_drop_last ......... False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   disable_allgather ............ False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   dump_state ................... False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   dynamic_loss_scale_args ...... None
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   eigenvalue_enabled ........... False
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   eigenvalue_gas_boundary_resolution  1
+[2025-05-11 22:49:09,585] [INFO] [config.py:1007:print]   eigenvalue_layer_name ........ bert.encoder.layer
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   eigenvalue_layer_num ......... 0
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   eigenvalue_max_iter .......... 100
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   eigenvalue_stability ......... 1e-06
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   eigenvalue_tol ............... 0.01
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   eigenvalue_verbose ........... False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   elasticity_enabled ........... False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   flops_profiler_config ........ {
+    "enabled": false, 
+    "recompute_fwd_factor": 0.0, 
+    "profile_step": 1, 
+    "module_depth": -1, 
+    "top_modules": 1, 
+    "detailed": true, 
+    "output_file": null
+}
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   fp16_auto_cast ............... None
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   fp16_enabled ................. False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   fp16_master_weights_and_gradients  False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   global_rank .................. 0
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   grad_accum_dtype ............. None
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   gradient_accumulation_steps .. 2
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   gradient_clipping ............ 1.0
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   gradient_predivide_factor .... 1.0
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   graph_harvesting ............. False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   hybrid_engine ................ enabled=False max_out_tokens=512 inference_tp_size=1 release_inference_cache=False pin_parameters=True tp_gather_partition_size=8
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   initial_dynamic_scale ........ 1
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   load_universal_checkpoint .... False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   loss_scale ................... 1.0
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   memory_breakdown ............. False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   mics_hierarchial_params_gather  False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   mics_shard_size .............. -1
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   monitor_config ............... tensorboard=TensorBoardConfig(enabled=False, output_path='', job_name='DeepSpeedJobName') comet=CometConfig(enabled=False, samples_log_interval=100, project=None, workspace=None, api_key=None, experiment_name=None, experiment_key=None, online=None, mode=None) wandb=WandbConfig(enabled=False, group=None, team=None, project='deepspeed') csv_monitor=CSVConfig(enabled=False, output_path='', job_name='DeepSpeedJobName')
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   nebula_config ................ {
+    "enabled": false, 
+    "persistent_storage_path": null, 
+    "persistent_time_interval": 100, 
+    "num_of_version_in_retention": 2, 
+    "enable_nebula_load": true, 
+    "load_path": null
+}
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   optimizer_legacy_fusion ...... False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   optimizer_name ............... None
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   optimizer_params ............. None
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   pipeline ..................... {'stages': 'auto', 'partition': 'best', 'seed_layers': False, 'activation_checkpoint_interval': 0, 'pipe_partitioned': True, 'grad_partitioned': True}
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   pld_enabled .................. False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   pld_params ................... False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   prescale_gradients ........... False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   scheduler_name ............... None
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   scheduler_params ............. None
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   seq_parallel_communication_data_type  torch.float32
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   sparse_attention ............. None
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   sparse_gradients_enabled ..... False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   steps_per_print .............. inf
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   tensor_parallel_config ....... dtype=torch.float16 autotp_size=0 tp_overlap_comm=False tensor_parallel=TPConfig(tp_size=1, tp_grain_size=1, mpu=None, tp_group=None) injection_policy_tuple=None keep_module_on_host=False replace_with_kernel_inject=False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   timers_config ................ enabled=True synchronized=True
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   train_batch_size ............. 16
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   train_micro_batch_size_per_gpu  1
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   use_data_before_expert_parallel_  False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   use_node_local_storage ....... False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   wall_clock_breakdown ......... False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   weight_quantization_config ... None
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   world_size ................... 8
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   zero_allow_untested_optimizer  True
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   zero_config .................. stage=3 contiguous_gradients=True reduce_scatter=True reduce_bucket_size=2359296 use_multi_rank_bucket_allreduce=True allgather_partitions=True allgather_bucket_size=500000000 overlap_comm=False load_from_fp32_weights=True elastic_checkpoint=False offload_param=None offload_optimizer=None sub_group_size=1000000000 cpu_offload_param=None cpu_offload_use_pin_memory=None cpu_offload=None prefetch_bucket_size=2123366 param_persistence_threshold=15360 model_persistence_threshold=9223372036854775807 max_live_parameters=1000000000 max_reuse_distance=1000000000 gather_16bit_weights_on_model_save=True module_granularity_threshold=0 use_all_reduce_for_fetch_params=False stage3_gather_fp16_weights_on_model_save=False ignore_unused_parameters=True legacy_stage1=False round_robin_gradients=False zero_hpz_partition_size=1 zero_quantized_weights=False zero_quantized_nontrainable_weights=False zero_quantized_gradients=False zeropp_loco_param=None mics_shard_size=-1 mics_hierarchical_params_gather=False memory_efficient_linear=True pipeline_loading_checkpoint=False override_module_apply=True log_trace_cache_warnings=False
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   zero_enabled ................. True
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   zero_force_ds_cpu_optimizer .. True
+[2025-05-11 22:49:09,586] [INFO] [config.py:1007:print]   zero_optimization_stage ...... 3
+[2025-05-11 22:49:09,587] [INFO] [config.py:993:print_user_config]   json = {
+    "train_batch_size": 16, 
+    "train_micro_batch_size_per_gpu": 1, 
+    "gradient_accumulation_steps": 2, 
+    "gradient_clipping": 1.0, 
+    "zero_allow_untested_optimizer": true, 
+    "fp16": {
+        "enabled": false, 
+        "loss_scale": 0, 
+        "loss_scale_window": 1000, 
+        "initial_scale_power": 16, 
+        "hysteresis": 2, 
+        "min_loss_scale": 1
+    }, 
+    "bf16": {
+        "enabled": true
+    }, 
+    "zero_optimization": {
+        "stage": 3, 
+        "overlap_comm": false, 
+        "contiguous_gradients": true, 
+        "sub_group_size": 1.000000e+09, 
+        "reduce_bucket_size": 2.359296e+06, 
+        "stage3_prefetch_bucket_size": 2.123366e+06, 
+        "stage3_param_persistence_threshold": 1.536000e+04, 
+        "stage3_max_live_parameters": 1.000000e+09, 
+        "stage3_max_reuse_distance": 1.000000e+09, 
+        "stage3_gather_16bit_weights_on_model_save": true
+    }, 
+    "steps_per_print": inf
+}
+iv-ydv80j2j28wh2yontsl6:3998732:4002353 [0] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998738:4002346 [6] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998734:4002350 [2] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998735:4002319 [3] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998739:4002339 [7] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998736:4002328 [4] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998737:4002377 [5] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO ncclCommInitRankConfig comm 0x7fc1a03e6120 rank 6 nranks 8 cudaDev 6 nvmlDev 6 busId 6b020 commId 0x371b736e261b951b - Init START
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO ncclCommInitRankConfig comm 0x7fb8bc41eb60 rank 0 nranks 8 cudaDev 0 nvmlDev 0 busId 65020 commId 0x371b736e261b951b - Init START
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO ncclCommInitRankConfig comm 0x7f75903c64d0 rank 7 nranks 8 cudaDev 7 nvmlDev 7 busId 6b030 commId 0x371b736e261b951b - Init START
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO ncclCommInitRankConfig comm 0x7f2dec404960 rank 2 nranks 8 cudaDev 2 nvmlDev 2 busId 67020 commId 0x371b736e261b951b - Init START
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO ncclCommInitRankConfig comm 0x7f8b143ca050 rank 3 nranks 8 cudaDev 3 nvmlDev 3 busId 67030 commId 0x371b736e261b951b - Init START
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO ncclCommInitRankConfig comm 0x7fb0bc3c88c0 rank 4 nranks 8 cudaDev 4 nvmlDev 4 busId 69020 commId 0x371b736e261b951b - Init START
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO ncclCommInitRankConfig comm 0x7ff5dc725a80 rank 5 nranks 8 cudaDev 5 nvmlDev 5 busId 69030 commId 0x371b736e261b951b - Init START
+iv-ydv80j2j28wh2yontsl6:3998733:4002359 [1] NCCL INFO Comm config Blocking set to 1
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO Using network IB
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO ncclCommInitRankConfig comm 0x7f293048beb0 rank 1 nranks 8 cudaDev 1 nvmlDev 1 busId 65030 commId 0x371b736e261b951b - Init START
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO Bootstrap timings total 0.000390 (create 0.000029, send 0.000087, recv 0.000085, ring 0.000090, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO Bootstrap timings total 0.002027 (create 0.000029, send 0.000087, recv 0.000087, ring 0.001725, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO Bootstrap timings total 0.002473 (create 0.000030, send 0.000100, recv 0.000148, ring 0.001697, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Bootstrap timings total 0.002463 (create 0.000029, send 0.000083, recv 0.002128, ring 0.000094, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO Bootstrap timings total 0.001994 (create 0.000026, send 0.000074, recv 0.000098, ring 0.001696, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO Bootstrap timings total 0.002423 (create 0.000036, send 0.000073, recv 0.000152, ring 0.002051, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO Bootstrap timings total 0.002418 (create 0.000036, send 0.000074, recv 0.000207, ring 0.000074, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO Bootstrap timings total 0.002382 (create 0.000027, send 0.000075, recv 0.000405, ring 0.001762, delay 0.000000)
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO Setting affinity for GPU 2 to 03ffffff,ffffffff,ffffffff
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO Setting affinity for GPU 4 to 0fffff,ffffffff,ffffffff,fc000000,00000000,00000000
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO Setting affinity for GPU 6 to 0fffff,ffffffff,ffffffff,fc000000,00000000,00000000
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO Setting affinity for GPU 7 to 0fffff,ffffffff,ffffffff,fc000000,00000000,00000000
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO Setting affinity for GPU 3 to 03ffffff,ffffffff,ffffffff
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO Setting affinity for GPU 5 to 0fffff,ffffffff,ffffffff,fc000000,00000000,00000000
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Setting affinity for GPU 0 to 03ffffff,ffffffff,ffffffff
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO Setting affinity for GPU 1 to 03ffffff,ffffffff,ffffffff
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO comm 0x7fc1a03e6120 rank 6 nRanks 8 nNodes 1 localRanks 8 localRank 6 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO comm 0x7fb0bc3c88c0 rank 4 nRanks 8 nNodes 1 localRanks 8 localRank 4 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO comm 0x7f75903c64d0 rank 7 nRanks 8 nNodes 1 localRanks 8 localRank 7 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO comm 0x7f8b143ca050 rank 3 nRanks 8 nNodes 1 localRanks 8 localRank 3 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO comm 0x7ff5dc725a80 rank 5 nRanks 8 nNodes 1 localRanks 8 localRank 5 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO Trees [0] 7/-1/-1->6->5 [1] 7/-1/-1->6->5 [2] 7/-1/-1->6->5 [3] 7/-1/-1->6->5 [4] 7/-1/-1->6->5 [5] 7/-1/-1->6->5 [6] 7/-1/-1->6->5 [7] 7/-1/-1->6->5 [8] 7/-1/-1->6->5 [9] 7/-1/-1->6->5 [10] 7/-1/-1->6->5 [11] 7/-1/-1->6->5 [12] 7/-1/-1->6->5 [13] 7/-1/-1->6->5 [14] 7/-1/-1->6->5 [15] 7/-1/-1->6->5 [16] 7/-1/-1->6->5 [17] 7/-1/-1->6->5 [18] 7/-1/-1->6->5 [19] 7/-1/-1->6->5 [20] 7/-1/-1->6->5 [21] 7/-1/-1->6->5 [22] 7/-1/-1->6->5 [23] 7/-1/-1->6->5
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO comm 0x7f2dec404960 rank 2 nRanks 8 nNodes 1 localRanks 8 localRank 2 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO comm 0x7f293048beb0 rank 1 nRanks 8 nNodes 1 localRanks 8 localRank 1 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO comm 0x7fb8bc41eb60 rank 0 nRanks 8 nNodes 1 localRanks 8 localRank 0 MNNVL 0
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO Trees [0] 5/-1/-1->4->3 [1] 5/-1/-1->4->3 [2] 5/-1/-1->4->3 [3] 5/-1/-1->4->3 [4] 5/-1/-1->4->3 [5] 5/-1/-1->4->3 [6] 5/-1/-1->4->3 [7] 5/-1/-1->4->3 [8] 5/-1/-1->4->3 [9] 5/-1/-1->4->3 [10] 5/-1/-1->4->3 [11] 5/-1/-1->4->3 [12] 5/-1/-1->4->3 [13] 5/-1/-1->4->3 [14] 5/-1/-1->4->3 [15] 5/-1/-1->4->3 [16] 5/-1/-1->4->3 [17] 5/-1/-1->4->3 [18] 5/-1/-1->4->3 [19] 5/-1/-1->4->3 [20] 5/-1/-1->4->3 [21] 5/-1/-1->4->3 [22] 5/-1/-1->4->3 [23] 5/-1/-1->4->3
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO Trees [0] -1/-1/-1->7->6 [1] -1/-1/-1->7->6 [2] -1/-1/-1->7->6 [3] -1/-1/-1->7->6 [4] -1/-1/-1->7->6 [5] -1/-1/-1->7->6 [6] -1/-1/-1->7->6 [7] -1/-1/-1->7->6 [8] -1/-1/-1->7->6 [9] -1/-1/-1->7->6 [10] -1/-1/-1->7->6 [11] -1/-1/-1->7->6 [12] -1/-1/-1->7->6 [13] -1/-1/-1->7->6 [14] -1/-1/-1->7->6 [15] -1/-1/-1->7->6 [16] -1/-1/-1->7->6 [17] -1/-1/-1->7->6 [18] -1/-1/-1->7->6 [19] -1/-1/-1->7->6 [20] -1/-1/-1->7->6 [21] -1/-1/-1->7->6 [22] -1/-1/-1->7->6 [23] -1/-1/-1->7->6
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO Trees [0] 4/-1/-1->3->2 [1] 4/-1/-1->3->2 [2] 4/-1/-1->3->2 [3] 4/-1/-1->3->2 [4] 4/-1/-1->3->2 [5] 4/-1/-1->3->2 [6] 4/-1/-1->3->2 [7] 4/-1/-1->3->2 [8] 4/-1/-1->3->2 [9] 4/-1/-1->3->2 [10] 4/-1/-1->3->2 [11] 4/-1/-1->3->2 [12] 4/-1/-1->3->2 [13] 4/-1/-1->3->2 [14] 4/-1/-1->3->2 [15] 4/-1/-1->3->2 [16] 4/-1/-1->3->2 [17] 4/-1/-1->3->2 [18] 4/-1/-1->3->2 [19] 4/-1/-1->3->2 [20] 4/-1/-1->3->2 [21] 4/-1/-1->3->2 [22] 4/-1/-1->3->2 [23] 4/-1/-1->3->2
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO Trees [0] 6/-1/-1->5->4 [1] 6/-1/-1->5->4 [2] 6/-1/-1->5->4 [3] 6/-1/-1->5->4 [4] 6/-1/-1->5->4 [5] 6/-1/-1->5->4 [6] 6/-1/-1->5->4 [7] 6/-1/-1->5->4 [8] 6/-1/-1->5->4 [9] 6/-1/-1->5->4 [10] 6/-1/-1->5->4 [11] 6/-1/-1->5->4 [12] 6/-1/-1->5->4 [13] 6/-1/-1->5->4 [14] 6/-1/-1->5->4 [15] 6/-1/-1->5->4 [16] 6/-1/-1->5->4 [17] 6/-1/-1->5->4 [18] 6/-1/-1->5->4 [19] 6/-1/-1->5->4 [20] 6/-1/-1->5->4 [21] 6/-1/-1->5->4 [22] 6/-1/-1->5->4 [23] 6/-1/-1->5->4
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 00/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO Trees [0] 2/-1/-1->1->0 [1] 2/-1/-1->1->0 [2] 2/-1/-1->1->0 [3] 2/-1/-1->1->0 [4] 2/-1/-1->1->0 [5] 2/-1/-1->1->0 [6] 2/-1/-1->1->0 [7] 2/-1/-1->1->0 [8] 2/-1/-1->1->0 [9] 2/-1/-1->1->0 [10] 2/-1/-1->1->0 [11] 2/-1/-1->1->0 [12] 2/-1/-1->1->0 [13] 2/-1/-1->1->0 [14] 2/-1/-1->1->0 [15] 2/-1/-1->1->0 [16] 2/-1/-1->1->0 [17] 2/-1/-1->1->0 [18] 2/-1/-1->1->0 [19] 2/-1/-1->1->0 [20] 2/-1/-1->1->0 [21] 2/-1/-1->1->0 [22] 2/-1/-1->1->0 [23] 2/-1/-1->1->0
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 01/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO Trees [0] 3/-1/-1->2->1 [1] 3/-1/-1->2->1 [2] 3/-1/-1->2->1 [3] 3/-1/-1->2->1 [4] 3/-1/-1->2->1 [5] 3/-1/-1->2->1 [6] 3/-1/-1->2->1 [7] 3/-1/-1->2->1 [8] 3/-1/-1->2->1 [9] 3/-1/-1->2->1 [10] 3/-1/-1->2->1 [11] 3/-1/-1->2->1 [12] 3/-1/-1->2->1 [13] 3/-1/-1->2->1 [14] 3/-1/-1->2->1 [15] 3/-1/-1->2->1 [16] 3/-1/-1->2->1 [17] 3/-1/-1->2->1 [18] 3/-1/-1->2->1 [19] 3/-1/-1->2->1 [20] 3/-1/-1->2->1 [21] 3/-1/-1->2->1 [22] 3/-1/-1->2->1 [23] 3/-1/-1->2->1
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 02/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 03/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 04/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 05/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 06/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 07/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 08/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 09/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 10/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 11/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 12/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 13/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 14/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 15/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 16/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 17/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 18/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 19/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 20/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 21/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 22/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Channel 23/24 : 0 1 2 3 4 5 6 7
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] 1/-1/-1->0->-1 [2] 1/-1/-1->0->-1 [3] 1/-1/-1->0->-1 [4] 1/-1/-1->0->-1 [5] 1/-1/-1->0->-1 [6] 1/-1/-1->0->-1 [7] 1/-1/-1->0->-1 [8] 1/-1/-1->0->-1 [9] 1/-1/-1->0->-1 [10] 1/-1/-1->0->-1 [11] 1/-1/-1->0->-1 [12] 1/-1/-1->0->-1 [13] 1/-1/-1->0->-1 [14] 1/-1/-1->0->-1 [15] 1/-1/-1->0->-1 [16] 1/-1/-1->0->-1 [17] 1/-1/-1->0->-1 [18] 1/-1/-1->0->-1 [19] 1/-1/-1->0->-1 [20] 1/-1/-1->0->-1 [21] 1/-1/-1->0->-1 [22] 1/-1/-1->0->-1 [23] 1/-1/-1->0->-1
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO P2P Chunksize set to 524288
+iv-ydv80j2j28wh2yontsl6:3998736:4002396 [4] NCCL INFO [Proxy Service] Device 4 CPU core 170
+iv-ydv80j2j28wh2yontsl6:3998736:4002397 [4] NCCL INFO [Proxy Service UDS] Device 4 CPU core 172
+iv-ydv80j2j28wh2yontsl6:3998737:4002399 [5] NCCL INFO [Proxy Service] Device 5 CPU core 174
+iv-ydv80j2j28wh2yontsl6:3998737:4002400 [5] NCCL INFO [Proxy Service UDS] Device 5 CPU core 177
+iv-ydv80j2j28wh2yontsl6:3998738:4002401 [6] NCCL INFO [Proxy Service] Device 6 CPU core 150
+iv-ydv80j2j28wh2yontsl6:3998738:4002403 [6] NCCL INFO [Proxy Service UDS] Device 6 CPU core 153
+iv-ydv80j2j28wh2yontsl6:3998735:4002402 [3] NCCL INFO [Proxy Service] Device 3 CPU core 44
+iv-ydv80j2j28wh2yontsl6:3998735:4002405 [3] NCCL INFO [Proxy Service UDS] Device 3 CPU core 46
+iv-ydv80j2j28wh2yontsl6:3998733:4002404 [1] NCCL INFO [Proxy Service] Device 1 CPU core 34
+iv-ydv80j2j28wh2yontsl6:3998733:4002406 [1] NCCL INFO [Proxy Service UDS] Device 1 CPU core 37
+iv-ydv80j2j28wh2yontsl6:3998739:4002398 [7] NCCL INFO [Proxy Service] Device 7 CPU core 95
+iv-ydv80j2j28wh2yontsl6:3998739:4002407 [7] NCCL INFO [Proxy Service UDS] Device 7 CPU core 98
+iv-ydv80j2j28wh2yontsl6:3998734:4002408 [2] NCCL INFO [Proxy Service] Device 2 CPU core 6
+iv-ydv80j2j28wh2yontsl6:3998734:4002409 [2] NCCL INFO [Proxy Service UDS] Device 2 CPU core 8
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Check P2P Type intraNodeP2pSupport 1 directMode 0
+iv-ydv80j2j28wh2yontsl6:3998732:4002410 [0] NCCL INFO [Proxy Service] Device 0 CPU core 10
+iv-ydv80j2j28wh2yontsl6:3998732:4002411 [0] NCCL INFO [Proxy Service UDS] Device 0 CPU core 12
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO CC Off, workFifoBytes 1048576
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO threadThresholds 8/8/64 | 64/8/64 | 512 | 512
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO 24 coll channels, 24 collnet channels, 0 nvls channels, 32 p2p channels, 32 p2p channels per peer
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO ncclCommInitRankConfig comm 0x7f293048beb0 rank 1 nranks 8 cudaDev 1 nvmlDev 1 busId 65030 commId 0x371b736e261b951b - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO ncclCommInitRankConfig comm 0x7fb0bc3c88c0 rank 4 nranks 8 cudaDev 4 nvmlDev 4 busId 69020 commId 0x371b736e261b951b - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO ncclCommInitRankConfig comm 0x7f2dec404960 rank 2 nranks 8 cudaDev 2 nvmlDev 2 busId 67020 commId 0x371b736e261b951b - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998736:4002392 [4] NCCL INFO Init timings - ncclCommInitRankConfig: rank 4 nranks 8 total 0.60 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.01, topo 0.51, graphs 0.01, connections 0.05, rest 0.03)
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO ncclCommInitRankConfig comm 0x7f75903c64d0 rank 7 nranks 8 cudaDev 7 nvmlDev 7 busId 6b030 commId 0x371b736e261b951b - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO ncclCommInitRankConfig comm 0x7fc1a03e6120 rank 6 nranks 8 cudaDev 6 nvmlDev 6 busId 6b020 commId 0x371b736e261b951b - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO ncclCommInitRankConfig comm 0x7f8b143ca050 rank 3 nranks 8 cudaDev 3 nvmlDev 3 busId 67030 commId 0x371b736e261b951b - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO ncclCommInitRankConfig comm 0x7fb8bc41eb60 rank 0 nranks 8 cudaDev 0 nvmlDev 0 busId 65020 commId 0x371b736e261b951b - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO ncclCommInitRankConfig comm 0x7ff5dc725a80 rank 5 nranks 8 cudaDev 5 nvmlDev 5 busId 69030 commId 0x371b736e261b951b - Init COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998733:4002394 [1] NCCL INFO Init timings - ncclCommInitRankConfig: rank 1 nranks 8 total 0.60 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998734:4002389 [2] NCCL INFO Init timings - ncclCommInitRankConfig: rank 2 nranks 8 total 0.60 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998739:4002391 [7] NCCL INFO Init timings - ncclCommInitRankConfig: rank 7 nranks 8 total 0.60 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.51, graphs 0.01, connections 0.05, rest 0.03)
+iv-ydv80j2j28wh2yontsl6:3998738:4002388 [6] NCCL INFO Init timings - ncclCommInitRankConfig: rank 6 nranks 8 total 0.60 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998735:4002390 [3] NCCL INFO Init timings - ncclCommInitRankConfig: rank 3 nranks 8 total 0.60 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998732:4002387 [0] NCCL INFO Init timings - ncclCommInitRankConfig: rank 0 nranks 8 total 0.60 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.51, graphs 0.01, connections 0.05, rest 0.03)
+iv-ydv80j2j28wh2yontsl6:3998737:4002393 [5] NCCL INFO Init timings - ncclCommInitRankConfig: rank 5 nranks 8 total 0.60 (kernels 0.00, alloc 0.00, bootstrap 0.00, allgathers 0.00, topo 0.51, graphs 0.01, connections 0.06, rest 0.02)
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 00/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 01/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 02/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 03/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 00/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 04/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 01/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 05/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 02/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 06/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 03/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 00/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 07/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 04/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 01/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 00/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 08/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 05/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 02/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 01/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 09/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 06/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 00/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 03/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 00/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 02/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 10/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 07/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 00/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 01/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 01/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 04/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 03/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 11/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 08/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 02/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 02/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 05/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 04/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 12/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 09/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 02/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 03/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 03/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 06/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 05/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 13/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 00/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 10/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 03/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 04/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 04/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 07/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 06/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 14/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 01/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 11/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 04/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 05/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 05/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 07/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 08/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 15/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 02/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 12/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 05/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 06/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 06/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 08/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 09/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 16/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 03/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 13/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 06/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 07/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 07/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 09/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 10/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 17/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 14/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 04/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 07/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 08/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 08/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 18/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 08/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 05/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 10/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 19/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 09/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 06/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 11/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 20/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 10/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 07/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 12/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 21/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 11/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 08/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 13/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 22/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 12/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 09/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 14/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Channel 23/0 : 4[4] -> 5[5] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 13/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 10/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 15/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 14/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 11/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 16/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 09/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 15/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 12/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 17/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 10/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 16/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 13/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 18/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 11/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 17/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 14/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 19/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 12/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 18/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 15/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 20/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 13/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 19/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 21/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 16/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 14/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 11/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 20/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 22/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 17/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 15/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 12/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 21/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Channel 23/0 : 7[7] -> 0[0] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 18/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 16/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 13/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 22/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 19/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 17/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Channel 23/0 : 0[0] -> 1[1] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 14/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 09/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 20/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 18/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 15/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 10/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 21/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 19/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 15/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 16/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 11/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 22/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 20/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 16/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 17/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 12/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Channel 23/0 : 3[3] -> 4[4] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 21/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 17/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 18/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 13/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 22/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 18/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 19/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 14/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Channel 23/0 : 1[1] -> 2[2] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 19/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 20/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 15/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 20/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 21/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 16/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 21/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 22/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 17/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 22/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Channel 23/0 : 2[2] -> 3[3] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 18/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Channel 23/0 : 6[6] -> 7[7] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 19/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 20/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 21/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 22/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Channel 23/0 : 5[5] -> 6[6] via P2P/CUMEM
+iv-ydv80j2j28wh2yontsl6:3998738:4002415 [6] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998739:4002412 [7] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998735:4002418 [3] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998737:4002416 [5] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998734:4002419 [2] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998732:4002417 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998733:4002414 [1] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+iv-ydv80j2j28wh2yontsl6:3998736:4002413 [4] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+{'loss': 1.945, 'grad_norm': 0.5950993085378737, 'learning_rate': 4.2857142857142856e-05, 'epoch': 0.15}
+{'loss': 2.1871, 'grad_norm': 0.7322521845566407, 'learning_rate': 9.047619047619048e-05, 'epoch': 0.29}
+{'loss': 2.0519, 'grad_norm': 0.6189862755125376, 'learning_rate': 9.952920177288986e-05, 'epoch': 0.44}
+{'loss': 1.7947, 'grad_norm': 0.7650859772886097, 'learning_rate': 9.763176904016913e-05, 'epoch': 0.58}
+{'loss': 1.832, 'grad_norm': 0.7966447658620517, 'learning_rate': 9.433401590113701e-05, 'epoch': 0.73}
+{'loss': 1.6528, 'grad_norm': 0.9306191818135063, 'learning_rate': 8.973289258688125e-05, 'epoch': 0.88}
+{'loss': 1.6768, 'grad_norm': 0.7614996534222382, 'learning_rate': 8.396366694486466e-05, 'epoch': 1.01}
+{'loss': 1.604, 'grad_norm': 0.598654922703309, 'learning_rate': 7.719594771643623e-05, 'epoch': 1.16}
+{'loss': 1.6235, 'grad_norm': 0.40604206981614543, 'learning_rate': 6.96286982307086e-05, 'epoch': 1.31}
+{'loss': 1.7007, 'grad_norm': 0.6166961977363035, 'learning_rate': 6.14843871065898e-05, 'epoch': 1.45}
+{'loss': 1.5657, 'grad_norm': 0.5575797403469636, 'learning_rate': 5.300244792574742e-05, 'epoch': 1.6}
+{'loss': 1.6514, 'grad_norm': 1.1396066674860112, 'learning_rate': 4.443224015475956e-05, 'epoch': 1.74}
+{'loss': 1.6306, 'grad_norm': 0.5258618481312393, 'learning_rate': 3.602571825741953e-05, 'epoch': 1.89}
+{'loss': 1.6976, 'grad_norm': 0.6512159372740762, 'learning_rate': 2.8030024517042907e-05, 'epoch': 2.03}
+{'loss': 1.5705, 'grad_norm': 0.500295208378546, 'learning_rate': 2.068022333146522e-05, 'epoch': 2.18}
+{'loss': 1.5337, 'grad_norm': 0.6021152207913092, 'learning_rate': 1.4192390584280346e-05, 'epoch': 2.32}
+{'loss': 1.6774, 'grad_norm': 0.6448424644160629, 'learning_rate': 8.757261257028777e-06, 'epoch': 2.47}
+{'loss': 1.5967, 'grad_norm': 0.9443948617261495, 'learning_rate': 4.534622035388214e-06, 'epoch': 2.61}
+{'loss': 1.5625, 'grad_norm': 0.43435163299124874, 'learning_rate': 1.6486137604339813e-06, 'epoch': 2.76}
+{'loss': 1.5629, 'grad_norm': 0.6273313366717354, 'learning_rate': 1.840818276162226e-07, 'epoch': 2.91}
+[2025-05-11 22:55:38,031] [INFO] [logging.py:107:log_dist] [Rank 0] [Torch] Checkpoint global_step203 is about to be saved!
+[2025-05-11 22:55:38,052] [INFO] [logging.py:107:log_dist] [Rank 0] Saving model checkpoint: saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft/checkpoint-204/global_step203/zero_pp_rank_0_mp_rank_00_model_states.pt
+[2025-05-11 22:55:38,052] [INFO] [torch_checkpoint_engine.py:21:save] [Torch] Saving saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft/checkpoint-204/global_step203/zero_pp_rank_0_mp_rank_00_model_states.pt...
+[2025-05-11 22:55:38,069] [INFO] [torch_checkpoint_engine.py:23:save] [Torch] Saved saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft/checkpoint-204/global_step203/zero_pp_rank_0_mp_rank_00_model_states.pt.
+[2025-05-11 22:55:38,072] [INFO] [torch_checkpoint_engine.py:21:save] [Torch] Saving saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft/checkpoint-204/global_step203/bf16_zero_pp_rank_0_mp_rank_00_optim_states.pt...
+[2025-05-11 22:55:38,083] [INFO] [torch_checkpoint_engine.py:23:save] [Torch] Saved saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft/checkpoint-204/global_step203/bf16_zero_pp_rank_0_mp_rank_00_optim_states.pt.
+[2025-05-11 22:55:38,084] [INFO] [engine.py:3701:_save_zero_checkpoint] zero checkpoint saved saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft/checkpoint-204/global_step203/bf16_zero_pp_rank_0_mp_rank_00_optim_states.pt
+[2025-05-11 22:55:38,103] [INFO] [torch_checkpoint_engine.py:33:commit] [Torch] Checkpoint global_step203 is ready now!
+{'train_runtime': 388.5166, 'train_samples_per_second': 8.424, 'train_steps_per_second': 0.525, 'train_loss': 1.7080759885264378, 'epoch': 2.96}
+***** train metrics *****
+  epoch                    =     2.9635
+  total_flos               =    11487GF
+  train_loss               =     1.7081
+  train_runtime            = 0:06:28.51
+  train_samples_per_second =      8.424
+  train_steps_per_second   =      0.525
+Figure saved at: saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft/training_loss.png
+[WARNING|2025-05-11 22:55:39] llamafactory.extras.ploting:148 >> No metric eval_loss to plot.
+[WARNING|2025-05-11 22:55:39] llamafactory.extras.ploting:148 >> No metric eval_accuracy to plot.
+iv-ydv80j2j28wh2yontsl6:3998732:4082466 [0] NCCL INFO comm 0x7fb8bc41eb60 rank 0 nranks 8 cudaDev 0 busId 65020 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998738:4082451 [6] NCCL INFO comm 0x7fc1a03e6120 rank 6 nranks 8 cudaDev 6 busId 6b020 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998735:4082459 [3] NCCL INFO comm 0x7f8b143ca050 rank 3 nranks 8 cudaDev 3 busId 67030 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998734:4082450 [2] NCCL INFO comm 0x7f2dec404960 rank 2 nranks 8 cudaDev 2 busId 67020 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998736:4082453 [4] NCCL INFO comm 0x7fb0bc3c88c0 rank 4 nranks 8 cudaDev 4 busId 69020 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998739:4082457 [7] NCCL INFO comm 0x7f75903c64d0 rank 7 nranks 8 cudaDev 7 busId 6b030 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998737:4082458 [5] NCCL INFO comm 0x7ff5dc725a80 rank 5 nranks 8 cudaDev 5 busId 69030 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998733:4082452 [1] NCCL INFO comm 0x7f293048beb0 rank 1 nranks 8 cudaDev 1 busId 65030 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998738:4082470 [6] NCCL INFO comm 0x558156f57cf0 rank 6 nranks 8 cudaDev 6 busId 6b020 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998732:4082468 [0] NCCL INFO comm 0x5637b7ca6a40 rank 0 nranks 8 cudaDev 0 busId 65020 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998733:4082482 [1] NCCL INFO comm 0x562bb2598da0 rank 1 nranks 8 cudaDev 1 busId 65030 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998735:4082472 [3] NCCL INFO comm 0x55f1f675e9c0 rank 3 nranks 8 cudaDev 3 busId 67030 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998734:4082475 [2] NCCL INFO comm 0x55a7f3b79760 rank 2 nranks 8 cudaDev 2 busId 67020 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998737:4082481 [5] NCCL INFO comm 0x55a40e26acf0 rank 5 nranks 8 cudaDev 5 busId 69030 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998739:4082478 [7] NCCL INFO comm 0x558606dc5660 rank 7 nranks 8 cudaDev 7 busId 6b030 - Destroy COMPLETE
+iv-ydv80j2j28wh2yontsl6:3998736:4082476 [4] NCCL INFO comm 0x556865e48c10 rank 4 nranks 8 cudaDev 4 busId 69020 - Destroy COMPLETE

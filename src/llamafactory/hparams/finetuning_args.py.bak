@@ -447,14 +447,6 @@ class FinetuningArguments(
         default=False,
         metadata={"help": "Whether or not to compute effective tokens per second."},
     )
-    use_kl_loss: Optional[bool] = field(
-        default=False,
-        metadata={"help": "Whether to use KL divergence loss against the base model during SFT."}
-    )
-    kl_beta: Optional[float] = field(
-        default=0.1,
-        metadata={"help": "The coefficient for the KL divergence loss term."}
-    )
 
     def __post_init__(self):
         def split_arg(arg):
