@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: meta-llama/Meta-Llama-3-8B-Instruct
+model_name_or_path: /root/chenth/models/DeepSeek-R1-Distill-Qwen-1.5B
 trust_remote_code: true
 
 ### method
@@ -10,6 +10,10 @@ lora_rank: 8
 lora_target: all
 deepspeed: examples/deepspeed/ds_z3_config.json  # choices: [ds_z0_config.json, ds_z2_config.json, ds_z3_config.json]
 
+# KL loss specific parameters
+use_kl_loss: true  # enable the KL loss
+kl_beta: 0.1  # weight for the KL loss term (needs to be tuned)
+
 ### dataset
 dataset: identity,alpaca_en_demo
 template: llama3
@@ -18,9 +22,10 @@ max_samples: 1000
 overwrite_cache: true
 preprocessing_num_workers: 16
 dataloader_num_workers: 4
+cache_dir: /dev/shm/cth/LLaMA-Factory/data
 
 ### output
-output_dir: saves/llama3-8b/lora/sft
+output_dir: saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft
 logging_steps: 10
 save_steps: 500
 plot_loss: true
