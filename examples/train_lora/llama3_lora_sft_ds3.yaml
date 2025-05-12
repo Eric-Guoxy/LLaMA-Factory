@@ -26,8 +26,9 @@ cache_dir: /dev/shm/cth/LLaMA-Factory/data
 
 ### output
 output_dir: saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft
+logging_dir: saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft/logs
 logging_steps: 10
-save_steps: 500
+save_steps: 100
 plot_loss: true
 overwrite_output_dir: true
 save_only_model: false
