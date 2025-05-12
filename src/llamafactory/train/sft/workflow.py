@@ -110,28 +110,34 @@ def run_sft(
             **metric_module,
         )
 
-        # Training
-        if training_args.do_train:
-            train_result = trainer.train(resume_from_checkpoint=training_args.resume_from_checkpoint)
-            trainer.save_model()
-            if finetuning_args.include_effective_tokens_per_second:
-                train_result.metrics["effective_tokens_per_sec"] = calculate_tps(
-                    dataset_module["train_dataset"], train_result.metrics, stage="sft"
-                )
+    # Training
+    if training_args.do_train:
+        train_result = trainer.train(resume_from_checkpoint=training_args.resume_from_checkpoint)
+        trainer.save_model()
+        if finetuning_args.include_effective_tokens_per_second:
+            train_result.metrics["effective_tokens_per_sec"] = calculate_tps(
+                dataset_module["train_dataset"], train_result.metrics, stage="sft"
+            )
 
-        trainer.log_metrics("train", train_result.metrics)
-        trainer.save_metrics("train", train_result.metrics)
-        trainer.save_state()
-        if trainer.is_world_process_zero() and finetuning_args.plot_loss:
-            keys = ["loss"]
-            if isinstance(dataset_module.get("eval_dataset"), dict):
-                keys += sum(
-                    [[f"eval_{key}_loss", f"eval_{key}_accuracy"] for key in dataset_module["eval_dataset"].keys()], []
-                )
-            else:
-                keys += ["eval_loss", "eval_accuracy"]
+    trainer.log_metrics("train", train_result.metrics)
+    trainer.save_metrics("train", train_result.metrics)
+    trainer.save_state()
+    if trainer.is_world_process_zero() and finetuning_args.plot_loss:
+        keys = ["loss"]
+        # Add KL loss key if it's being used and logged
+        if getattr(finetuning_args, "use_kl_loss", False):
+            keys.append("kl_loss_raw")  # Key for the unscaled KL divergence
+            keys.append("sft_loss")  # The raw SFT loss
+        
+        if isinstance(dataset_module.get("eval_dataset"), dict):
+            keys += sum(
+                [[f"eval_{key}_loss", f"eval_{key}_accuracy"] for key in dataset_module["eval_dataset"].keys()], []
+            )
+        else:
+            keys += ["eval_loss", "eval_accuracy"]
 
-            plot_loss(training_args.output_dir, keys=keys)
+        logger.info(f"Plotting loss for keys: {keys}")  # Add a log to see what keys are being plotted
+        plot_loss(training_args.output_dir, keys=keys)
 
     if training_args.predict_with_generate:
         tokenizer.padding_side = "left"  # use left-padding in generation
