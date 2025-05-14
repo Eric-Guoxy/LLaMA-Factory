@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: /root/chenth/models/DeepSeek-R1-Distill-Qwen-1.5B
+model_name_or_path: /root/cth/cth/models/DeepSeek-R1-Distill-Qwen-1.5B
 trust_remote_code: true
 
 ### method
@@ -15,18 +15,18 @@ use_kl_loss: true  # enable the KL loss
 kl_beta: 0.1  # weight for the KL loss term (needs to be tuned)
 
 ### dataset
-dataset: identity,alpaca_en_demo
+dataset: identity
 template: llama3
 cutoff_len: 2048
 max_samples: 1000
 overwrite_cache: true
 preprocessing_num_workers: 16
 dataloader_num_workers: 4
-cache_dir: /dev/shm/cth/LLaMA-Factory/data
+cache_dir: data
 
 ### output
-output_dir: saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft
-logging_dir: saves/DeepSeek-R1-Distill-Qwen-1.5B/lora/sft/logs
+output_dir: saves/DeepScaleR-1.5B-Preview/lora/sft_3
+logging_dir: saves/DeepScaleR-1.5B-Preview/lora/sft_3/logs
 logging_steps: 10
 save_steps: 100
 plot_loss: true
