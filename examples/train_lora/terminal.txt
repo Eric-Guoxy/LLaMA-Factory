@@ -1,1 +1,6 @@
-[INFO|2025-05-14 15:02:59] llamafactory.cli:143 >> Initializing 8 distributed tasks at: 127.0.0.1:40647
+[2025-05-14 12:37:37,132] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[INFO|2025-05-14 12:37:41] llamafactory.cli:143 >> Initializing 4 distributed tasks at: 127.0.0.1:53767
+[2025-05-14 12:37:46,649] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-14 12:37:46,669] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-14 12:37:46,718] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-05-14 12:37:46,766] [INFO] [real_accelerator.py:239:get_accelerator] Setting ds_accelerator to cuda (auto detect)
