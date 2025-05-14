@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: /root/cth/cth/models/DeepSeek-R1-Distill-Qwen-1.5B
+model_name_or_path: /root/cth/DeepScaleR-1.5B-Preview
 trust_remote_code: true
 
 ### method
