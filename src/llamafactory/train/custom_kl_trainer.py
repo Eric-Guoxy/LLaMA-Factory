@@ -57,32 +57,6 @@ class SFTKLTrainer(CustomSeq2SeqTrainer):
         if self.use_kl_loss and self.kl_beta > 0: # and isinstance(model, PeftModel):
             peft_model_instance = model.module if hasattr(model, 'module') else model
 
-            # --- BEGIN DEBUG LOGGING for PEFT state ---
-            if self.state.is_world_process_zero: # Log only on rank 0
-                log_data['debug_peft_instance_type'] = str(type(peft_model_instance))
-                if isinstance(peft_model_instance, PeftModel):
-                    log_data['debug_peft_config'] = str(getattr(peft_model_instance, 'peft_config', 'N/A'))
-                    try:
-                        log_data['debug_peft_active_adapters'] = str(peft_model_instance.active_adapters)
-                    except Exception as e_active:
-                        log_data['debug_peft_active_adapters'] = f"Error: {str(e_active)}"
-                    log_data['debug_peft_internal_active_adapter'] = str(getattr(peft_model_instance, '_active_adapter', 'N/A'))
-                    
-                    peft_config_dict = getattr(peft_model_instance, 'peft_config', None)
-                    if isinstance(peft_config_dict, dict):
-                        log_data['debug_peft_config_keys'] = str(list(peft_config_dict.keys()))
-                    else:
-                        log_data['debug_peft_config_keys'] = 'Not a dict or N/A'
-
-                    lora_layers_found_log = []
-                    for name, module_item in peft_model_instance.named_modules():
-                        if "LoraLayer" in str(type(module_item)):
-                            lora_layers_found_log.append(name)
-                    log_data['debug_lora_layers_found_count'] = len(lora_layers_found_log)
-                    log_data['debug_lora_layers_example'] = str(lora_layers_found_log[:5]) if lora_layers_found_log else "None"
-                else:
-                    log_data['debug_peft_is_instance'] = False
-            # --- END DEBUG LOGGING for PEFT state ---
 
             # Temporarily disable adapters to get reference logits from the base model's architecture
             #try:

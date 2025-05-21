@@ -1536,7 +1536,7 @@ register_template(
         slots=["<|im_start|>user\n<tool_response>\n{{content}}\n</tool_response><|im_end|>\n<|im_start|>assistant\n"]
     ),
     format_tools=ToolFormatter(tool_format="qwen"),
-    default_system="You are Qwen, created by Alibaba Cloud. You are a helpful assistant.",
+    default_system='Your task is to follow a systematic, thorough reasoning process before providing the final solution. This involves analyzing, summarizing, exploring, reassessing, and refining your thought process through multiple iterations. Structure your response into two sections: Thought and Solution. In the Thought section, present your reasoning using the format: "<think>\{thoughts\} </think>". Each thought should include detailed analysis, brainstorming, verification, and refinement of ideas. After "</think>," in the Solution section, provide the final, logical, and accurate answer, clearly derived from the exploration in the Thought section. If applicable, include the answer in \\boxed\{\} for closed-form results like multiple choices or mathematical solutions.<|im_end|><|im_start|>user',
     stop_words=["<|im_end|>"],
     replace_eos=True,
 )
