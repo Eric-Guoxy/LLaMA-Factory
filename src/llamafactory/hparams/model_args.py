@@ -171,6 +171,42 @@ class BaseModelArguments:
         default=False,
         metadata={"help": "Whether to trust the execution of code from datasets/models defined on the Hub or not."},
     )
+    test_input_file: str = field(
+        default=None,
+        metadata={"help": "Input benckmark file."}
+    )
+    test_output_file: str = field(
+        default=None,
+        metadata={"help": "Output log file."}
+    )
+    test_model_path: str = field(
+        default=None,
+        metadata={"help": "The path of the evaluated model."}
+    )
+    test_debug: bool = field(
+        default=False,
+        metadata={"help": "The debugging mode of the test script - generate_vllm.py."}
+    )
+    test_remove_system: bool = field(
+        default=True,
+        metadata={"help": "The remove_system argument for the test script - generate_vllm.py."}
+    )
+    test_template: str = field(
+        default=None,
+        metadata={"help": "The template used for evalutation."}
+    )
+    test_temperature: float = field(
+        default=None,
+        metadata={"help": "The temperature used for the evaluated model."}
+    )
+    test_top_p: float = field(
+        default=None,
+        metadata={"help": "The top_p parameter used for the evaluated model."}
+    )
+    test_max_tokens: int = field(
+        default=None,
+        metadata={"help": "The max tokens parameter used for the evaluated model."}
+    )
 
     def __post_init__(self):
         if self.model_name_or_path is None:

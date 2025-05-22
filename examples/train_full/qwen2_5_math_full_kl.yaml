@@ -1,0 +1,48 @@
+### model
+model_name_or_path: /home/inspur/cth/models/Qwen2.5-Math-7B
+trust_remote_code: true
+
+### method
+stage: sft
+do_train: true
+finetuning_type: full
+deepspeed: examples/deepspeed/ds_z2_config.json  # choices: [ds_z0_config.json, ds_z2_config.json, ds_z3_config.json]
+
+# KL loss specific parameters
+use_kl_loss: true  # enable the KL loss
+kl_beta: 1.0  # weight for the KL loss term (needs to be tuned)
+
+### dataset
+dataset: openr1_sft
+template: qwen
+overwrite_cache: true
+preprocessing_num_workers: 32
+dataloader_num_workers: 8
+cache_dir: ~/cth/LLaMA-Factory/data
+
+### output
+output_dir: saves/Qwen2.5-Math-7B/full/sft_kl
+logging_steps: 10
+save_steps: 300
+plot_loss: true
+overwrite_output_dir: true
+save_only_model: true
+report_to: [wandb]  # choices: [none, wandb, tensorboard, swanlab, mlflow]
+
+### train
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 1
+learning_rate: 1.0e-5
+num_train_epochs: 5.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+ddp_timeout: 180000000
+resume_from_checkpoint: null
+
+### eval
+# eval_dataset: alpaca_en_demo
+# val_size: 0.1
+# per_device_eval_batch_size: 1
+# eval_strategy: steps
+# eval_steps: 500

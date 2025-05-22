@@ -27,6 +27,7 @@ from ..trainer_utils import create_modelcard_and_push
 from .metric import ComputeAccuracy, ComputeSimilarity, eval_logit_processor
 from .trainer import CustomSeq2SeqTrainer
 from ..custom_kl_trainer import SFTKLTrainer # Newly added
+from .generate_vllm import main
 
 
 if TYPE_CHECKING:
@@ -84,6 +85,8 @@ def run_sft(
         logger.info("Using SFTKLTrainer for training with KL loss.")
         trainer = SFTKLTrainer(
             model=model,
+            model_args=model_args,
+            training_args=training_args,
             args=training_args, # training_args should include kl_beta and use_kl_loss
             finetuning_args=finetuning_args, # Pass if SFTKLTrainer __init__ needs it
             data_collator=data_collator,
@@ -141,7 +144,7 @@ def run_sft(
 
     # Evaluation
     if training_args.do_eval:
-        metrics = trainer.evaluate(metric_key_prefix="eval", **gen_kwargs)
+        metrics = ...
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
 
