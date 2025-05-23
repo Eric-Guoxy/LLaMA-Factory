@@ -127,7 +127,7 @@ def run_sft(
         keys = ["loss"]
         # Add KL loss key if it's being used and logged
         if getattr(finetuning_args, "use_kl_loss", False):
-            keys.append("kl_loss_raw")  # Key for the unscaled KL divergence
+            keys.append("kl_loss")  # Key for the unscaled KL divergence
             keys.append("sft_loss")  # The raw SFT loss
         
         if isinstance(dataset_module.get("eval_dataset"), dict):
