@@ -27,8 +27,6 @@ from ..trainer_utils import create_modelcard_and_push
 from .metric import ComputeAccuracy, ComputeSimilarity, eval_logit_processor
 from .trainer import CustomSeq2SeqTrainer
 from ..custom_kl_trainer import SFTKLTrainer # Newly added
-from .generate_vllm import test
-import os
 
 
 if TYPE_CHECKING:
@@ -51,6 +49,7 @@ def run_sft(
     tokenizer_module = load_tokenizer(model_args)
     tokenizer = tokenizer_module["tokenizer"]
     template = get_template_and_fix_tokenizer(tokenizer, data_args)
+
     dataset_module = get_dataset(template, model_args, data_args, training_args, stage="sft", **tokenizer_module)
     model = load_model(tokenizer, model_args, finetuning_args, training_args.do_train)
 
@@ -149,25 +148,6 @@ def run_sft(
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
     
-    # Test
-    if model_args.do_test:
-        if trainer.state.global_step % model_args.test_steps == 0: # Only do testing at specified steps
-            metrics = test(
-                input_file=model_args.test_input_file,
-                output_file=model_args.test_output_file,
-                model_path=os.path.join(training_args.output_dir, "checkpoint-" + str((trainer.state.global_step // model_args.test_steps) * model_args.test_steps)),
-                debug=model_args.test_debug,
-                remove_system=model_args.test_remove_system,
-                template=model_args.test_template,
-                temperature=model_args.test_temperature,
-                top_p=model_args.test_top_p,
-                max_tokens=model_args.test_max_tokens
-            )
-
-            for data_source, acc in metrics:
-                trainer.log_metrics(data_source, acc)
-                trainer.save_metrics(data_source, acc)
-
     # Predict
     if training_args.do_predict:
         logger.warning_rank0_once("Batch generation can be very slow. Consider using `scripts/vllm_infer.py` instead.")

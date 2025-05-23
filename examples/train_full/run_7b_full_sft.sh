@@ -6,3 +6,6 @@ export CUDA_VISIBLE_DEVICES=0,1,2,3
 # Train the model
 cd ~/cth/LLaMA-Factory
 llamafactory-cli train examples/train_full/qwen2_5_math_7b_full_sft.yaml
+
+# Evaluate the model
+bash evaluation/eval_7b_sft.sh

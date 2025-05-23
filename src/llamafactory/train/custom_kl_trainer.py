@@ -3,10 +3,11 @@ import torch.nn.functional as F
 from transformers import Trainer, AutoModelForCausalLM
 from peft import PeftModel # Important for LoRA
 from .sft.trainer import CustomSeq2SeqTrainer
+from typing_extensions import override
 
 from typing import TYPE_CHECKING, Dict, Union, Tuple, Optional
 if TYPE_CHECKING:
-    from ..hparams import FinetuningArguments, ModelArguments
+    from ..hparams import FinetuningArguments, ModelArguments, Seq2SeqTrainingArguments
     from transformers import PreTrainedModel # For type hinting model
 
 class SFTKLTrainer(CustomSeq2SeqTrainer):
@@ -66,19 +67,26 @@ class SFTKLTrainer(CustomSeq2SeqTrainer):
         elif self.use_kl_loss and self.kl_beta == 0:
             print("SFTKLTrainer: use_kl_loss is True, but kl_beta is 0. KL loss will not be applied.")
 
+    @override
     def compute_loss(
         self, 
         model: "PreTrainedModel", 
         inputs: Dict[str, torch.Tensor], 
         return_outputs: bool = False,
-        num_items_in_batch: Optional[int] = None
+        num_items_in_batch: Optional[int] = None,
     ) -> Union[torch.Tensor, Tuple[torch.Tensor, Dict[str, torch.Tensor]]]:
         # Initialize the logging dict
         log_data = {}
 
         # 1. Standard SFT Loss (Cross-Entropy) from the LoRA-adapted model
         # The original Trainer's compute_loss for language modeling might need labels popped
-        
+        if self.model_accepts_loss_kwargs:
+            loss_kwargs = {}
+            if num_items_in_batch is not None:
+                loss_kwargs["num_items_in_batch"] = num_items_in_batch
+            inputs = {**inputs, **loss_kwargs}
+            
+        print('77777',self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=False))
         outputs = model(**inputs)
 
         sft_loss = outputs.loss # This is the primary SFT loss

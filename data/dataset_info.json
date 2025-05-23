@@ -709,7 +709,8 @@
     "file_name": "openr1_sft.json",
     "columns": {
       "prompt": "query",
-      "response": "answer"
+      "response": "answer",
+      "system": "system"
     }
   }
 }
