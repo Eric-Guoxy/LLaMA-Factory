@@ -52,3 +52,9 @@ do_test: true
 test_steps: 500
 test_input_file: ~/cth/LLaMA-Factory/data/valid.all.parquet
 test_output_file: ~/cth/LLaMA-Factory/results/Qwen2.5B-Math-7B/Qwen2.5B-Math-7B-kl.log
+test_debug: false
+test_remove_system: true
+test_template: qwen
+test_temperature: 0.6
+test_top_p: 1.0
+test_max_tokens: 8192
