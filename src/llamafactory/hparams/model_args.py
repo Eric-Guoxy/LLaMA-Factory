@@ -172,7 +172,7 @@ class BaseModelArguments:
         metadata={"help": "Whether the training process is integrated with testing."}
     )
     test_steps: int = field(
-        default=None,
+        default=500,
         metadata={"help": "The gap between two tests."}
     )
     trust_remote_code: bool = field(
@@ -180,11 +180,11 @@ class BaseModelArguments:
         metadata={"help": "Whether to trust the execution of code from datasets/models defined on the Hub or not."},
     )
     test_input_file: str = field(
-        default=None,
+        default="",
         metadata={"help": "Input benckmark file."}
     )
     test_output_file: str = field(
-        default=None,
+        default="",
         metadata={"help": "Output log file."}
     )
     test_debug: bool = field(
@@ -196,19 +196,19 @@ class BaseModelArguments:
         metadata={"help": "The remove_system argument for the test script - generate_vllm.py."}
     )
     test_template: str = field(
-        default=None,
+        default="own",
         metadata={"help": "The template used for evalutation."}
     )
     test_temperature: float = field(
-        default=None,
+        default=0.6,
         metadata={"help": "The temperature used for the evaluated model."}
     )
     test_top_p: float = field(
-        default=None,
+        default=1.0,
         metadata={"help": "The top_p parameter used for the evaluated model."}
     )
     test_max_tokens: int = field(
-        default=None,
+        default=8192,
         metadata={"help": "The max tokens parameter used for the evaluated model."}
     )
 
