@@ -86,7 +86,6 @@ class SFTKLTrainer(CustomSeq2SeqTrainer):
                 loss_kwargs["num_items_in_batch"] = num_items_in_batch
             inputs = {**inputs, **loss_kwargs}
             
-        print('77777',self.tokenizer.decode(inputs['input_ids'][0], skip_special_tokens=False))
         outputs = model(**inputs)
 
         sft_loss = outputs.loss # This is the primary SFT loss
