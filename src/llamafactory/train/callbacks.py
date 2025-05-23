@@ -36,7 +36,7 @@ from typing_extensions import override
 from ..extras import logging
 from ..extras.constants import TRAINER_LOG, V_HEAD_SAFE_WEIGHTS_NAME, V_HEAD_WEIGHTS_NAME
 from ..extras.misc import get_peak_memory, is_env_enabled, use_ray
-from .generate_vllm import test
+from .generate_hf import test
 
 
 if is_safetensors_available():
@@ -112,10 +112,36 @@ class FixValueHeadModelCallback(TrainerCallback):
 
 
 class CustomTestingCallback(TrainerCallback):
-    def __init__(self, model_args, finetuning_args):
+    def __init__(self, model_args, finetuning_args, tokenizer):
         self.model_args = model_args
         self.finetuning_args = finetuning_args
         self.original_model_devices = {}
+        self.tokenizer = tokenizer
+        self.trainer = None
+    
+    @override
+    def on_init_end(self, args: TrainingArguments, state: TrainerState, control: TrainerControl, **kwargs):
+        # The trainer instance is often available in kwargs here, or as the first positional arg
+        # For Hugging Face Trainer, `self` of the callback is usually bound to the trainer.
+        # However, explicitly capturing it from kwargs if available is safer.
+        if "trainer" in kwargs:
+            self.trainer = kwargs["trainer"]
+        elif hasattr(self, "trainer_ref"): # Some HF versions might pass it as trainer_ref
+             self.trainer = self.trainer_ref # Or however it's named if directly available
+        # If the callback is directly part of a Trainer instance, self.trainer might already be populated
+        # by the Trainer's __init__ when adding callbacks.
+        # A common pattern is that the Trainer instance itself is passed as the first argument to callbacks
+        # or the callback instance has a `parent` or `trainer` attribute set by the Trainer.
+        # For now, let's assume it might be in kwargs or we'll try to get it in on_save.
+
+    @override
+    def on_train_begin(self, args: TrainingArguments, state: TrainerState, control: TrainerControl, **kwargs):
+        # Another point where the trainer might be explicitly passed or accessible
+        if "trainer" in kwargs and self.trainer is None:
+            self.trainer = kwargs["trainer"]
+        # If the callback is a component of the Trainer, self.trainer might be set by the Trainer.
+        # If your Trainer instance is accessible globally or via a specific context, that's another way.
+        # For now, we'll primarily rely on on_save's kwargs or what was set in on_init_end.
 
     @override
     def on_save(self, args: TrainingArguments, state: TrainerState, control: TrainerControl, **kwargs):
@@ -167,9 +193,7 @@ class CustomTestingCallback(TrainerCallback):
                         f"CustomTestingCallback (Rank 0): Test skipped. Checkpoint {model_checkpoint_path} not found."
                     )
                 else:
-                    trainer = kwargs.get("trainer") # For logging metrics
-                    if trainer is None:
-                        logger.error("CustomTestingCallback (Rank 0): Trainer instance not found in kwargs. Cannot log metrics.")
+                    trainer = self.trainer
 
                     # Determine paths for vLLM
                     vllm_base_model_path = self.model_args.model_name_or_path
@@ -185,6 +209,8 @@ class CustomTestingCallback(TrainerCallback):
                     
                     try:
                         metrics_result = test( 
+                            model=model,
+                            tokenizer=self.tokenizer,
                             base_model_path=vllm_base_model_path,
                             current_lora_adapter_path=vllm_lora_adapter_path,
                             tokenizer_path_for_vllm=tokenizer_path_for_vllm,

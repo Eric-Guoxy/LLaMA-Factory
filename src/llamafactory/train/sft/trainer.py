@@ -69,8 +69,6 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
 
         self.finetuning_args = finetuning_args
 
-        # Add the test callback
-        self.add_callback(CustomTestingCallback(self.model_args, self.finetuning_args))
 
         if gen_kwargs is not None:
             # https://github.com/huggingface/transformers/blob/v4.45.0/src/transformers/trainer_seq2seq.py#L287
