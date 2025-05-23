@@ -27,7 +27,8 @@ from ..trainer_utils import create_modelcard_and_push
 from .metric import ComputeAccuracy, ComputeSimilarity, eval_logit_processor
 from .trainer import CustomSeq2SeqTrainer
 from ..custom_kl_trainer import SFTKLTrainer # Newly added
-from .generate_vllm import main
+from .generate_vllm import test
+import os
 
 
 if TYPE_CHECKING:
@@ -144,9 +145,28 @@ def run_sft(
 
     # Evaluation
     if training_args.do_eval:
-        metrics = ...
+        metrics = trainer.evaluate(metric_key_prefix="eval", **gen_kwargs)
         trainer.log_metrics("eval", metrics)
         trainer.save_metrics("eval", metrics)
+    
+    # Test
+    if model_args.do_test:
+        if trainer.state.global_step % model_args.test_steps == 0: # Only do testing at specified steps
+            metrics = test(
+                input_file=model_args.test_input_file,
+                output_file=model_args.test_output_file,
+                model_path=os.path.join(training_args.output_dir, "checkpoint-" + str((trainer.state.global_step // model_args.test_steps) * model_args.test_steps)),
+                debug=model_args.test_debug,
+                remove_system=model_args.test_remove_system,
+                template=model_args.test_template,
+                temperature=model_args.test_temperature,
+                top_p=model_args.test_top_p,
+                max_tokens=model_args.test_max_tokens
+            )
+
+            for data_source, acc in metrics:
+                trainer.log_metrics(data_source, acc)
+                trainer.save_metrics(data_source, acc)
 
     # Predict
     if training_args.do_predict:
@@ -158,3 +178,5 @@ def run_sft(
 
     # Create model card
     create_modelcard_and_push(trainer, model_args, data_args, training_args, finetuning_args)
+
+    return trainer

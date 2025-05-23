@@ -31,7 +31,7 @@ def apply_qwen_math_template(question: str):
         + "<|im_end|>\n<|im_start|>assistant\n"
     )
 
-def main(input_file, output_file, model_path, debug=False, remove_system=True, template='own', temperature=0.6, top_p=1.0, max_tokens=8192):
+def test(input_file, output_file, model_path, debug=False, remove_system=True, template='own', temperature=0.6, top_p=1.0, max_tokens=8192):
     # 数据处理
     df = pd.read_parquet(input_file)
     messages = df['prompt'].tolist()

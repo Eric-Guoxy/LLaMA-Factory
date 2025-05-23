@@ -167,6 +167,14 @@ class BaseModelArguments:
         default=False,
         metadata={"help": "For debugging purposes, print the status of the parameters in the model."},
     )
+    do_test: bool = field(
+        default=False,
+        metadata={"help": "Whether the training process is integrated with testing."}
+    )
+    test_steps: int = field(
+        default=None,
+        metadata={"help": "The gap between two tests."}
+    )
     trust_remote_code: bool = field(
         default=False,
         metadata={"help": "Whether to trust the execution of code from datasets/models defined on the Hub or not."},
@@ -178,10 +186,6 @@ class BaseModelArguments:
     test_output_file: str = field(
         default=None,
         metadata={"help": "Output log file."}
-    )
-    test_model_path: str = field(
-        default=None,
-        metadata={"help": "The path of the evaluated model."}
     )
     test_debug: bool = field(
         default=False,
