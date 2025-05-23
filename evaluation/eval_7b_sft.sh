@@ -1,4 +1,4 @@
-ROOT=/home/inspur/cth/LUFFY
+ROOT=/home/inspur/cth/LLaMA-Factory
 DATA=$ROOT/data/valid.all.parquet
 
 OUTPUT_DIR=$ROOT/results/Qwen2.5-Math-7B/full
@@ -41,7 +41,7 @@ run_evaluation() {
 
   # Assuming generate_vllm.py is in $ROOT/eval_scripts/
   # Adjust python path if generate_vllm.py is elsewhere (e.g., relative to this script)
-  (python $ROOT/eval_scripts/generate_vllm.py \
+  (python $ROOT/evaluation/generate_vllm.py \
     --model_path "$current_model_to_eval_path" \
     --input_file "$DATA" \
     --remove_system True \
