@@ -33,7 +33,7 @@ from .kto import run_kto
 from .ppo import run_ppo
 from .pt import run_pt
 from .rm import run_rm
-from .sft import run_sft, test
+from .sft import run_sft
 from .trainer_utils import get_ray_trainer, get_swanlab_callback
 
 
@@ -69,7 +69,7 @@ def _training_function(config: dict[str, Any]) -> None:
     if finetuning_args.stage == "pt":
         run_pt(model_args, data_args, training_args, finetuning_args, callbacks)
     elif finetuning_args.stage == "sft":
-        trainer = run_sft(model_args, data_args, training_args, finetuning_args, generating_args, callbacks)
+        run_sft(model_args, data_args, training_args, finetuning_args, generating_args, callbacks)
     elif finetuning_args.stage == "rm":
         run_rm(model_args, data_args, training_args, finetuning_args, callbacks)
     elif finetuning_args.stage == "ppo":
@@ -81,23 +81,6 @@ def _training_function(config: dict[str, Any]) -> None:
     else:
         raise ValueError(f"Unknown task: {finetuning_args.stage}.")
     
-    # Test (for the final model)
-    if model_args.do_test:
-        metrics = test(
-            input_file=model_args.test_input_file,
-            output_file=model_args.test_output_file,
-            model_path=training_args.output_dir,
-            debug=model_args.test_debug,
-            remove_system=model_args.test_remove_system,
-            template=model_args.test_template,
-            temperature=model_args.test_temperature,
-            top_p=model_args.test_top_p,
-            max_tokens=model_args.test_max_tokens
-        )
-
-        for data_source, acc in metrics:
-            trainer.log_metrics(data_source, acc)
-            trainer.save_metrics(data_source, acc)
 
     if is_ray_available() and ray.is_initialized():
         return  # if ray is intialized it will destroy the process group on return

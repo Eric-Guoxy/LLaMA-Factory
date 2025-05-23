@@ -28,7 +28,7 @@ from typing_extensions import override
 from ...extras import logging
 from ...extras.constants import IGNORE_INDEX
 from ...extras.packages import is_transformers_version_greater_than
-from ..callbacks import SaveProcessorCallback
+from ..callbacks import SaveProcessorCallback, CustomTestingCallback
 from ..trainer_utils import create_custom_optimizer, create_custom_scheduler
 
 
@@ -37,17 +37,17 @@ if TYPE_CHECKING:
     from transformers import PreTrainedTokenizer, ProcessorMixin
     from transformers.trainer import PredictionOutput
 
-    from ...hparams import FinetuningArguments
+    from ...hparams import FinetuningArguments, ModelArguments
 
 
 logger = logging.get_logger(__name__)
-
 
 class CustomSeq2SeqTrainer(Seq2SeqTrainer):
     r"""Inherits Seq2SeqTrainer to compute generative metrics such as BLEU and ROUGE."""
 
     def __init__(
         self,
+        model_args: "ModelArguments",
         finetuning_args: "FinetuningArguments",
         processor: Optional["ProcessorMixin"],
         gen_kwargs: Optional[dict[str, Any]] = None,
@@ -57,6 +57,9 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
             kwargs["processing_class"] = kwargs.pop("tokenizer")
         else:
             self.processing_class: PreTrainedTokenizer = kwargs.get("tokenizer")
+        
+        self.model_args = model_args
+        self.training_args = kwargs['args']
 
         super().__init__(**kwargs)
         if processor is not None:
@@ -65,6 +68,10 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
             self.model_accepts_loss_kwargs = False
 
         self.finetuning_args = finetuning_args
+
+        # Add the test callback
+        self.add_callback(CustomTestingCallback(self.model_args, self.finetuning_args))
+
         if gen_kwargs is not None:
             # https://github.com/huggingface/transformers/blob/v4.45.0/src/transformers/trainer_seq2seq.py#L287
             self._gen_kwargs = gen_kwargs
@@ -101,17 +108,21 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
     @override
     def compute_loss(self, model, inputs, *args, **kwargs):
         if self.is_world_process_zero():
-            print("--- CURRENT BATCH (ENCODED)")
-            print(inputs)
-            if "input_ids" in inputs and hasattr(self, "processing_class") and self.processing_class is not None:
-                try:
-                    print("--- CURRENT BATCH (DECODED) ---")
-                    decoded_texts = self.processing_class.batch_decode(inputs["input_ids"], skip_special_tokens=False)
-                    for i, text in enumerate(decoded_texts):
-                        print(f"Sample {i}: {text}")
-                    print("--- END BATCH ---")
-                except Exception as e:
-                    print(f"Error decoding batch: {e}")
+            # print("--- CURRENT BATCH (ENCODED)")
+            # print(inputs)
+            # if "input_ids" in inputs and hasattr(self, "processing_class") and self.processing_class is not None:
+            #     try:
+            #         print("--- CURRENT BATCH (DECODED) ---")
+            #         decoded_texts = self.processing_class.batch_decode(inputs["input_ids"], skip_special_tokens=False)
+            #         for i, text in enumerate(decoded_texts):
+            #             print(f"Sample {i}: {text}")
+            #         print("--- END BATCH ---")
+            #     except Exception as e:
+            #         print(f"Error decoding batch: {e}")
+            print("model_args: ", self.model_args)
+            print("training_args: ", self.training_args)
+            print("finetuning_args: ", self.finetuning_args)
+        
         return super().compute_loss(model, inputs, *args, **kwargs)
 
     @override

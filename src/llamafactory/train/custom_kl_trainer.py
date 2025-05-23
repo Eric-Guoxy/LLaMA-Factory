@@ -6,7 +6,7 @@ from .sft.trainer import CustomSeq2SeqTrainer
 
 from typing import TYPE_CHECKING, Dict, Union, Tuple, Optional
 if TYPE_CHECKING:
-    from ..hparams import FinetuningArguments, ModelArguments
+    from ..hparams import FinetuningArguments, ModelArguments, Seq2SeqTrainingArguments
     from transformers import PreTrainedModel # For type hinting model
 
 class SFTKLTrainer(CustomSeq2SeqTrainer):
