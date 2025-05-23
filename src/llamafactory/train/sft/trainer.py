@@ -100,18 +100,6 @@ class CustomSeq2SeqTrainer(Seq2SeqTrainer):
 
     @override
     def compute_loss(self, model, inputs, *args, **kwargs):
-        if self.is_world_process_zero():
-            print("--- CURRENT BATCH (ENCODED)")
-            print(inputs)
-            if "input_ids" in inputs and hasattr(self, "processing_class") and self.processing_class is not None:
-                try:
-                    print("--- CURRENT BATCH (DECODED) ---")
-                    decoded_texts = self.processing_class.batch_decode(inputs["input_ids"], skip_special_tokens=False)
-                    for i, text in enumerate(decoded_texts):
-                        print(f"Sample {i}: {text}")
-                    print("--- END BATCH ---")
-                except Exception as e:
-                    print(f"Error decoding batch: {e}")
         return super().compute_loss(model, inputs, *args, **kwargs)
 
     @override
