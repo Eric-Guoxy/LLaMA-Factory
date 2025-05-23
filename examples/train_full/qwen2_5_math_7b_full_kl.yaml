@@ -15,6 +15,7 @@ kl_beta: 1.0  # weight for the KL loss term (needs to be tuned)
 ### dataset
 dataset: openr1_sft
 template: qwen
+cutoff_len: 16384
 overwrite_cache: true
 preprocessing_num_workers: 32
 dataloader_num_workers: 8
