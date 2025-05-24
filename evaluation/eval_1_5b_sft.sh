@@ -4,6 +4,8 @@ DATA=$ROOT/data/valid.all.parquet
 OUTPUT_DIR=$ROOT/results/DeepSeek-R1-Distill-Qwen-1.5B/full/sft
 mkdir -p $OUTPUT_DIR
 
+export NCCL_NVLS_ENABLE=0
+
 # --- Configuration for the base model ---
 # This is the main directory, which might contain the final model and/or checkpoint subdirectories
 BASE_MODEL_PATH=$ROOT/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct
@@ -96,7 +98,7 @@ echo "========================================================================"
 # Path to visualize_metrics.py is $ROOT/eval_scripts/visualize_metrics.py
 # The output_plot_dir for visualize_metrics.py is where the 'plots' subdir will be created.
 # We pass $OUTPUT_DIR, so plots will be in $OUTPUT_DIR/plots/
-python "visualize_metrics.py" "$OUTPUT_DIR" --output_plot_dir "$OUTPUT_DIR"
+python "$ROOT/evaluation/visualize_metrics.py" "$OUTPUT_DIR" --output_plot_dir "$OUTPUT_DIR"
 
 if [ $? -eq 0 ]; then
   echo "Visualization script completed successfully. Plots should be in $OUTPUT_DIR/plots/"

@@ -8,4 +8,5 @@ cd ~/cth/LLaMA-Factory
 llamafactory-cli train examples/train_full/qwen2_5_math_7b_full_kl.yaml
 
 # Evaluate the model
+export CUDA_VISIBLE_DEVICES=4,5,6,7
 bash evaluation/eval_7b_kl.sh

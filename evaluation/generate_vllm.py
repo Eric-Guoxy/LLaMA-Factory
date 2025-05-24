@@ -31,7 +31,7 @@ def apply_qwen_math_template(question: str):
         + "<|im_end|>\n<|im_start|>assistant\n"
     )
 
-def main(input_file, output_file, model_path, debug=False, remove_system=True, template='own', temperature=0.6, top_p=1.0, max_tokens=8192):
+def main(input_file, output_file, model_path, tensor_parallel_size=1, debug=False, remove_system=True, template='own', temperature=0.6, top_p=1.0, max_tokens=8192):
     # 数据处理
     df = pd.read_parquet(input_file)
     messages = df['prompt'].tolist()
@@ -51,7 +51,7 @@ def main(input_file, output_file, model_path, debug=False, remove_system=True, t
     data_sources = df['data_source'].tolist()
             
     #print(messages[0])
-    outputs = generate_vllm(messages, model_path, template=template, temperature=temperature, top_p=top_p, max_tokens=max_tokens)
+    outputs = generate_vllm(messages, model_path, template=template, temperature=temperature, top_p=top_p, max_tokens=max_tokens, tensor_parallel_size=tensor_parallel_size)
     # rets = {}
     from collections import defaultdict
     rets = defaultdict(list)
@@ -103,7 +103,7 @@ def main(input_file, output_file, model_path, debug=False, remove_system=True, t
         print(f'Output file: {output_file}')
         # print(f'Save data: {save_data}')
 
-def generate_vllm(messages, model_path, template='own', temperature=0.6, top_p=0.95, max_tokens=8192):
+def generate_vllm(messages, model_path, template='own', temperature=0.6, top_p=0.95, max_tokens=8192, tensor_parallel_size=1):
     #vllm模型加载
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     # guarantee the stop tokens of each response
@@ -112,7 +112,7 @@ def generate_vllm(messages, model_path, template='own', temperature=0.6, top_p=0
         stop_tokens.append("<|im_end|>")
     # max_tokens is for the maximum length for generation.
     sampling_params = SamplingParams(temperature=temperature, top_p=top_p, max_tokens=8192, stop=stop_tokens, skip_special_tokens=False)
-    llm = LLM(model=model_path, tensor_parallel_size=torch.cuda.device_count())  # 替换成本地路径
+    llm = LLM(model=model_path, tensor_parallel_size=tensor_parallel_size)  # 替换成本地路径
 
     gen_prompts = []
     for i in range(len(messages)):
