@@ -6,7 +6,7 @@ mkdir -p $OUTPUT_DIR
 
 # --- Configuration for the base model ---
 # This is the main directory, which might contain the final model and/or checkpoint subdirectories
-BASE_MODEL_PATH=$ROOT/saves/Qwen2.5-Math-7B/full/sft_kl_correct
+BASE_MODEL_PATH=$ROOT/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_kl_correct
 # This base name will be used for naming output files
 BASE_MODEL_NAME=DeepSeek-R1-Distill-Qwen-1.5B-full-sft
 
