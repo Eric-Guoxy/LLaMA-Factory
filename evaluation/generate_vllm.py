@@ -134,11 +134,6 @@ def generate_vllm(messages, model_path, template='own', temperature=0.6, top_p=0
         if i == 0:
             print('Example input: ', gen_prompt)
 
-    # print out a sample for varification
-    outputs = llm.generate([gen_prompts[0]], sampling_params)
-    with open("eval_example.txt", "w", encoding="utf-8") as f:
-        f.write(apply_qwen_math_template(messages[0][0]['content']) + outputs[0].outputs[0].text)
-
     outputs = llm.generate(gen_prompts, sampling_params)
     return outputs
 
