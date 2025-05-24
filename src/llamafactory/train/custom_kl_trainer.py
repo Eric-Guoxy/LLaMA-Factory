@@ -18,7 +18,7 @@ class SFTKLTrainer(CustomSeq2SeqTrainer):
         self.kl_beta = getattr(self.finetuning_args, "kl_beta", 0.0)
         self.use_kl_loss = getattr(self.finetuning_args, "use_kl_loss", False)
         self.reference_model = None # Initialize reference_model attribute
-
+        self.max_txt_len = 0
         print(f"SFTKLTrainer __init__ called on rank {self.args.process_index}. use_kl_loss: {self.use_kl_loss}, kl_beta: {self.kl_beta}", flush=True)
         
         if self.use_kl_loss and self.kl_beta > 0:
@@ -84,9 +84,20 @@ class SFTKLTrainer(CustomSeq2SeqTrainer):
             loss_kwargs = {}
             if num_items_in_batch is not None:
                 loss_kwargs["num_items_in_batch"] = num_items_in_batch
-            inputs = {**inputs, **loss_kwargs}
+            sft_inputs = {**inputs, **loss_kwargs}
+            outputs = model(**sft_inputs)
+        else:
+            outputs = model(**inputs)
             
-        outputs = model(**inputs)
+        attention_mask = inputs["attention_mask"]
+        token_lengths = attention_mask.sum(dim=1)  # shape: (batch_size,)
+        max_token_length = token_lengths.max().item()
+        if max_token_length > self.max_txt_len:
+            self.max_txt_len = max_token_length
+            if self.state.is_world_process_zero:
+                print('Max token length updated:', self.max_txt_len)
+                print('max_token_length:', max_token_length)
+        
 
         sft_loss = outputs.loss # This is the primary SFT loss
         current_logits = outputs.logits # Logits from the LoRA-adapted model

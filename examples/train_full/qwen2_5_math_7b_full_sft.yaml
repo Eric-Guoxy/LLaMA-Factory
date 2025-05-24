@@ -24,7 +24,7 @@ cache_dir: ~/cth/LLaMA-Factory/data
 ### output
 output_dir: saves/Qwen2.5-Math-7B/full/sft_correct
 logging_steps: 10
-save_steps: 500
+save_steps: 200
 plot_loss: true
 overwrite_output_dir: true
 save_only_model: true
