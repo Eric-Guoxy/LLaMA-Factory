@@ -100,6 +100,7 @@ def run_sft(
         logger.info("Using CustomSeq2SeqTrainer for SFT.")
         trainer = CustomSeq2SeqTrainer(
             model=model,
+            model_args=model_args,
             args=training_args,
             finetuning_args=finetuning_args,
             data_collator=data_collator,
@@ -158,5 +159,3 @@ def run_sft(
 
     # Create model card
     create_modelcard_and_push(trainer, model_args, data_args, training_args, finetuning_args)
-
-    return trainer
