@@ -181,3 +181,5 @@ data/json
 openr1_sft.json
 data/openr1_sft.json
 data/openr1.json
+case.json
+terminal.txt
