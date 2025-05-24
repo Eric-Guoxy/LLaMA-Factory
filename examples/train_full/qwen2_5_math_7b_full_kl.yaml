@@ -10,7 +10,7 @@ deepspeed: examples/deepspeed/ds_z2_config.json  # choices: [ds_z0_config.json, 
 
 # KL loss specific parameters
 use_kl_loss: true  # enable the KL loss
-kl_beta: 1.0  # weight for the KL loss term (needs to be tuned)
+kl_beta: 0.2  # weight for the KL loss term (needs to be tuned)
 
 ### dataset
 dataset: openr1_sft
