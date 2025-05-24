@@ -19,10 +19,6 @@ def labeling_responses(responses: list[str], golden_answer: str):
     labels = list(map(verify, golden_answers, predict_answers))
     return labels
 
-def make_conv_zero(question):
-    question = question + "\n\nPresent the answer in LaTex format: \\boxed{Your answer}"
-    content = f"A conversation between User and Assistant. The user asks a question, and the Assistant solves it. The assistant first thinks about the reasoning process in the mind and then provides the user with the answer. The reasoning process and answer are enclosed within <think> </think> and <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>. User: {question}. Assistant:"
-    return content
 
 def apply_qwen_math_template(question: str):
     return (
@@ -111,7 +107,7 @@ def generate_vllm(messages, model_path, template='own', temperature=0.6, top_p=0
     if template == 'qwen':
         stop_tokens.append("<|im_end|>")
     # max_tokens is for the maximum length for generation.
-    sampling_params = SamplingParams(temperature=temperature, top_p=top_p, max_tokens=8192, stop=stop_tokens, skip_special_tokens=False)
+    sampling_params = SamplingParams(temperature=temperature, top_p=top_p, max_tokens=max_tokens, stop=stop_tokens, skip_special_tokens=False)
     llm = LLM(model=model_path, tensor_parallel_size=tensor_parallel_size)  # 替换成本地路径
 
     gen_prompts = []
@@ -125,8 +121,6 @@ def generate_vllm(messages, model_path, template='own', temperature=0.6, top_p=0
         )
         elif template == 'qwen':
             gen_prompt = apply_qwen_math_template(cur_message[0]['content'])
-        elif template == 'prime':
-            gen_prompt = make_conv_zero(cur_message[0]['content'])
         elif template == 'no':
             gen_prompt = cur_message[0]['content']
         else: raise ValueError(f'Invalid template: {template}')
