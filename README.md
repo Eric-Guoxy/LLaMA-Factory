@@ -50,6 +50,7 @@ git clone git@github.com:Eric-Guoxy/LLaMA-Factory.git
 git branch -M develop
 cd LLaMA-Factory
 pip install -e ".[torch,metrics]" --no-build-isolation
+pip install vllm
 ```
 
 > [!TIP]
