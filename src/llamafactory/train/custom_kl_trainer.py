@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 class SFTKLTrainer(CustomSeq2SeqTrainer):
     def __init__(self, model_args: "ModelArguments", training_args: "Seq2SeqTrainingArguments", *args, **kwargs):
-        super().__init__(*args, **kwargs) # Pass through model_args if super() expects it, or handle it here
+        super().__init__(model_args=model_args, *args, **kwargs) # Pass through model_args if super() expects it, or handle it here
         self.model_args = model_args # Store model_args
         self.training_args = training_args
         self.kl_beta = getattr(self.finetuning_args, "kl_beta", 0.0)

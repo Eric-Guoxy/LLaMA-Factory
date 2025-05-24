@@ -1,14 +1,14 @@
 ROOT=~/cth/cth/LLaMA-Factory
 DATA=$ROOT/data/valid.all.parquet
 
-OUTPUT_DIR=$ROOT/results/Qwen2.5-Math-7B/full
+OUTPUT_DIR=$ROOT/results/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_kl
 mkdir -p $OUTPUT_DIR
 
 # --- Configuration for the base model ---
 # This is the main directory, which might contain the final model and/or checkpoint subdirectories
-BASE_MODEL_PATH=/home/inspur/cth/LLaMA-Factory/saves/Qwen2.5-Math-7B/full/sft_kl_correct
+BASE_MODEL_PATH=$ROOT/saves/Qwen2.5-Math-7B/full/sft_kl_correct
 # This base name will be used for naming output files
-BASE_MODEL_NAME=Qwen2.5-Math-7B-full-sft
+BASE_MODEL_NAME=DeepSeek-R1-Distill-Qwen-1.5B-full-sft
 
 if [ $MODEL_NAME == "eurus-2-7b-prime-zero" ]; then
   TEMPLATE=prime
