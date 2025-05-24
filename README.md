@@ -38,6 +38,13 @@ Note: Since we automate the training and evaluation process, you should also ins
 > [!IMPORTANT]
 > Installation is mandatory.
 
+Make sure to create a conda environment with Python 3.10 and activate it:
+
+```bash
+conda create -n llama python=3.10
+conda activate llama
+```
+
 ```bash
 git clone git@github.com:Eric-Guoxy/LLaMA-Factory.git
 git branch -M develop
