@@ -9,3 +9,4 @@ llamafactory-cli train examples/train_full/qwen_1_5b_distill_kl.yaml
 
 # Evaluate the model
 bash evaluation/eval_7b_kl.sh
+
