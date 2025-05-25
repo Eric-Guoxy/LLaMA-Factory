@@ -437,10 +437,8 @@ if __name__ == "__main__":
     
     prompts = []
     for question in questions:
-        with open("template.txt", "r", encoding="utf-8") as f:
-            template = f.read()
-
-        prompt = template.format(question=question['prompt'][1]['content'])
+        raw_prompt = question['prompt']
+        prompt = tokenizer.apply_chat_template(raw_prompt, tokenize=False, add_generation_prompt=True)
         prompts.append(prompt)
 
     # --- vllm Generation Phase ---

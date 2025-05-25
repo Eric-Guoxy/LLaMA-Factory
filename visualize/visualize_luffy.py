@@ -34,7 +34,7 @@ def generate_with_log_probs(
         warnings.filterwarnings("ignore", message=".*Sliding Window Attention.*")
 
     # Create progress bar
-    pbar = tqdm(total=max_new_tokens, desc="Generating tokens", ncols=100)
+    pbar = tqdm(total=max_new_tokens, desc="Generating tokens", ncols=500)
 
     # Initialize past_key_values for KV-cache
     past_key_values = None
@@ -311,7 +311,7 @@ def visualize_log_prob_differences_only_prob(
     <div class="legend">
         <div class="legend-item">
             <div class="color-box" style="background-color: rgba(100, 149, 237, 0.7);"></div>
-            <span>Lower Probability After SFT</span>
+            <span>Lower Probability After LUFFY</span>
         </div>
         <div class="legend-item">
             <div class="color-box" style="background-color: white;"></div>
@@ -319,7 +319,7 @@ def visualize_log_prob_differences_only_prob(
         </div>
         <div class="legend-item">
             <div class="color-box" style="background-color: rgba(240, 128, 128, 0.7);"></div>
-            <span>Higher Probability After SFT</span>
+            <span>Higher Probability After LUFFY</span>
         </div>
     </div>
     <div class="text-container">
@@ -407,14 +407,10 @@ def pipeline(generated_text, question, save_path, token_log_probs, prompt, token
 # Example usage
 if __name__ == "__main__":
     # Load models and tokenizer
-    model_name_final = "/root/cth/cth/LLaMA-Factory/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct"
-    model_name_500 = "/root/cth/cth/LLaMA-Factory/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct/checkpoint-500"
-    model_name_1000 = "/root/cth/cth/LLaMA-Factory/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct/checkpoint-1000"
-    model_name_1500 = "/root/cth/cth/LLaMA-Factory/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct/checkpoint-1500"
-    model_name_2000 = "/root/cth/cth/LLaMA-Factory/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct/checkpoint-2000"
-    model_name = "DeepSeek-R1-Distill-Qwen-1.5B-sft"
-    model_name_base = "/root/cth/cth/models/DeepSeek-R1-Distill-Qwen-1.5B"
-    final_model_name = "DeepSeek-R1-Distill-Qwen-1.5B-final (2145 steps)"
+    model_name_final = "/home/inspur/.cache/huggingface/hub/models--Elliott--LUFFY-Qwen-Math-7B-Zero1/snapshots/22278332d2eab6b0e6df139be0ec5bb7ec12ebea"
+    model_name = "LUFFY-Qwen-Math-7B-Zero"
+    model_name_base = "/home/inspur/cth/models/Qwen2.5-Math-7B"
+    final_model_name = "LUFFY-Qwen-Math-7B-Zero"
     os.makedirs("models", exist_ok=True)
     save_path = os.path.join("models", model_name)
     os.makedirs(save_path, exist_ok=True)
@@ -435,23 +431,19 @@ if __name__ == "__main__":
     )
 
     # Generate text with first model and evaluate with second model
-    with open("samples.json", "r", encoding="utf-8") as f:
+    with open("visualize/samples.json", "r", encoding="utf-8") as f:
         questions = json.load(f)
     
     for question in questions:
+
         raw_prompt = question['prompt']
         prompt = tokenizer.apply_chat_template(raw_prompt, tokenize=False, add_generation_prompt=True)
-
         # Generate text and get log probs from first model
         print("\nGenerating text with the final model...")
         generated_text, token_log_probs = generate_with_log_probs(
             model_final, tokenizer, prompt, max_new_tokens=16000,temperature=0.6, use_sdpa=False
         )
         print(f"Generated text: {generated_text}")
-
-        # Save log probabilities to files
-        with open(os.path.join(save_path, 'token_log_probs.json'), 'w') as f:
-            json.dump(token_log_probs, f, indent=4)
 
         pipeline(
             generated_text=generated_text,
@@ -462,53 +454,6 @@ if __name__ == "__main__":
             tokenizer=tokenizer,
             ref_model_path=model_name_base,
             final_model_name=final_model_name,
-            ref_model_name="DeepSeek-R1-Distill-Qwen-1.5B (base)"
+            ref_model_name="Qwen2.5-Math-7B"
         )
 
-        pipeline(
-            generated_text=generated_text,
-            question=question,
-            save_path=save_path,
-            token_log_probs=token_log_probs,
-            prompt=prompt,
-            tokenizer=tokenizer,
-            ref_model_path=model_name_500,
-            final_model_name=final_model_name,
-            ref_model_name="checkpoint-500"
-        )
-
-        pipeline(
-            generated_text=generated_text,
-            question=question,
-            save_path=save_path,
-            token_log_probs=token_log_probs,
-            prompt=prompt,
-            tokenizer=tokenizer,
-            ref_model_path=model_name_1000,
-            final_model_name=final_model_name,
-            ref_model_name="checkpoint-1000"
-        )
-
-        pipeline(
-            generated_text=generated_text,
-            question=question,
-            save_path=save_path,
-            token_log_probs=token_log_probs,
-            prompt=prompt,
-            tokenizer=tokenizer,
-            ref_model_path=model_name_1500,
-            final_model_name=final_model_name,
-            ref_model_name="checkpoint-1500"
-        )
-
-        pipeline(
-            generated_text=generated_text,
-            question=question,
-            save_path=save_path,
-            token_log_probs=token_log_probs,
-            prompt=prompt,
-            tokenizer=tokenizer,
-            ref_model_path=model_name_2000,
-            final_model_name=final_model_name,
-            ref_model_name="checkpoint-2000"
-        )
