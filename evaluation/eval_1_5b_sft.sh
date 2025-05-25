@@ -49,7 +49,6 @@ run_evaluation() {
     --remove_system True \
     --output_file "$OUTPUT_DIR/${output_log_name}.jsonl" \
     --tensor_parallel_size=4 \
-    --max_tokens 16384 \
     --template "$TEMPLATE") 2>&1 | tee "$OUTPUT_DIR/${output_log_name}.log" 
   
   # Check exit status of the python script
@@ -99,7 +98,7 @@ echo "========================================================================"
 # Path to visualize_metrics.py is $ROOT/eval_scripts/visualize_metrics.py
 # The output_plot_dir for visualize_metrics.py is where the 'plots' subdir will be created.
 # We pass $OUTPUT_DIR, so plots will be in $OUTPUT_DIR/plots/
-python "$ROOT/evaluation/visualize_metrics.py" "$OUTPUT_DIR" --output_plot_dir "$OUTPUT_DIR"
+python "visualize_metrics.py" "$OUTPUT_DIR" --output_plot_dir "$OUTPUT_DIR"
 
 if [ $? -eq 0 ]; then
   echo "Visualization script completed successfully. Plots should be in $OUTPUT_DIR/plots/"

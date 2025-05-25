@@ -254,9 +254,12 @@ def save_log_probs(log_probs: List[Dict[str, Union[str, float]]], output_file: s
 
 
 def visualize_log_prob_differences_only_prob(
+    prompt,
+    final_model_name,
+    ref_model_name,
     token_log_probs: List[Dict[str, Union[str, float]]],
     response_log_probs: List[Dict[str, Union[str, float]]],
-    output_file: Optional[str] = None
+    output_file: Optional[str] = None,
 ) -> str:
     """
     只用概率变化色彩（蓝-白-红）可视化。
@@ -283,14 +286,32 @@ def visualize_log_prob_differences_only_prob(
     .legend-item { margin: 0 15px; display: flex; align-items: center; }
     .color-box { width: 20px; height: 20px; margin-right: 5px; border-radius: 3px; }
     h1 { text-align: center; color: #444; margin-bottom: 25px; }
+    .model-info-container {
+        display: flex;
+        justify-content: center; /* Centers the items horizontally */
+        align-items: center; /* Aligns items vertically if they have different heights */
+        gap: 25px; /* Adds space between the model info items */
+        padding: 12px; /* Adds some internal spacing */
+        margin-bottom: 20px; /* Space below this section */
+        background-color: #f0f0f0; /* A light background to distinguish the section */
+        border-radius: 5px; /* Rounded corners for a softer look */
+        font-size: 14px; /* Consistent font size, similar to legend */
+        color: #555; /* Slightly muted text color */
+        flex-wrap: wrap; /* Allows items to wrap to the next line on smaller screens */
+    }
     </style>
     </head>
     <body>
     <h1>Token Probability Visualization</h1>
+    <div class="model-info-container">
+        <span><strong>"""
+    html += f"""Generate Model:</strong> {final_model_name} </span>
+        <span><strong>Reference Model:</strong> {ref_model_name} </span>
+    </div>
     <div class="legend">
         <div class="legend-item">
             <div class="color-box" style="background-color: rgba(100, 149, 237, 0.7);"></div>
-            <span>Lower Probability After RL</span>
+            <span>Lower Probability After SFT</span>
         </div>
         <div class="legend-item">
             <div class="color-box" style="background-color: white;"></div>
@@ -298,11 +319,12 @@ def visualize_log_prob_differences_only_prob(
         </div>
         <div class="legend-item">
             <div class="color-box" style="background-color: rgba(240, 128, 128, 0.7);"></div>
-            <span>Higher Probability After RL</span>
+            <span>Higher Probability After SFT</span>
         </div>
     </div>
     <div class="text-container">
     """
+    html += f"<span>{prompt}</span><br>"
     for token, diff, gen_p, resp_p in zip(tokens, normalized_diffs, gen_probs, resp_probs):
         intensity = abs(diff)
         if diff < 0:
@@ -327,32 +349,87 @@ def visualize_log_prob_differences_only_prob(
             f.write(html)
     return html
 
+def pipeline(generated_text, question, save_path, token_log_probs, prompt, tokenizer, ref_model_path, final_model_name, ref_model_name):
+    # Load second model for response evaluation
+    print(f"Loading {model_name}...")
+    ref_model = AutoModelForCausalLM.from_pretrained(
+        ref_model_path,
+        torch_dtype=torch.bfloat16,
+        device_map="auto"
+    )
+
+    save_path = os.path.join(save_path, ref_model_name)
+    os.makedirs(save_path, exist_ok=True)
+
+    # Calculate log probs with checkpoint 500
+    print("\nCalculating log probabilities with checkpoint 500...")
+    response_log_probs = calculate_text_log_probs(
+        ref_model, tokenizer, prompt, generated_text, use_sdpa=False, batch_size=16
+    )
+
+    with open(os.path.join(save_path, f'response_log_probs_{model_name}.json'), 'w') as f:
+        json.dump(response_log_probs, f, indent=4)
+
+    # Convert log probs to actual probabilities for statistics
+    gen_probs = [np.exp(item["log_prob"]) for item in token_log_probs]
+    resp_probs = [np.exp(item["log_prob"]) for item in response_log_probs]
+    
+    prob_diffs = [g - r for g, r in zip(gen_probs, resp_probs)]
+
+    # Create simple visualization with subtle colors
+    html_prob = visualize_log_prob_differences_only_prob(
+        prompt,
+        final_model_name,
+        ref_model_name,
+        token_log_probs, 
+        response_log_probs,
+        output_file=os.path.join(save_path, f"probability_visualization_{question['data_source']}_{ref_model_name}.html")
+    )
+    print(f"\nProbability visualization saved to probability_visualization.html")
+
+    # Print statistics using actual probabilities
+    print("\nProbability difference statistics:")
+    print(f"Mean difference: {sum(prob_diffs) / len(prob_diffs):.6f}")
+    print(f"Max difference: {max(prob_diffs):.6f}")
+    print(f"Min difference: {min(prob_diffs):.6f}")
+    print(f"Std deviation: {np.std(prob_diffs):.6f}")
+
+    metrics = {
+        "Mean difference": sum(prob_diffs) / len(prob_diffs),
+        "Max difference": max(prob_diffs),
+        "Min difference": min(prob_diffs),
+        "Std deviation": np.std(prob_diffs)
+    }
+
+    with open(os.path.join(save_path, f"metrics_{question['data_source']}_{ref_model_name}"), "w", encoding="utf-8") as f:
+        json.dump(metrics, f, ensure_ascii=False, indent=4)
 
 # Example usage
 if __name__ == "__main__":
     # Load models and tokenizer
-    model_name_1 = "/home/inspur/cth/LLaMA-Factory/saves/Qwen2.5-Math-7B/full/sft/checkpoint-6500"
-    model_name_2 = "/home/inspur/cth/models/Qwen2.5-Math-7B"
+    model_name_final = "/root/cth/cth/LLaMA-Factory/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct"
+    model_name_500 = "/root/cth/cth/LLaMA-Factory/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct/checkpoint-500"
+    model_name_1000 = "/root/cth/cth/LLaMA-Factory/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct/checkpoint-1000"
+    model_name_1500 = "/root/cth/cth/LLaMA-Factory/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct/checkpoint-1500"
+    model_name_2000 = "/root/cth/cth/LLaMA-Factory/saves/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_correct/checkpoint-2000"
+    model_name = "DeepSeek-R1-Distill-Qwen-1.5B-sft"
+    model_name_base = "/root/cth/cth/models/DeepSeek-R1-Distill-Qwen-1.5B"
+    final_model_name = "DeepSeek-R1-Distill-Qwen-1.5B-final (2145 steps)"
+    os.makedirs("models", exist_ok=True)
+    save_path = os.path.join("models", model_name)
+    os.makedirs(save_path, exist_ok=True)
 
     # Set device
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Using device: {device}")
 
     # Load tokenizer (using the first model's tokenizer)
-    tokenizer = AutoTokenizer.from_pretrained(model_name_1)
+    tokenizer = AutoTokenizer.from_pretrained(model_name_final)
 
     # Load first model for generation
-    print("Loading first model...")
-    model_1 = AutoModelForCausalLM.from_pretrained(
-        model_name_1,
-        torch_dtype=torch.bfloat16,
-        device_map="auto"
-    )
-
-    # Load second model for response evaluation
-    print("Loading second model...")
-    model_2 = AutoModelForCausalLM.from_pretrained(
-        model_name_2,
+    print("Loading the final model...")
+    model_final = AutoModelForCausalLM.from_pretrained(
+        model_name_final,
         torch_dtype=torch.bfloat16,
         device_map="auto"
     )
@@ -368,51 +445,72 @@ if __name__ == "__main__":
         prompt = template.format(question=question['prompt'][1]['content'])
 
         # Generate text and get log probs from first model
-        print("\nGenerating text with first model...")
+        print("\nGenerating text with the final model...")
         generated_text, token_log_probs = generate_with_log_probs(
-            model_1, tokenizer, prompt, max_new_tokens=16000,temperature=0.6, use_sdpa=False
+            model_final, tokenizer, prompt, max_new_tokens=16000,temperature=0.6, use_sdpa=False
         )
         print(f"Generated text: {generated_text}")
 
-        # Calculate log probs with second model
-        print("\nCalculating log probabilities with second model...")
-        response_log_probs = calculate_text_log_probs(
-            model_2, tokenizer, prompt, generated_text, use_sdpa=False, batch_size=16
-        )
-
         # Save log probabilities to files
-        with open('token_log_probs.json', 'w') as f:
+        with open(os.path.join(save_path, 'token_log_probs.json'), 'w') as f:
             json.dump(token_log_probs, f, indent=4)
 
-        with open('response_log_probs.json', 'w') as f:
-            json.dump(response_log_probs, f, indent=4)
-
-        # Convert log probs to actual probabilities for statistics
-        gen_probs = [np.exp(item["log_prob"]) for item in token_log_probs]
-        resp_probs = [np.exp(item["log_prob"]) for item in response_log_probs]
-        prob_diffs = [g - r for g, r in zip(gen_probs, resp_probs)]
-
-        # Create simple visualization with subtle colors
-        html_prob = visualize_log_prob_differences_only_prob(
-            token_log_probs, 
-            response_log_probs,
-            output_file=f"probability_visualization_{question['data_source']}.html"
+        pipeline(
+            generated_text=generated_text,
+            question=question,
+            save_path=save_path,
+            token_log_probs=token_log_probs,
+            prompt=prompt,
+            tokenizer=tokenizer,
+            ref_model_path=model_name_base,
+            final_model_name=final_model_name,
+            ref_model_name="DeepSeek-R1-Distill-Qwen-1.5B (base)"
         )
-        print(f"\nProbability visualization saved to probability_visualization.html")
 
-        # Print statistics using actual probabilities
-        print("\nProbability difference statistics:")
-        print(f"Mean difference: {sum(prob_diffs) / len(prob_diffs):.6f}")
-        print(f"Max difference: {max(prob_diffs):.6f}")
-        print(f"Min difference: {min(prob_diffs):.6f}")
-        print(f"Std deviation: {np.std(prob_diffs):.6f}")
+        pipeline(
+            generated_text=generated_text,
+            question=question,
+            save_path=save_path,
+            token_log_probs=token_log_probs,
+            prompt=prompt,
+            tokenizer=tokenizer,
+            ref_model_path=model_name_500,
+            final_model_name=final_model_name,
+            ref_model_name="checkpoint-500"
+        )
 
-        metrics = {
-            "Mean difference": sum(prob_diffs) / len(prob_diffs),
-            "Max difference": max(prob_diffs),
-            "Min difference": min(prob_diffs),
-            "Std deviation": np.std(prob_diffs)
-        }
+        pipeline(
+            generated_text=generated_text,
+            question=question,
+            save_path=save_path,
+            token_log_probs=token_log_probs,
+            prompt=prompt,
+            tokenizer=tokenizer,
+            ref_model_path=model_name_1000,
+            final_model_name=final_model_name,
+            ref_model_name="checkpoint-1000"
+        )
 
-        with open(os.path.join("metrics", f"metrics_{question['data_source']}"), "w", encoding="utf-8") as f:
-            json.dump(metrics, f, ensure_ascii=False, indent=4)
+        pipeline(
+            generated_text=generated_text,
+            question=question,
+            save_path=save_path,
+            token_log_probs=token_log_probs,
+            prompt=prompt,
+            tokenizer=tokenizer,
+            ref_model_path=model_name_1500,
+            final_model_name=final_model_name,
+            ref_model_name="checkpoint-1500"
+        )
+
+        pipeline(
+            generated_text=generated_text,
+            question=question,
+            save_path=save_path,
+            token_log_probs=token_log_probs,
+            prompt=prompt,
+            tokenizer=tokenizer,
+            ref_model_path=model_name_2000,
+            final_model_name=final_model_name,
+            ref_model_name="checkpoint-2000"
+        )
