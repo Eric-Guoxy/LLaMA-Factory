@@ -1,14 +1,17 @@
-ROOT=/home/inspur/cth/LLaMA-Factory
+ROOT=~/cth/cth/LLaMA-Factory
 DATA=$ROOT/data/valid.all.parquet
 
-OUTPUT_DIR=$ROOT/results/Qwen2.5-Math-7B/full
+OUTPUT_DIR=$ROOT/results/DeepScaleR-1.5B-Preview/full/sft
 mkdir -p $OUTPUT_DIR
+
+export NCCL_NVLS_ENABLE=0
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 
 # --- Configuration for the base model ---
 # This is the main directory, which might contain the final model and/or checkpoint subdirectories
-BASE_MODEL_PATH=/home/inspur/cth/LLaMA-Factory/saves/Qwen2.5-Math-7B/full/sft_correct
+BASE_MODEL_PATH=$ROOT/saves/DeepScaleR-1.5B-Preview/full/sft_correct
 # This base name will be used for naming output files
-BASE_MODEL_NAME=Qwen2.5-Math-7B-full-sft
+BASE_MODEL_NAME=DeepScaleR-1.5B-Preview-full-sft
 
 if [ $MODEL_NAME == "eurus-2-7b-prime-zero" ]; then
   TEMPLATE=prime
@@ -48,7 +51,7 @@ run_evaluation() {
     --add_oat_evaluate True \
     --output_file "$OUTPUT_DIR/${output_log_name}.jsonl" \
     --tensor_parallel_size=4 \
-    --max_tokens 8192 \
+    --max_tokens=16384 \
     --template "$TEMPLATE") 2>&1 | tee "$OUTPUT_DIR/${output_log_name}.log" 
   
   # Check exit status of the python script

@@ -44,9 +44,11 @@ run_evaluation() {
   (python $ROOT/evaluation/generate_vllm.py \
     --model_path "$current_model_to_eval_path" \
     --input_file "$DATA" \
-    --remove_system True \
+    --remove_system False \
+    --add_oat_evaluate True \
     --output_file "$OUTPUT_DIR/${output_log_name}.jsonl" \
     --tensor_parallel_size=4 \
+    --max_tokens 8192 \
     --template "$TEMPLATE") 2>&1 | tee "$OUTPUT_DIR/${output_log_name}.log" 
   
   # Check exit status of the python script
