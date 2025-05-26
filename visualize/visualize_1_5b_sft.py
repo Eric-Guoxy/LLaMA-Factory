@@ -439,10 +439,8 @@ if __name__ == "__main__":
         questions = json.load(f)
     
     for question in questions:
-        with open("template.txt", "r", encoding="utf-8") as f:
-            template = f.read()
-
-        prompt = template.format(question=question['prompt'][1]['content'])
+        raw_prompt = question['prompt']
+        prompt = tokenizer.apply_chat_template(raw_prompt, tokenize=False, add_generation_prompt=True)
 
         # Generate text and get log probs from first model
         print("\nGenerating text with the final model...")
