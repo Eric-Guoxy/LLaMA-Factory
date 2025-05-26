@@ -1,17 +1,17 @@
 ROOT=~/cth/cth/LLaMA-Factory
 DATA=$ROOT/data/valid.all.parquet
 
-OUTPUT_DIR=$ROOT/results/DeepScaleR-1.5B-Preview/full/sft
+OUTPUT_DIR=$ROOT/results/DeepScaleR-1.5B-Preview/full/sft_kl
 mkdir -p $OUTPUT_DIR
 
 export NCCL_NVLS_ENABLE=0
-export CUDA_VISIBLE_DEVICES=4,5,6,7
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 
 # --- Configuration for the base model ---
 # This is the main directory, which might contain the final model and/or checkpoint subdirectories
-BASE_MODEL_PATH=$ROOT/saves/DeepScaleR-1.5B-Preview/full/sft_correct
+BASE_MODEL_PATH=$ROOT/saves/DeepScaleR-1.5B-Preview/full/sft_correct_kl
 # This base name will be used for naming output files
-BASE_MODEL_NAME=DeepScaleR-1.5B-Preview-full-sft
+BASE_MODEL_NAME=DeepScaleR-1.5B-Preview-full-sft_kl
 
 if [ $MODEL_NAME == "eurus-2-7b-prime-zero" ]; then
   TEMPLATE=prime

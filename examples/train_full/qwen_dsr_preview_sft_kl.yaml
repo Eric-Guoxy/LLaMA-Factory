@@ -9,8 +9,8 @@ finetuning_type: full
 deepspeed: examples/deepspeed/ds_z2_config.json  # choices: [ds_z0_config.json, ds_z2_config.json, ds_z3_config.json]
 
 # KL loss specific parameters
-use_kl_loss: false  # enable the KL loss
-kl_beta: 0.0  # weight for the KL loss term (needs to be tuned)
+use_kl_loss: true  # enable the KL loss
+kl_beta: 0.2  # weight for the KL loss term (needs to be tuned)
 
 ### dataset
 dataset: openr1_sft
@@ -22,7 +22,7 @@ dataloader_num_workers: 8
 cache_dir: ~/cth/cth/LLaMA-Factory/data
 
 ### output
-output_dir: saves/DeepScaleR-1.5B-Preview/full/sft_correct
+output_dir: saves/DeepScaleR-1.5B-Preview/full/sft_correct_kl
 logging_steps: 10
 save_steps: 300
 plot_loss: true
@@ -31,8 +31,8 @@ save_only_model: true
 report_to: [wandb]  # choices: [none, wandb, tensorboard, swanlab, mlflow]
 
 ### train
-per_device_train_batch_size: 4
-gradient_accumulation_steps: 4
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 8
 learning_rate: 5.0e-5
 num_train_epochs: 3.0
 lr_scheduler_type: cosine
