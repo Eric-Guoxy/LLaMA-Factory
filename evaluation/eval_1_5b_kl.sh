@@ -1,7 +1,9 @@
 ROOT=~/cth/cth/LLaMA-Factory
 DATA=$ROOT/data/valid.all.parquet
 
-OUTPUT_DIR=$ROOT/results/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_kl
+export CUDA_VISIBLE_DEVICES=4,5,6,7
+
+OUTPUT_DIR=$ROOT/results/DeepSeek-R1-Distill-Qwen-1.5B/full/sft_kl_new
 mkdir -p $OUTPUT_DIR
 
 export NCCL_NVLS_ENABLE=0
@@ -17,7 +19,7 @@ if [ $MODEL_NAME == "eurus-2-7b-prime-zero" ]; then
 elif [ $MODEL_NAME == "simple-rl-zero" ]; then
   TEMPLATE=qwen
 else
-  TEMPLATE=qwen
+  TEMPLATE=own
 fi
 
 # --- Function to run evaluation ---
@@ -46,9 +48,10 @@ run_evaluation() {
   (python $ROOT/evaluation/generate_vllm.py \
     --model_path "$current_model_to_eval_path" \
     --input_file "$DATA" \
-    --remove_system True \
+    --remove_system False \
+    --add_oat_evaluate True \
     --output_file "$OUTPUT_DIR/${output_log_name}.jsonl" \
-    --tensor_parallel_size=4 \
+    --tensor_parallel_size 4 \
     --max_tokens 16384 \
     --template "$TEMPLATE") 2>&1 | tee "$OUTPUT_DIR/${output_log_name}.log" 
   

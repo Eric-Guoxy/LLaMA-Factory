@@ -5,6 +5,7 @@ OUTPUT_DIR=$ROOT/results/DeepScaleR-1.5B-Preview/full/sft
 mkdir -p $OUTPUT_DIR
 
 export NCCL_NVLS_ENABLE=0
+export CUDA_VISIBLE_DEVICES=4,5,6,7
 
 # --- Configuration for the base model ---
 # This is the main directory, which might contain the final model and/or checkpoint subdirectories
@@ -46,7 +47,8 @@ run_evaluation() {
   (python $ROOT/evaluation/generate_vllm.py \
     --model_path "$current_model_to_eval_path" \
     --input_file "$DATA" \
-    --remove_system True \
+    --remove_system False \
+    --add_oat_evaluate True \
     --output_file "$OUTPUT_DIR/${output_log_name}.jsonl" \
     --tensor_parallel_size=4 \
     --max_tokens=16384 \
