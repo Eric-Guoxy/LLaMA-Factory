@@ -712,5 +712,29 @@
       "response": "answer",
       "system": "system"
     }
+  },
+  "openr1_easy_sft": {
+    "file_name": "openr1_easy_sft.json",
+    "columns": {
+      "prompt": "prompt",
+      "response": "response",
+      "system": "system"
+    }
+  },
+  "openr1_medium_sft": {
+    "file_name": "openr1_medium_sft.json",
+    "columns": {
+      "prompt": "prompt",
+      "response": "response",
+      "system": "system"
+    }
+  },
+  "openr1_hard_sft": {
+    "file_name": "openr1_hard_sft.json",
+    "columns": {
+      "prompt": "prompt",
+      "response": "response",
+      "system": "system"
+    }
   }
 }

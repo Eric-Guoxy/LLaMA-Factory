@@ -185,3 +185,6 @@ case.json
 terminal.txt
 results/
 test.py
+openr1_easy_sft.json
+openr1_medium_sft.json
+openr1_hard_sft.json
