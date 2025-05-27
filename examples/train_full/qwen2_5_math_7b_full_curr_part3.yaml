@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: data/cth/saves/Qwen2.5-Math-7B/full/sft_curr_part2
+model_name_or_path: /data/cth/saves/Qwen2.5-Math-7B/full/sft_curr_part2
 trust_remote_code: true
 
 ### method
