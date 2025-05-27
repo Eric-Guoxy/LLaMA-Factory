@@ -7,6 +7,7 @@ import warnings
 from tqdm import tqdm
 import html as html_lib
 import os
+from vllm import LLM, SamplingParams
 
 
 def generate_with_log_probs(
@@ -349,60 +350,71 @@ def visualize_log_prob_differences_only_prob(
             f.write(html)
     return html
 
-def pipeline(generated_text, question, save_path, token_log_probs, prompt, tokenizer, ref_model_path, final_model_name, ref_model_name):
-    # Load second model for response evaluation
-    print(f"Loading {model_name}...")
+def pipeline(all_QA_pairs, save_path, tokenizer, ref_model_path, final_model_name, ref_model_name):
+    # Load ref model for response evaluation
+    print(f"Loading {ref_model_name}...")
     ref_model = AutoModelForCausalLM.from_pretrained(
         ref_model_path,
         torch_dtype=torch.bfloat16,
         device_map="auto"
     )
-
-    save_path = os.path.join(save_path, ref_model_name)
-    os.makedirs(save_path, exist_ok=True)
-
-    # Calculate log probs with checkpoint 500
-    print("\nCalculating log probabilities with checkpoint 500...")
-    response_log_probs = calculate_text_log_probs(
-        ref_model, tokenizer, prompt, generated_text, use_sdpa=False, batch_size=16
-    )
-
-    with open(os.path.join(save_path, f'response_log_probs_{model_name}.json'), 'w') as f:
-        json.dump(response_log_probs, f, indent=4)
-
-    # Convert log probs to actual probabilities for statistics
-    gen_probs = [np.exp(item["log_prob"]) for item in token_log_probs]
-    resp_probs = [np.exp(item["log_prob"]) for item in response_log_probs]
     
-    prob_diffs = [g - r for g, r in zip(gen_probs, resp_probs)]
+    for QA_pair in all_QA_pairs:
+        prompt = QA_pair['prompt']
+        question = QA_pair['question']
+        generated_text = QA_pair['generated_text']
+        token_log_probs = QA_pair['token_log_probs']
+        
 
-    # Create simple visualization with subtle colors
-    html_prob = visualize_log_prob_differences_only_prob(
-        prompt,
-        final_model_name,
-        ref_model_name,
-        token_log_probs, 
-        response_log_probs,
-        output_file=os.path.join(save_path, f"probability_visualization_{question['data_source']}_{ref_model_name}.html")
-    )
-    print(f"\nProbability visualization saved to probability_visualization.html")
+        save_path = os.path.join(save_path, ref_model_name)
+        os.makedirs(save_path, exist_ok=True)
 
-    # Print statistics using actual probabilities
-    print("\nProbability difference statistics:")
-    print(f"Mean difference: {sum(prob_diffs) / len(prob_diffs):.6f}")
-    print(f"Max difference: {max(prob_diffs):.6f}")
-    print(f"Min difference: {min(prob_diffs):.6f}")
-    print(f"Std deviation: {np.std(prob_diffs):.6f}")
+        # Calculate log probs with checkpoint 500
+        print(f"\nCalculating log probabilities with {ref_model_name}...")
+        response_log_probs = calculate_text_log_probs(
+            ref_model, tokenizer, prompt, generated_text, use_sdpa=False, batch_size=16
+        )
 
-    metrics = {
-        "Mean difference": sum(prob_diffs) / len(prob_diffs),
-        "Max difference": max(prob_diffs),
-        "Min difference": min(prob_diffs),
-        "Std deviation": np.std(prob_diffs)
-    }
+        with open(os.path.join(save_path, f'response_log_probs_{model_name}.json'), 'w') as f:
+            json.dump(response_log_probs, f, indent=4)
 
-    with open(os.path.join(save_path, f"metrics_{question['data_source']}_{ref_model_name}"), "w", encoding="utf-8") as f:
-        json.dump(metrics, f, ensure_ascii=False, indent=4)
+        # Convert log probs to actual probabilities for statistics
+        gen_probs = [np.exp(item["log_prob"]) for item in token_log_probs]
+        resp_probs = [np.exp(item["log_prob"]) for item in response_log_probs]
+        
+        prob_diffs = [g - r for g, r in zip(gen_probs, resp_probs)]
+
+        # Create simple visualization with subtle colors
+        html_prob = visualize_log_prob_differences_only_prob(
+            prompt,
+            final_model_name,
+            ref_model_name,
+            token_log_probs, 
+            response_log_probs,
+            output_file=os.path.join(save_path, f"probability_visualization_{question['data_source']}_{ref_model_name}.html")
+        )
+        print(f"\nProbability visualization saved to probability_visualization.html")
+
+        # Print statistics using actual probabilities
+        print("\nProbability difference statistics:")
+        print(f"Mean difference: {sum(prob_diffs) / len(prob_diffs):.6f}")
+        print(f"Max difference: {max(prob_diffs):.6f}")
+        print(f"Min difference: {min(prob_diffs):.6f}")
+        print(f"Std deviation: {np.std(prob_diffs):.6f}")
+
+        metrics = {
+            "Mean difference": sum(prob_diffs) / len(prob_diffs),
+            "Max difference": max(prob_diffs),
+            "Min difference": min(prob_diffs),
+            "Std deviation": np.std(prob_diffs)
+        }
+
+        with open(os.path.join(save_path, f"metrics_{question['data_source']}_{ref_model_name}"), "w", encoding="utf-8") as f:
+            json.dump(metrics, f, ensure_ascii=False, indent=4)
+    
+    # Clean up the memory of gpus for later usage
+    if torch.distributed.is_available():
+        torch.distributed.empty_cache()
 
 # Example usage
 if __name__ == "__main__":
@@ -414,6 +426,18 @@ if __name__ == "__main__":
     os.makedirs("models", exist_ok=True)
     save_path = os.path.join("models", model_name)
     os.makedirs(save_path, exist_ok=True)
+
+    # Parameters for Sampling params
+    vllm_temperature = 0.7
+    vllm_top_p = 1.0
+    vllm_max_new_tokens = 10240
+
+    sampling_params = SamplingParams(
+        temperature=vllm_temperature,
+        top_p=vllm_top_p,
+        max_tokens=vllm_max_new_tokens,
+        logprobs=1
+    )
 
     # Set device
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -431,29 +455,55 @@ if __name__ == "__main__":
     )
 
     # Generate text with first model and evaluate with second model
-    with open("visualize/samples.json", "r", encoding="utf-8") as f:
+    with open("samples.json", "r", encoding="utf-8") as f:
         questions = json.load(f)
     
+    prompts = []
+    prompt_to_q = {}
     for question in questions:
-
         raw_prompt = question['prompt']
         prompt = tokenizer.apply_chat_template(raw_prompt, tokenize=False, add_generation_prompt=True)
-        # Generate text and get log probs from first model
-        print("\nGenerating text with the final model...")
-        generated_text, token_log_probs = generate_with_log_probs(
-            model_final, tokenizer, prompt, max_new_tokens=16000,temperature=0.6, use_sdpa=False
-        )
-        print(f"Generated text: {generated_text}")
+        prompts.append(prompt)
+        prompt_to_q[prompt] = question
+    
+    vllm_instance = LLM(model=model_name_final, trust_remote_code=True)
+    print("Generating responses with vLLM...")
+    vllm_outputs = vllm_instance.general(prompts, sampling_params)
+    print("vLLM generation complete!")
 
-        pipeline(
-            generated_text=generated_text,
-            question=question,
-            save_path=save_path,
-            token_log_probs=token_log_probs,
-            prompt=prompt,
-            tokenizer=tokenizer,
-            ref_model_path=model_name_base,
-            final_model_name=final_model_name,
-            ref_model_name="Qwen2.5-Math-7B"
-        )
+    all_QA_pairs = []
+    for i, vllm_output in vllm_outputs:
+        prompt = vllm_output.prompt
+        generated_text = vllm_output.outputs[0].output
+        vllm_token_ids = vllm_output.outputs[0].token_ids
+        vllm_logprobs = vllm_output.outputs[0].logprobs
+
+        token_log_probs = []
+        for token_idx, token_id in enumerate(vllm_token_ids):
+            token_log_prob = vllm_logprobs[token_idx].get(token_id)
+            token_text = tokenizer.decode([token_id])
+            token_log_probs.append({
+                "token": token_text,
+                "log_prob": token_log_prob,
+                "token_id": token_id
+            })
+        
+        QA_pair = {
+            "prompt": prompt,
+            "question": prompt_to_q[prompt],
+            "generated_text": generated_text,
+            "token_log_probs": token_log_probs
+        }
+
+        all_QA_pairs.append(QA_pair)
+
+    # Calculate relative probabilities
+    pipeline(
+        all_QA_pairs=all_QA_pairs,
+        save_path=save_path,
+        tokenizer=tokenizer,
+        ref_model_path=model_name_base,
+        final_model_name=final_model_name,
+        ref_model_name="Qwen2.5-Math-7B"
+    )
 

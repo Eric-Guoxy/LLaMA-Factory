@@ -16,8 +16,10 @@ THOUGHT_DELIMITER_END = "</think>"
 def labeling_responses(responses: list[str], golden_answer: str):
     predict_answers = list(map(parse, responses))
     golden_answers = list(map(parse, ["$" + golden_answer + "$"] * len(responses)))
-    # print(golden_answers)
-    # print(predict_answers)
+    with open("golden_answers.json", "w", encoding="utf-8") as f:
+        json.dump(golden_answers, f, ensure_ascii=False)
+    with open("predict_answers.json", "w", encoding="utf-8") as f:
+        json.dump(predict_answers, f, ensure_ascii=False)
     labels = list(map(verify, golden_answers, predict_answers))
     return labels
 
