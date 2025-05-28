@@ -480,7 +480,7 @@ if __name__ == "__main__":
 
         token_log_probs = []
         for token_idx, token_id in enumerate(vllm_token_ids):
-            token_log_prob = vllm_logprobs[token_idx].get(token_id)
+            token_log_prob = vllm_logprobs[token_idx].get(token_id).logprob
             token_text = tokenizer.decode([token_id])
             token_log_probs.append({
                 "token": token_text,

@@ -412,28 +412,15 @@ def pipeline(all_QA_pairs, save_path, tokenizer, ref_model_path, final_model_nam
     if torch.distributed.is_available():
         torch.distributed.empty_cache()
 
-# Example usage
-if __name__ == "__main__":
+def main(generated_text_path=None):
     # Load models and tokenizer
-    model_name_final = "~/cth/cth/LLaMA-Factory/saves/Qwen2.5-Math-7B/full/sft_hard"
-    model_name = "Qwen2.5-Math-7B-hard"
+    model_name_final = "/data/cth/saves/Qwen2.5-Math-7B/full/sft_curr_part1"
+    model_name = "Qwen2.5-Math-7B-curr-part1"
     model_name_base = "/home/inspur/cth/models/Qwen2.5-Math-7B"
-    final_model_name = "Qwen2.5-Math-7B-hard"
+    final_model_name = "Qwen2.5-Math-7B-curr-part1"
     os.makedirs("models", exist_ok=True)
     save_path = os.path.join("models", model_name)
     os.makedirs(save_path, exist_ok=True)
-
-    # Parameters for Sampling params
-    vllm_temperature = 0.6
-    vllm_top_p = 1.0
-    vllm_max_new_tokens = 10240
-
-    sampling_params = SamplingParams(
-        temperature=vllm_temperature,
-        top_p=vllm_top_p,
-        max_tokens=vllm_max_new_tokens,
-        logprobs=1
-    )
 
     # Set device
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -453,22 +440,38 @@ if __name__ == "__main__":
         prompt = tokenizer.apply_chat_template(raw_prompt, tokenize=False, add_generation_prompt=True)
         prompts.append(prompt)
         prompt_to_q[prompt] = question
+
+    # Determine whether the generated text has already been stored to a file
+    if generated_text_path is not None:
+        
+
+    # Parameters for Sampling params
+    vllm_temperature = 0.6
+    vllm_top_p = 1.0
+    vllm_max_new_tokens = 10240
+
+    sampling_params = SamplingParams(
+        temperature=vllm_temperature,
+        top_p=vllm_top_p,
+        max_tokens=vllm_max_new_tokens,
+        logprobs=1
+    )
     
-    vllm_instance = LLM(model=model_name_final, trust_remote_code=True)
+    vllm_instance = LLM(model=model_name_final, trust_remote_code=True, tensor_parallel_size=torch.cuda.device_count())
     print("Generating responses with vLLM...")
-    vllm_outputs = vllm_instance.general(prompts, sampling_params)
+    vllm_outputs = vllm_instance.generate(prompts, sampling_params)
     print("vLLM generation complete!")
 
     all_QA_pairs = []
-    for i, vllm_output in vllm_outputs:
+    for i, vllm_output in enumerate(vllm_outputs):
         prompt = vllm_output.prompt
-        generated_text = vllm_output.outputs[0].output
+        generated_text = vllm_output.outputs[0].text
         vllm_token_ids = vllm_output.outputs[0].token_ids
         vllm_logprobs = vllm_output.outputs[0].logprobs
 
         token_log_probs = []
         for token_idx, token_id in enumerate(vllm_token_ids):
-            token_log_prob = vllm_logprobs[token_idx].get(token_id)
+            token_log_prob = vllm_logprobs[token_idx].get(token_id).logprob
             token_text = tokenizer.decode([token_id])
             token_log_probs.append({
                 "token": token_text,
@@ -495,3 +498,6 @@ if __name__ == "__main__":
         ref_model_name="Qwen2.5-Math-7B (base)"
     )
 
+
+if __name__ == "__main__":
+    main()
