@@ -44,7 +44,7 @@ run_evaluation() {
   (python ~/cth/LUFFY/eval_scripts/generate_vllm.py \
     --model_path "$current_model_to_eval_path" \
     --input_file "$DATA" \
-    --remove_system True \
+    --remove_system False \
     --output_file "$OUTPUT_DIR/${output_log_name}.jsonl" \
     --tensor_parallel_size=4 \
     --max_tokens 8192 \
