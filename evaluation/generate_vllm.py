@@ -58,7 +58,7 @@ def main(
     if force_generate or (not os.path.exists(dec_output_path)):
         # 数据处理
         messages = df['prompt'].tolist()
-        
+        assert remove_system is False
         if remove_system:
             print('remove system')
             assert messages[0][0]['role'] == 'system'

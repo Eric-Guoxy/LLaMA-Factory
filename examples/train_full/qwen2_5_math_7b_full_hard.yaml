@@ -1,5 +1,6 @@
+# --- OLD H20 ---
 ### model
-model_name_or_path: /home/inspur/cth/models/Qwen2.5-Math-7B
+model_name_or_path: /root/cth/cth/models/~/cth/cth/models/Qwen--Qwen2.5-Math-7B
 trust_remote_code: true
 
 ### method
@@ -19,12 +20,12 @@ overwrite_cache: true
 cutoff_len: 10240
 preprocessing_num_workers: 32
 dataloader_num_workers: 8
-cache_dir: ~/cth/LLaMA-Factory/data
+cache_dir: ~/cth/cth/LLaMA-Factory/data
 
 ### output
 output_dir: saves/Qwen2.5-Math-7B/full/sft_hard
 logging_steps: 10
-save_steps: 200
+save_steps: 80
 plot_loss: true
 overwrite_output_dir: true
 save_only_model: true
@@ -59,3 +60,66 @@ resume_from_checkpoint: null
 # test_temperature: 0.6
 # test_top_p: 1.0
 # test_max_tokens: 8192
+
+# --- NEW H20 ---
+# ### model
+# model_name_or_path: /home/inspur/cth/models/Qwen2.5-Math-7B
+# trust_remote_code: true
+
+# ### method
+# stage: sft
+# do_train: true
+# finetuning_type: full
+# deepspeed: examples/deepspeed/ds_z2_config.json  # choices: [ds_z0_config.json, ds_z2_config.json, ds_z3_config.json]
+
+# # KL loss specific parameters
+# use_kl_loss: false  # enable the KL loss
+# kl_beta: 0.0  # weight for the KL loss term (needs to be tuned)
+
+# ### dataset
+# dataset: openr1_hard_sft
+# template: qwen
+# overwrite_cache: true
+# cutoff_len: 10240
+# preprocessing_num_workers: 32
+# dataloader_num_workers: 8
+# cache_dir: ~/cth/LLaMA-Factory/data
+
+# ### output
+# output_dir: saves/Qwen2.5-Math-7B/full/sft_hard
+# logging_steps: 10
+# save_steps: 200
+# plot_loss: true
+# overwrite_output_dir: true
+# save_only_model: true
+# report_to: [wandb]  # choices: [none, wandb, tensorboard, swanlab, mlflow]
+
+# ### train
+# per_device_train_batch_size: 2
+# gradient_accumulation_steps: 16 # Maintain effective batch size: 4x2x16=128
+# learning_rate: 5.0e-5
+# num_train_epochs: 3.0
+# lr_scheduler_type: cosine
+# warmup_ratio: 0.1
+# bf16: true
+# ddp_timeout: 180000000
+# resume_from_checkpoint: null
+
+# ### eval
+# # eval_dataset: alpaca_en_demo
+# # val_size: 0.1
+# # per_device_eval_batch_size: 1
+# # eval_strategy: steps
+# # eval_steps: 500
+
+# ### test
+# # do_test: true
+# # test_steps: 500
+# # test_input_file: ~/cth/LLaMA-Factory/data/valid.all.parquet
+# # test_output_file: ~/cth/LLaMA-Factory/results/Qwen2.5B-Math-7B/Qwen2.5B-Math-7B-kl.log
+# # test_debug: false
+# # test_remove_system: true
+# # test_template: qwen
+# # test_temperature: 0.6
+# # test_top_p: 1.0
+# # test_max_tokens: 8192
