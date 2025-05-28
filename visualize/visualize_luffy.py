@@ -428,7 +428,7 @@ if __name__ == "__main__":
     os.makedirs(save_path, exist_ok=True)
 
     # Parameters for Sampling params
-    vllm_temperature = 0.7
+    vllm_temperature = 0.6
     vllm_top_p = 1.0
     vllm_max_new_tokens = 10240
 

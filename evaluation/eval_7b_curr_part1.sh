@@ -45,7 +45,7 @@ run_evaluation() {
   (python $LLAMA/evaluation/generate_vllm.py \
     --model_path "$current_model_to_eval_path" \
     --input_file "$DATA" \
-    --remove_system True \
+    --remove_system False \
     --add_oat_evaluate True \
     --output_file "$OUTPUT_DIR/${output_log_name}.jsonl" \
     --tensor_parallel_size=4 \
