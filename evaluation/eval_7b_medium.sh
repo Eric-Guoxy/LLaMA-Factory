@@ -16,7 +16,7 @@ if [ $MODEL_NAME == "eurus-2-7b-prime-zero" ]; then
 elif [ $MODEL_NAME == "simple-rl-zero" ]; then
   TEMPLATE=qwen
 else
-  TEMPLATE=own
+  TEMPLATE=qwen
 fi
 
 # --- Function to run evaluation ---
@@ -46,6 +46,7 @@ run_evaluation() {
     --model_path "$current_model_to_eval_path" \
     --input_file "$DATA" \
     --remove_system False \
+    --add_oat_evaluate True \
     --output_file "$OUTPUT_DIR/${output_log_name}.jsonl" \
     --tensor_parallel_size=4 \
     --max_tokens 8192 \
