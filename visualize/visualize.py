@@ -357,8 +357,9 @@ def pipeline(all_QA_pairs, save_path, tokenizer, ref_model_path, final_model_nam
         torch_dtype=torch.bfloat16,
         device_map="auto"
     )
-    
-    for QA_pair in all_QA_pairs:
+
+    saved_diff_probs = []
+    for all_QA_pairs in tqdm(all_QA_pairs, desc="Calculating differences in probs"):
         prompt = QA_pair['prompt']
         question = QA_pair['question']
         generated_text = QA_pair['generated_text']
@@ -367,6 +368,7 @@ def pipeline(all_QA_pairs, save_path, tokenizer, ref_model_path, final_model_nam
 
         save_path = os.path.join(save_path, ref_model_name)
         os.makedirs(save_path, exist_ok=True)
+        save_path = os.path.join(save_path, data_source)
 
         # Calculate log probs with ref model
         print(f"\nCalculating log probabilities with {ref_model_name}...")
@@ -398,15 +400,17 @@ def pipeline(all_QA_pairs, save_path, tokenizer, ref_model_path, final_model_nam
         print(f"Min difference: {min(prob_diffs):.6f}")
         print(f"Std deviation: {np.std(prob_diffs):.6f}")
 
-        metrics = {
-            "Mean difference": sum(prob_diffs) / len(prob_diffs),
-            "Max difference": max(prob_diffs),
-            "Min difference": min(prob_diffs),
-            "Std deviation": np.std(prob_diffs)
+        diff_probs = {
+            "prompt": prompt,
+            "generated_text": generated_text,
+            "diff_probs": prob_diffs
         }
 
-        with open(os.path.join(save_path, f"metrics_{question['data_source']}_{ref_model_name}"), "w", encoding="utf-8") as f:
-            json.dump(metrics, f, ensure_ascii=False, indent=4)
+        saved_diff_probs.append(diff_probs)
+    
+    # Save the saved_diff_probs to a file
+    with open(os.path.join(save_path, f"saved_diff_probs.json"), "w", encoding="utf-8") as f:
+        json.dump(saved_diff_probs, f, ensure_ascii=False, indent=4)
     
     # Clean up the memory of gpus for later usage
     if torch.distributed.is_available():
@@ -441,52 +445,85 @@ def main(generated_text_path=None):
         prompts.append(prompt)
         prompt_to_q[prompt] = question
 
-    # Determine whether the generated text has already been stored to a file
-    if generated_text_path is not None:
-        
-
-    # Parameters for Sampling params
-    vllm_temperature = 0.6
-    vllm_top_p = 1.0
-    vllm_max_new_tokens = 10240
-
-    sampling_params = SamplingParams(
-        temperature=vllm_temperature,
-        top_p=vllm_top_p,
-        max_tokens=vllm_max_new_tokens,
-        logprobs=1
+    # Load the final model
+    final_model = AutoModelForCausalLM(
+        model_name_final,
+        torch_dtype=torch.bfloat16,
+        device_map="auto"
     )
-    
-    vllm_instance = LLM(model=model_name_final, trust_remote_code=True, tensor_parallel_size=torch.cuda.device_count())
-    print("Generating responses with vLLM...")
-    vllm_outputs = vllm_instance.generate(prompts, sampling_params)
-    print("vLLM generation complete!")
 
     all_QA_pairs = []
-    for i, vllm_output in enumerate(vllm_outputs):
-        prompt = vllm_output.prompt
-        generated_text = vllm_output.outputs[0].text
-        vllm_token_ids = vllm_output.outputs[0].token_ids
-        vllm_logprobs = vllm_output.outputs[0].logprobs
+    # Determine whether the generated text has already been stored to a file
+    if generated_text_path is not None:
+        with open(generated_text_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        for item in data:
+            generated_text = item['generated_text']
+            prompt = item['prompt']
 
-        token_log_probs = []
-        for token_idx, token_id in enumerate(vllm_token_ids):
-            token_log_prob = vllm_logprobs[token_idx].get(token_id).logprob
-            token_text = tokenizer.decode([token_id])
-            token_log_probs.append({
-                "token": token_text,
-                "log_prob": token_log_prob,
-                "token_id": token_id
-            })
+            token_log_probs = calculate_text_log_probs(
+                final_model, 
+                tokenizer,
+                prompt,
+                generated_text,
+                use_sdpa=False,
+                batch_size=16
+            )
+
+            QA_pair = {
+                "prompt": prompt,
+                "question": prompt_to_q[prompt],
+                "generated_text": generated_text,
+                "token_log_probs": token_log_probs
+            }
+
+            all_QA_pairs.append(QA_pair)
+    else:
+        # Clean up the gpu memory for future usage
+        if torch.distributed.is_available():
+            torch.distinguish.empty_cache()
+
+        # Parameters for Sampling params
+        vllm_temperature = 0.6
+        vllm_top_p = 1.0
+        vllm_max_new_tokens = 10240
+
+        sampling_params = SamplingParams(
+            temperature=vllm_temperature,
+            top_p=vllm_top_p,
+            max_tokens=vllm_max_new_tokens,
+            logprobs=1
+        )
         
-        QA_pair = {
-            "prompt": prompt,
-            "question": prompt_to_q[prompt],
-            "generated_text": generated_text,
-            "token_log_probs": token_log_probs
-        }
+        vllm_instance = LLM(model=model_name_final, trust_remote_code=True, tensor_parallel_size=torch.cuda.device_count())
+        print("Generating responses with vLLM...")
+        vllm_outputs = vllm_instance.generate(prompts, sampling_params)
+        print("vLLM generation complete!")
 
-        all_QA_pairs.append(QA_pair)
+        for i, vllm_output in enumerate(vllm_outputs):
+            prompt = vllm_output.prompt
+            generated_text = vllm_output.outputs[0].text
+            vllm_token_ids = vllm_output.outputs[0].token_ids
+            vllm_logprobs = vllm_output.outputs[0].logprobs
+
+            token_log_probs = []
+            for token_idx, token_id in enumerate(vllm_token_ids):
+                token_log_prob = vllm_logprobs[token_idx].get(token_id).logprob
+                token_text = tokenizer.decode([token_id])
+                token_log_probs.append({
+                    "token": token_text,
+                    "log_prob": token_log_prob,
+                    "token_id": token_id
+                })
+            
+            QA_pair = {
+                "prompt": prompt,
+                "question": prompt_to_q[prompt],
+                "generated_text": generated_text,
+                "token_log_probs": token_log_probs
+            }
+
+            all_QA_pairs.append(QA_pair)
 
     # Calculate relative probabilities
     pipeline(
