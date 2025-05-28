@@ -368,7 +368,6 @@ def pipeline(all_QA_pairs, save_path, tokenizer, ref_model_path, final_model_nam
 
         save_path = os.path.join(save_path, ref_model_name)
         os.makedirs(save_path, exist_ok=True)
-        save_path = os.path.join(save_path, data_source)
 
         # Calculate log probs with ref model
         print(f"\nCalculating log probabilities with {ref_model_name}...")
