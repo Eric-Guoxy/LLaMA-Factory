@@ -359,7 +359,7 @@ def pipeline(all_QA_pairs, save_path, tokenizer, ref_model_path, final_model_nam
     )
 
     saved_diff_probs = []
-    for all_QA_pairs in tqdm(all_QA_pairs, desc="Calculating differences in probs"):
+    for QA_pair in tqdm(all_QA_pairs, desc="Calculating differences in probs"):
         prompt = QA_pair['prompt']
         question = QA_pair['question']
         generated_text = QA_pair['generated_text']
