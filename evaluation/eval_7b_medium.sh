@@ -2,7 +2,11 @@
 ROOT=~/cth/cth/LLaMA-Factory
 DATA=$ROOT/data/valid.all.parquet
 
-OUTPUT_DIR=$ROOT/results/Qwen2.5-Math-7B/full/sft_medium
+export NCCL_DEBUG=INFO
+export NCCL_NVLS_ENABLE=0
+export CUDA_VISIBLE_DEVICES=0,1,2,3
+
+OUTPUT_DIR=$ROOT/results/Qwen2.5-Math-7B/full/sft_medium_new
 mkdir -p $OUTPUT_DIR
 
 # --- Configuration for the base model ---
