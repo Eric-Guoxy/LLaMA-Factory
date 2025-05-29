@@ -276,15 +276,14 @@ def pipeline_ddp(
     args: argparse.Namespace,
     prompts_full: List[str],
     responses_full: List[str],
-    # data_sources_full: List[str], # Not used in this simplified pipeline, but could be
-    all_final_model_log_probs_full_gathered: List[List[Dict[str, Union[str, float]]]] # From final_model, gathered on rank 0
+    correctness_full: List[Optional[Union[str, float, bool]]], # Added correctness_full
+    all_final_model_log_probs_full_gathered: List[List[Dict[str, Union[str, float]]]]
 ):
     """
-    Main pipeline for DDP: loads ref_model, calculates its log_probs, and rank 0 visualizes.
+    Main pipeline for DDP: loads ref_model, calculates its log_probs, and rank 0 visualizes/saves.
     `all_final_model_log_probs_full_gathered` is assumed to be already computed and gathered on rank 0.
+    `correctness_full` contains correctness data for each sample, available on rank 0.
     """
-    # Tokenizer for ref model (can be same as final_model's tokenizer)
-    # Load on all ranks as it's used by batched_calculate_text_log_probs_ddp
     tokenizer = AutoTokenizer.from_pretrained(
         args.tokenizer_path if args.tokenizer_path else args.ref_model_path, 
         trust_remote_code=True,
@@ -326,7 +325,6 @@ def pipeline_ddp(
     if rank == 0:
         print("Rank 0: Gathering and processing results for reference model.")
         all_ref_model_log_probs_full_gathered = []
-        # Reconstruct the full list in the original order
         for i in range(len(prompts_full)):
             worker_idx = i % world_size
             item_idx_in_worker_shard = i // world_size
@@ -334,8 +332,7 @@ def pipeline_ddp(
                item_idx_in_worker_shard < len(gathered_ref_log_probs_obj[worker_idx]):
                 all_ref_model_log_probs_full_gathered.append(gathered_ref_log_probs_obj[worker_idx][item_idx_in_worker_shard])
             else:
-                 all_ref_model_log_probs_full_gathered.append([]) # Append empty if data was missing (e.g. uneven sharding)
-
+                 all_ref_model_log_probs_full_gathered.append([])
 
         print(f"Finished calculating and gathering ref_model log_probs. Total samples: {len(all_ref_model_log_probs_full_gathered)}")
 
@@ -343,32 +340,86 @@ def pipeline_ddp(
             os.makedirs(args.save_dir, exist_ok=True)
             print(f"Created save directory: {args.save_dir}")
 
-        final_model_name_sanitized = args.final_model_name.replace("/", "_").replace("\\","_")
-        ref_model_name_sanitized = args.ref_model_name.replace("/", "_").replace("\\","_")
+        final_model_name_sanitized = args.final_model_name.replace("/", "_").replace("\\\\","_")
+        ref_model_name_sanitized = args.ref_model_name.replace("/", "_").replace("\\\\","_")
 
-        num_samples_to_visualize = min(len(prompts_full), args.num_visualization_examples)
-        print(f"Generating visualizations for the first {num_samples_to_visualize} samples...")
+        num_samples_to_process = len(prompts_full)
+        print(f"Generating visualizations for the first {args.num_visualization_examples} samples and prob diff data for all {num_samples_to_process} samples...")
 
-        for i in tqdm(range(num_samples_to_visualize), desc="Rank 0: Generating/saving visualizations"):
+        all_samples_prob_diff_data = []
+
+        for i in tqdm(range(num_samples_to_process), desc="Rank 0: Processing samples for viz/data"):
             prompt_text = prompts_full[i]
+            correctness_value = correctness_full[i] # Get correctness for the current sample
             
             final_model_lp_sample = all_final_model_log_probs_full_gathered[i]
             ref_model_lp_sample = all_ref_model_log_probs_full_gathered[i]
 
-            output_html_filename = os.path.join(
-                args.save_dir,
-                f"prob_diff_target_{final_model_name_sanitized}_vs_ref_{ref_model_name_sanitized}_sample_{i}.html"
-            )
-            
-            visualize_log_prob_differences_only_prob(
-                prompt=prompt_text,
-                final_model_name=args.final_model_name,
-                ref_model_name=args.ref_model_name,
-                token_log_probs=final_model_lp_sample,    # Log probs from final model
-                response_log_probs=ref_model_lp_sample, # Log probs from reference model
-                output_file=output_html_filename
-            )
-        print(f"Visualizations saved to {args.save_dir}")
+            sample_prob_diff_entry = {
+                "prompt": prompt_text,
+                "correctness": correctness_value, # Add correctness to the entry
+                "final_model_name": args.final_model_name,
+                "ref_model_name": args.ref_model_name,
+                "token_analysis": []
+            }
+
+            if final_model_lp_sample and ref_model_lp_sample:
+                min_len = min(len(final_model_lp_sample), len(ref_model_lp_sample))
+                if min_len > 0:
+                    tokens = [item["token"] for item in final_model_lp_sample[:min_len]]
+                    final_log_probs = [item["log_prob"] for item in final_model_lp_sample[:min_len]]
+                    ref_log_probs = [item["log_prob"] for item in ref_model_lp_sample[:min_len]]
+
+                    final_probs = [np.exp(lp) for lp in final_log_probs]
+                    ref_probs = [np.exp(lp) for lp in ref_log_probs]
+                    
+                    for token_idx in range(min_len):
+                        token_str = tokens[token_idx]
+                        fp = final_probs[token_idx]
+                        rp = ref_probs[token_idx]
+                        diff = fp - rp
+                        sample_prob_diff_entry["token_analysis"].append({
+                            "token": token_str,
+                            "final_model_prob": float(fp),
+                            "ref_model_prob": float(rp),
+                            "prob_difference": float(diff)
+                        })
+            all_samples_prob_diff_data.append(sample_prob_diff_entry)
+
+            # Generate HTML visualization only for the specified number of examples
+            if i < args.num_visualization_examples:
+                output_html_filename = os.path.join(
+                    args.save_dir,
+                    f"prob_diff_target_{final_model_name_sanitized}_vs_ref_{ref_model_name_sanitized}_sample_{i}.html"
+                )
+                
+                visualize_log_prob_differences_only_prob(
+                    prompt=prompt_text,
+                    final_model_name=args.final_model_name,
+                    ref_model_name=args.ref_model_name,
+                    token_log_probs=final_model_lp_sample,
+                    response_log_probs=ref_model_lp_sample,
+                    output_file=output_html_filename
+                )
+        
+        if args.num_visualization_examples > 0 and args.num_visualization_examples <= num_samples_to_process :
+             print(f"Visualizations for the first {args.num_visualization_examples} samples saved to {args.save_dir}")
+        elif args.num_visualization_examples > num_samples_to_process :
+             print(f"Visualizations for all {num_samples_to_process} samples saved to {args.save_dir}")
+
+
+        # Save the collected probability difference data
+        prob_diff_data_output_filename = os.path.join(
+            args.save_dir,
+            f"prob_diff_details_target_{final_model_name_sanitized}_vs_ref_{ref_model_name_sanitized}.jsonl"
+        )
+        try:
+            with open(prob_diff_data_output_filename, 'w', encoding='utf-8') as f_jsonl:
+                for entry in all_samples_prob_diff_data:
+                    f_jsonl.write(json.dumps(entry) + '\\n')
+            print(f"Detailed probability differences saved to {prob_diff_data_output_filename}")
+        except Exception as e:
+            print(f"Error saving probability difference data to {prob_diff_data_output_filename}: {e}")
 
     # Synchronize all processes before cleanup, especially if rank 0 was doing I/O
     if world_size > 1:
@@ -384,7 +435,6 @@ def main_worker(rank: int, world_size: int, args: argparse.Namespace):
     setup_ddp(rank, world_size, args.master_port)
     
     # Load tokenizer (same for all ranks, used by both models)
-    # It's okay to load it on all ranks, it's not a huge overhead.
     tokenizer = AutoTokenizer.from_pretrained(
         args.tokenizer_path if args.tokenizer_path else args.final_model_path, 
         trust_remote_code=True,
@@ -392,47 +442,45 @@ def main_worker(rank: int, world_size: int, args: argparse.Namespace):
     )
 
     # Rank 0 loads data and prepares it for broadcasting
-    # (prompts_full, responses_full, etc.)
     data_to_broadcast = {}
     if rank == 0:
         print(f"Rank 0: Loading data from {args.data_path}")
         raw_data = read_jsonl_file(args.data_path)
         if not raw_data:
             print("Rank 0: No data loaded. Exiting.")
-            # Signal other ranks to exit or handle error appropriately
-            # For simplicity, we might let them proceed and get empty broadcasted data.
-            # A more robust solution would involve explicit error propagation.
-            data_to_broadcast = {"prompts": [], "responses": [], "error": True}
+            data_to_broadcast = {"prompts": [], "responses": [], "correctness": [], "error": True}
         else:
             prompts_full = [item[args.prompt_column] for item in raw_data]
             responses_full = [item[args.response_column] for item in raw_data]
-            # data_sources_full = [item.get(args.source_column, f"item_{idx}") for idx, item in enumerate(raw_data)] # If needed
-            data_to_broadcast = {"prompts": prompts_full, "responses": responses_full, "error": False}
+            correctness_full = [item.get(args.correctness_column) for item in raw_data] # Get correctness
+            data_to_broadcast = {
+                "prompts": prompts_full, 
+                "responses": responses_full, 
+                "correctness": correctness_full, # Add correctness to broadcast
+                "error": False
+            }
             print(f"Rank 0: Loaded {len(prompts_full)} samples.")
 
     # Broadcast data object from rank 0 to all other ranks
     if world_size > 1:
-        # PyTorch's broadcast_object_list is a common way for this.
-        # Rank 0 creates a list with its object, others with None.
-        # After broadcast, all ranks in the list will have the object from src=0.
         object_list = [data_to_broadcast if rank == 0 else None for _ in range(world_size)]
-        dist.broadcast_object_list(object_list, src=0) # object_list is modified in-place for all ranks
-        if rank != 0: # Other ranks take the broadcasted object
+        dist.broadcast_object_list(object_list, src=0)
+        if rank != 0:
             data_to_broadcast = object_list[0] 
 
     if data_to_broadcast.get("error", False) and rank ==0:
         print("Error in data loading on Rank 0. Aborting.")
         cleanup_ddp()
         return
-    elif data_to_broadcast.get("error", False): # Other ranks also see error
+    elif data_to_broadcast.get("error", False):
         cleanup_ddp()
         return
 
-
     prompts_full = data_to_broadcast["prompts"]
     responses_full = data_to_broadcast["responses"]
+    correctness_full = data_to_broadcast["correctness"] # Retrieve correctness
 
-    if not prompts_full: # All ranks check if data is empty
+    if not prompts_full:
         if rank == 0: print("No data to process after broadcast. Exiting.")
         cleanup_ddp()
         return
@@ -458,14 +506,13 @@ def main_worker(rank: int, world_size: int, args: argparse.Namespace):
         processing_batch_size=args.hf_processing_batch_size, rank=rank
     )
 
-    # Gather results for all_final_model_log_probs to rank 0
     gathered_final_log_probs_obj = [None] * world_size
     if world_size > 1:
         dist.all_gather_object(gathered_final_log_probs_obj, all_final_model_log_probs_shard)
     else:
         gathered_final_log_probs_obj = [all_final_model_log_probs_shard]
 
-    all_final_model_log_probs_full_gathered = [] # This will only be fully populated on rank 0
+    all_final_model_log_probs_full_gathered = []
     if rank == 0:
         print("Rank 0: Gathering and processing results for final/target model.")
         for i in range(len(prompts_full)):
@@ -483,19 +530,14 @@ def main_worker(rank: int, world_size: int, args: argparse.Namespace):
     if hasattr(torch.cuda, 'empty_cache'):
         torch.cuda.empty_cache()
     if world_size > 1:
-        dist.barrier() # Ensure all ranks have finished with final_model
+        dist.barrier()
 
-    # --- Call the pipeline for the reference model ---
-    # pipeline_ddp will load ref_model, calculate its log_probs, gather, and rank 0 will visualize/save.
-    # It needs the gathered log_probs from the final_model (only rank 0 has the full list).
-    # So, pipeline_ddp needs to be aware that only rank 0 has this full list.
-    # The current pipeline_ddp structure is fine as rank 0 does the visualization.
-    
     pipeline_ddp(
         rank=rank, world_size=world_size, args=args,
         prompts_full=prompts_full,
         responses_full=responses_full,
-        all_final_model_log_probs_full_gathered=all_final_model_log_probs_full_gathered # Rank 0 has it, others have empty list
+        correctness_full=correctness_full, # Pass correctness here
+        all_final_model_log_probs_full_gathered=all_final_model_log_probs_full_gathered
     )
     
     cleanup_ddp()
@@ -509,6 +551,7 @@ if __name__ == "__main__":
     parser.add_argument("--data_path", type=str, required=True, help="Path to the .jsonl data file.")
     parser.add_argument("--prompt_column", type=str, default="prompt", help="Column name for prompts in the JSONL file.")
     parser.add_argument("--response_column", type=str, default="response", help="Column name for responses in the JSONL file.")
+    parser.add_argument("--correctness_column", type=str, default="correctness", help="Column name for correctness data in the JSONL file (optional).")
     # parser.add_argument("--source_column", type=str, default="source", help="Column name for data source (optional).")
     parser.add_argument("--save_dir", type=str, default="./vis_results_ddp", help="Directory to save visualizations.")
     parser.add_argument("--final_model_name", type=str, default="FinalModel", help="Name for the final model in visualizations.")
