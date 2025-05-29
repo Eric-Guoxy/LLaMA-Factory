@@ -182,9 +182,6 @@ def main(
         print(f'Error: {e}')
         print(f'Output file: {output_file}')
     
-    # Clean up gpu memory usage for future utilation
-    if torch.distributed.is_available():
-        torch.distributed.empty_cache()
 
 def generate_vllm(messages, model_path, template='own', temperature=0.6, top_p=0.95, max_tokens=8192, tensor_parallel_size=1, n=1):
     #vllm模型加载

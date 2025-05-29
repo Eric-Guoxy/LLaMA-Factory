@@ -274,26 +274,17 @@ def calculate_text_log_probs(
     return token_log_probs
 
 def batched_calculate_text_log_probs(
-    model: AutoModelForCausalLM,
+    model: Union[AutoModelForCausalLM, torch.nn.DataParallel], # Model can be DP-wrapped
     tokenizer: AutoTokenizer,
     prompts: List[str],
     responses: List[str],
-    processing_batch_size: int = 8
+    processing_batch_size: int = 8,
+    primary_device: Optional[torch.device] = None # Pass the primary device
 ) -> List[List[Dict[str, Union[str, float]]]]:
     """
     Calculate log probabilities for each token in given responses using Hugging Face Transformers.
     Internally processes the input prompts/responses in chunks of `processing_batch_size`.
-
-    Args:
-        model: The Hugging Face AutoModelForCausalLM.
-        tokenizer: The Hugging Face AutoTokenizer.
-        prompts: A list of input prompt texts.
-        responses: A list of response texts corresponding to each prompt.
-        processing_batch_size (int): Number of samples to process in one forward pass.
-
-    Returns:
-        A list of lists, where each inner list contains dictionaries of
-        (token, log_prob, token_id) for the response of the corresponding input sample.
+    If model is DataParallel, primary_device should be set for correct input tensor placement.
     """
     if not prompts or not responses:
         if len(prompts) == 0 and len(responses) == 0:
@@ -304,6 +295,21 @@ def batched_calculate_text_log_probs(
 
     num_total_samples = len(prompts)
     all_log_probs_for_all_samples = [[] for _ in range(num_total_samples)]
+
+    # Determine the device for input tensors
+    if primary_device is None:
+        # Fallback if not provided, but it's better to pass it explicitly
+        if isinstance(model, torch.nn.DataParallel):
+            # DataParallel replicates the module, parameters are on multiple devices.
+            # Input should go to the device of the first module replica (usually cuda:0)
+            # This assumes model.module exists and has parameters.
+            primary_device = next(model.module.parameters()).device
+        else:
+            primary_device = next(model.parameters()).device
+    
+    # Get the actual model config, handling DataParallel wrapper
+    model_config = model.module.config if isinstance(model, torch.nn.DataParallel) else model.config
+
 
     for i in tqdm(range(0, num_total_samples, processing_batch_size), desc="Calculating log probabilities (HF)"):
         current_prompts_chunk = prompts[i:i + processing_batch_size]
@@ -320,16 +326,19 @@ def batched_calculate_text_log_probs(
             return_tensors="pt",
             padding=True,
             truncation=True,
-            max_length=model.config.max_position_embeddings if hasattr(model.config, 'max_position_embeddings') else 2048,
+            max_length=model_config.max_position_embeddings if hasattr(model_config, 'max_position_embeddings') else 2048,
             add_special_tokens=True
         )
 
-        sub_batch_input_ids = tokenized_sub_batch.input_ids.to(model.device)
-        sub_batch_attention_mask = tokenized_sub_batch.attention_mask.to(model.device)
+        # Move input tensors to the primary device for DataParallel
+        sub_batch_input_ids = tokenized_sub_batch.input_ids.to(primary_device)
+        sub_batch_attention_mask = tokenized_sub_batch.attention_mask.to(primary_device)
+        
         num_samples_in_chunk = sub_batch_input_ids.shape[0]
         log_probs_for_current_chunk_processing = [[] for _ in range(num_samples_in_chunk)]
 
         with torch.no_grad():
+            # DataParallel handles scattering the input and gathering the output
             outputs = model(sub_batch_input_ids, attention_mask=sub_batch_attention_mask)
             logits_sub_batch = outputs.logits
             
@@ -656,27 +665,50 @@ def pipeline(prompts: List[str],
              final_model_name: str, 
              ref_model_name: str,
              hf_processing_batch_size: int = 8,
-             profile_ref_model_chunks: Optional[int] = None,
-             profile_output_dir: str = "profiles"
 ):
+    # Determine primary device for model loading
+    primary_device_for_models = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(f"Primary device for loading models: {primary_device_for_models}")
+
     # Load ref model for response evaluation
-    print(f"Loading {ref_model_name}...")
-    ref_model = AutoModelForCausalLM.from_pretrained(
+    print(f"Loading {ref_model_name} to {primary_device_for_models}...")
+    _ref_model = AutoModelForCausalLM.from_pretrained(
         ref_model_path,
         torch_dtype=torch.bfloat16,
-        device_map="auto"
+        # No device_map="auto" here
     )
-    ref_model.eval()
-    print("Reference Model Device Map:", ref_model.hf_device_map)
-    ref_model = torch.compile(ref_model, mode="max-autotune")
+    _ref_model.to(primary_device_for_models)
+    _ref_model.eval()
+    
+    # print(f"Compiling {ref_model_name} with torch.compile(mode=\"reduce-overhead\")...")
+    # try:
+    #     _ref_model_compiled = torch.compile(_ref_model, mode="reduce-overhead")
+    #     print(f"{ref_model_name} compiled successfully.")
+    # except Exception as e:
+    #     print(f"Failed to compile {ref_model_name}: {e}. Using uncompiled model.")
+    #     _ref_model_compiled = _ref_model # Fallback to uncompiled
+
+    # ref_model_for_dp = _ref_model_compiled # Use compiled model for DP
+    ref_model_for_dp = _ref_model
+
+    if torch.cuda.is_available() and torch.cuda.device_count() > 1:
+        print(f"Using torch.nn.DataParallel for {ref_model_name} across {torch.cuda.device_count()} GPUs.")
+        ref_model_for_dp = torch.nn.DataParallel(ref_model_for_dp)
+        # Note: After DataParallel, accessing original attributes might need .module
+        # e.g., ref_model_for_dp.module.config
+    
+    # The model passed to batched_calculate_text_log_probs is now potentially DP-wrapped
+    # Its parameters are on multiple devices if DP is used.
+    # Input tensors inside batched_calculate_text_log_probs need to go to primary_device_for_models.
 
     print(f"\nCalculating log probabilities with {ref_model_name} for all samples (batched)...")
     all_ref_model_response_log_probs = batched_calculate_text_log_probs(
-        model=ref_model,
+        model=ref_model_for_dp, # Pass the (potentially DP-wrapped) model
         tokenizer=tokenizer,
-        prompts=prompts, # The original prompts
-        responses=responses, # The generated texts from final_model
-        processing_batch_size=hf_processing_batch_size, # As per your visible code snippet
+        prompts=prompts, 
+        responses=responses, 
+        processing_batch_size=hf_processing_batch_size,
+        primary_device=primary_device_for_models # Specify primary device for input tensors
     )
 
     # ref_llm_engine = LLM(
@@ -789,108 +821,121 @@ def pipeline(prompts: List[str],
     print(f"Finished processing for reference model: {ref_model_name}")
 
 if __name__ == "__main__":
-    # Load models and tokenizer and generated_text
-    generated_text_path = "/data/cth/results/Qwen2.5-Math-7B/full/sft_curr_part1/Qwen2.5-Math-7B-full-sft-curr-part1-final-sft.jsonl"
-    model_name_final = "/data/cth/saves/Qwen2.5-Math-7B/full/sft_curr_part1"
-    model_name = "Qwen2.5-Math-7B-curr-part1"
-    model_name_base = "/home/inspur/cth/models/Qwen2.5-Math-7B"
+    # ... (setup paths, names, etc.) ...
+    generated_text_path = "/data/cth/results/Qwen2.5-Math-7B/full/sft_curr_part2/Qwen2.5-Math-7B-full-sft-curr-part2-final-sft.jsonl"
+    model_name_final_hf = "/data/cth/saves/Qwen2.5-Math-7B/full/sft_curr_part2" # Renamed for clarity
+    model_name_base_hf = "/home/inspur/cth/models/Qwen2.5-Math-7B" # Renamed for clarity
     dataset_path = "~/cth/LLaMA-Factory/data/valid.all.parquet"
-    final_model_name = "Qwen2.5-Math-7B-curr-part1"
-    os.makedirs("models", exist_ok=True)
-    save_path = os.path.join("models", model_name)
-    os.makedirs(save_path, exist_ok=True)
-
-    # Expand user path for dataset_path
+    final_model_display_name = "Qwen2.5-Math-7B-curr-part2"
+    ref_model_display_name = "Qwen2.5-Math-7B (base)"
+    
+    save_path_root = os.path.join("models", final_model_display_name) 
+    os.makedirs(save_path_root, exist_ok=True)
     dataset_path = os.path.expanduser(dataset_path)
 
-    profile_output_dir_main = "profiles_main" # Directory for profiler outputs
+    # Determine primary device for model loading
+    primary_device_for_models = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    print(f"Primary device for loading models: {primary_device_for_models}")
+    print(f"Using device: {primary_device_for_models}") # General device info
 
-    # Set device
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    print(f"Using device: {device}")
+    tokenizer = AutoTokenizer.from_pretrained(model_name_final_hf)
 
-    # Load tokenizer (using the first model's tokenizer)
-    tokenizer = AutoTokenizer.from_pretrained(model_name_final)
+    # ... (load data_sources, generate texts if needed) ...
+    try:
+        df = pd.read_parquet(dataset_path)
+        data_sources = df['data_source'].tolist()
+    except Exception as e:
+        print(f"Error reading data_sources from {dataset_path}: {e}")
+        data_sources = []
 
-    df = pd.read_parquet(dataset_path)
-    data_sources = df['data_source'].tolist()
-    
-    # Determine whether the generated text has already been stored to a file
     if not os.path.exists(generated_text_path):
+        print(f"Generated text file not found at {generated_text_path}. Generating...")
+        # Assuming generate_vllm_main is correctly defined and imported
         generate_vllm_main(
             input_file=dataset_path,
             output_file=generated_text_path,
-            model_path=model_name_final,
-            tokenizer_path=model_name_final,
-            remove_system=False,
-            template='qwen',
-            add_oat_evaluate=True,
-            tensor_parallel_size=torch.cuda.device_count()
+            model_path=model_name_final_hf, # Assuming vLLM uses the same path
+            tokenizer_path=model_name_final_hf,
+            remove_system=False, 
+            template='qwen',     
+            add_oat_evaluate=True, 
+            tensor_parallel_size=torch.cuda.device_count() if torch.cuda.is_available() else 1
         )
-
-    # Load tokenizer (using the first model's tokenizer)
-    tokenizer = AutoTokenizer.from_pretrained(model_name_final)
-
-    # Load the final model
-    final_model = AutoModelForCausalLM.from_pretrained(
-        model_name_final,
-        torch_dtype=torch.bfloat16,
-        device_map="auto"
-    )
-    final_model.eval()
-    print("Final Model Device Map:", final_model.hf_device_map)
-    final_model = torch.compile(final_model, mode="max-autotune")
+    else:
+        print(f"Using existing generated text file: {generated_text_path}")
     
+    data = read_jsonl_file(generated_text_path)
     prompts = []
     responses = []
-    data = read_jsonl_file(generated_text_path)
-
     for item in data:
-        prompt = item['prompt']
-        response = item['generated_text']
-        prompts.append(prompt)
-        responses.append(response)
+        prompts.append(item.get('prompt', ''))
+        responses.append(item.get('generated_text', item.get('answer', '')))
     
+    if not prompts:
+        print(f"No prompts/responses loaded from {generated_text_path}. Exiting.")
+        exit(1)
+    
+    if data_sources and len(data_sources) != len(prompts):
+        print(f"Warning: Length of data_sources ({len(data_sources)}) does not match "
+              f"number of prompts/responses ({len(prompts)}). Adjusting data_sources.")
+        if len(data_sources) > len(prompts):
+            data_sources = data_sources[:len(prompts)]
+        else:
+            data_sources.extend([f"sample_{idx+len(data_sources)}" for idx in range(len(prompts) - len(data_sources))])
+
+
+    # Load the final model
+    print(f"Loading final model ({final_model_display_name}) from {model_name_final_hf} to {primary_device_for_models}...")
+    _final_model = AutoModelForCausalLM.from_pretrained(
+        model_name_final_hf,
+        torch_dtype=torch.bfloat16,
+        # No device_map="auto"
+    )
+    _final_model.to(primary_device_for_models)
+    _final_model.eval()
+
+    # print(f"Compiling final model ({final_model_display_name}) with torch.compile(mode=\"reduce-overhead\")...")
+    # try:
+    #     _final_model_compiled = torch.compile(_final_model, mode="reduce-overhead")
+    #     print(f"Final model ({final_model_display_name}) compiled successfully.")
+    # except Exception as e:
+    #     print(f"Failed to compile final model ({final_model_display_name}): {e}. Using uncompiled model.")
+    #     _final_model_compiled = _final_model # Fallback
+
+    # final_model_for_dp = _final_model_compiled
+    final_model_for_dp = _final_model
+
+    if torch.cuda.is_available() and torch.cuda.device_count() > 1:
+        print(f"Using torch.nn.DataParallel for final model ({final_model_display_name}) across {torch.cuda.device_count()} GPUs.")
+        final_model_for_dp = torch.nn.DataParallel(final_model_for_dp)
+    
+    print(f"Calculating log probabilities with HF for final_model: {final_model_display_name}")
     all_token_log_probs = batched_calculate_text_log_probs(
-        model=final_model,
+        model=final_model_for_dp, # Pass the (potentially DP-wrapped) model
         tokenizer=tokenizer,
         responses=responses,
         prompts=prompts,
-        processing_batch_size=4,
+        processing_batch_size=4, # This will be split across GPUs by DataParallel
+        primary_device=primary_device_for_models # Specify primary device
     )
 
-    # llm_engine = LLM(
-    #     model=model_name_final,
-    #     tokenizer=model_name_final,
-    #     tensor_parallel_size=torch.cuda.device_count(),
-    #     dtype="bfloat16",
-    #     trust_remote_code=True
-    # )
-
-    # print(f"Calculating log probs for model: {model_name_final}")
-    # all_token_log_probs = vllm_calculate_text_log_probs(
-    #     llm_engine=llm_engine,
-    #     tokenizer=tokenizer,
-    #     prompts=prompts,
-    #     responses=responses,
-    # )
-
-    # Clean up final_model to free memory before loading ref_model if memory is tight
-    print(f"Deleting final model: {final_model_name}")
-    del final_model
+    print(f"Deleting final model: {final_model_display_name}")
+    del _final_model, final_model_for_dp
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
 
-    # Calculate relative probabilities
+    # Call pipeline
     pipeline(
         prompts=prompts,
         responses=responses,
         data_sources=data_sources,
         all_token_log_probs=all_token_log_probs,
-        save_path=save_path,
+        save_path=save_path_root,
         tokenizer=tokenizer,
-        ref_model_path=model_name_base,
-        final_model_name=final_model_name,
-        ref_model_name="Qwen2.5-Math-7B (base)",
-        hf_processing_batch_size=4
+        ref_model_path=model_name_base_hf,
+        final_model_name=final_model_display_name,
+        ref_model_name=ref_model_display_name,
+        hf_processing_batch_size=4 # This will be split across GPUs by DataParallel inside pipeline
     )
+
+    print("Visualization pipeline finished.")
