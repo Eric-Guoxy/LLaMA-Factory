@@ -1,16 +1,34 @@
-import os
+from typing import List, Dict, Tuple, Union, Optional, Any # Added Any for flexibility
+import torch.nn.functional as F # For F.log_softmax
+from torch.nn.parallel import DistributedDataParallel as DDP # For DDP type hint
 import argparse
+import os
 import json
-from typing import List, Dict, Union, Optional
-
-import numpy as np
 import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
-from torch.nn.parallel import DistributedDataParallel as DDP
-import torch.nn.functional as F
+from transformers import AutoTokenizer, AutoModelForCausalLM
 from tqdm import tqdm
-from transformers import AutoModelForCausalLM, AutoTokenizer
+import numpy as np
+import glob
+import importlib.util # Added for dynamic import
+import sys # Added for sys.path manipulation
+
+# --- Imports for dynamic generation ---
+# Assuming __file__ is /home/inspur/cth/LLaMA-Factory/visualize/diff_prob_ddp.py
+current_script_dir = os.path.dirname(os.path.abspath(__file__))
+llama_factory_root_dir = os.path.abspath(os.path.join(current_script_dir, ".."))
+
+if llama_factory_root_dir not in sys.path:
+    sys.path.insert(0, llama_factory_root_dir)
+
+try:
+    from eval.generate_vllm import main as generate_vllm_main
+except ImportError as e:
+    print(f"Could not import generate_vllm.main: {e}")
+    print("Please ensure LLaMA-Factory root is in PYTHONPATH or script is run from a location that allows the import.")
+    generate_vllm_main = None # Placeholder if import fails
+# --- End imports for dynamic generation ---
 
 # #############################################
 # # Helper Functions (mostly from visualize.py)
@@ -430,9 +448,12 @@ def pipeline_ddp(
 # # Main DDP Worker and Entry Point
 # #############################################
 
-def main_worker(rank: int, world_size: int, args: argparse.Namespace):
+def main_worker(rank, world_size, args):
     """Main worker function for each DDP process."""
     setup_ddp(rank, world_size, args.master_port)
+    
+    # Expand user paths for data loading (already done for args.data_path before spawn)
+    # Tokenizer path and model paths are handled by from_pretrained
     
     # Load tokenizer (same for all ranks, used by both models)
     tokenizer = AutoTokenizer.from_pretrained(
@@ -444,10 +465,10 @@ def main_worker(rank: int, world_size: int, args: argparse.Namespace):
     # Rank 0 loads data and prepares it for broadcasting
     data_to_broadcast = {}
     if rank == 0:
-        print(f"Rank 0: Loading data from {args.data_path}")
-        raw_data = read_jsonl_file(args.data_path)
+        print(f"Rank 0: Loading data from {args.data_path}") # args.data_path is already absolute
+        raw_data = read_jsonl_file(args.data_path) # read_jsonl_file handles os.path.expanduser internally
         if not raw_data:
-            print("Rank 0: No data loaded. Exiting.")
+            print(f"Rank 0: No data loaded from {args.data_path}. Exiting.")
             data_to_broadcast = {"prompts": [], "responses": [], "correctness": [], "error": True}
         else:
             prompts_full = [item[args.prompt_column] for item in raw_data]
@@ -548,12 +569,11 @@ if __name__ == "__main__":
     parser.add_argument("--final_model_path", type=str, required=True, help="Path to the final/target model.")
     parser.add_argument("--ref_model_path", type=str, required=True, help="Path to the reference model.")
     parser.add_argument("--tokenizer_path", type=str, default=None, help="Path to tokenizer (if different from model path).")
-    parser.add_argument("--data_path", type=str, required=True, help="Path to the .jsonl data file.")
+    parser.add_argument("--data_path", type=str, required=True, help="Path to the .jsonl data file. If not found, attempts to generate it if --gen_input_path is provided.")
     parser.add_argument("--prompt_column", type=str, default="prompt", help="Column name for prompts in the JSONL file.")
     parser.add_argument("--response_column", type=str, default="generated_text", help="Column name for responses in the JSONL file.")
     parser.add_argument("--correctness_column", type=str, default="correctness", help="Column name for correctness data in the JSONL file (optional).")
-    # parser.add_argument("--source_column", type=str, default="source", help="Column name for data source (optional).")
-    parser.add_argument("--save_dir", type=str, default="./vis_results_ddp", help="Directory to save visualizations.")
+    parser.add_argument("--save_dir", type=str, default="./vis_results_ddp", help="Directory to save visualizations and potentially generated data.")
     parser.add_argument("--final_model_name", type=str, default="FinalModel", help="Name for the final model in visualizations.")
     parser.add_argument("--ref_model_name", type=str, default="ReferenceModel", help="Name for the reference model in visualizations.")
     parser.add_argument("--hf_processing_batch_size", type=int, default=8, help="Batch size for Hugging Face log prob calculation.")
@@ -563,26 +583,159 @@ if __name__ == "__main__":
     parser.add_argument("--find_unused_parameters", action='store_true', help="Set find_unused_parameters=True for DDP.")
     parser.add_argument("--use_fast_tokenizer", type=bool, default=True, help="Whether to use fast tokenizer if available.")
 
+    # Arguments for generating data_path file if it doesn't exist
+    gen_group = parser.add_argument_group('Generation Arguments (for auto-creating data_path)')
+    gen_group.add_argument("--gen_script_path", type=str, default="../eval/generate_vllm.py", help="Path to the generate_vllm.py script, relative to this script's directory or absolute.")
+    gen_group.add_argument("--gen_input_path", type=str, default=None, help="Path to the input Parquet dataset for generate_vllm.py (e.g., valid_all.parquet). Required if data_path is to be auto-generated.")
+    gen_group.add_argument("--gen_model_path", type=str, default=None, help="Model path for generate_vllm.py. Defaults to --final_model_path.")
+    gen_group.add_argument("--gen_tokenizer_path", type=str, default=None, help="Tokenizer path for generate_vllm.py. Defaults to --tokenizer_path, then --gen_model_path, then --final_model_path.")
+    gen_group.add_argument("--gen_template", type=str, default="own", help="Template for generate_vllm.py. E.g., 'own', 'qwen', 'oat'.")
+    gen_group.add_argument("--gen_max_new_tokens", type=int, default=8192, help="max_tokens for generate_vllm.py (maps to its max_tokens).")
+    gen_group.add_argument("--gen_top_p", type=float, default=1.0, help="top_p for generate_vllm.py.")
+    gen_group.add_argument("--gen_temperature", type=float, default=0.6, help="temperature for generate_vllm.py.")
+    gen_group.add_argument("--gen_tp_size", type=int, default=1, help="Tensor parallel size for generate_vllm.py.")
+    gen_group.add_argument("--gen_overwrite_output", action="store_true", help="Allow generate_vllm.py to overwrite its own intermediate output file (maps to its force_generate=True).")
+    gen_group.add_argument("--gen_remove_system", action="store_true", default=True, help="remove_system flag for generate_vllm.py (default: True).")
+    gen_group.add_argument("--gen_no_remove_system", action="store_false", dest="gen_remove_system", help="Explicitly do not remove system prompt for generate_vllm.py (sets remove_system=False).")
+    gen_group.add_argument("--gen_n", type=int, default=1, help="Number of sequences to generate per prompt for generate_vllm.py.")
+    gen_group.add_argument("--gen_add_think_before_answer", action="store_true", help="add_think_before_answer flag for generate_vllm.py.")
+    gen_group.add_argument("--gen_add_oat_evaluate", action="store_true", help="add_oat_evaluate flag for generate_vllm.py.")
+    gen_group.add_argument("--gen_skip_scoring", action="store_true", default=False, help="skip_scoring flag for generate_vllm.py. If True, correctness column might be missing. Overridden to False if --correctness_column is set for diff_prob_ddp.")
+    gen_group.add_argument("--gen_no_split_think", action="store_true", help="no_split_think flag for generate_vllm.py.")
 
     args = parser.parse_args()
 
-    if not torch.cuda.is_available() or torch.cuda.device_count() == 0:
-        print("CUDA is not available or no GPUs detected. DDP requires CUDA-enabled GPUs.")
-        exit(1)
-        
-    world_size = torch.cuda.device_count()
-    print(f"Found {world_size} GPUs. Spawning DDP processes.")
+    # Resolve paths and prepare for potential generation
+    args.final_model_path = os.path.abspath(os.path.expanduser(args.final_model_path))
+    args.ref_model_path = os.path.abspath(os.path.expanduser(args.ref_model_path))
+    if args.tokenizer_path:
+        args.tokenizer_path = os.path.abspath(os.path.expanduser(args.tokenizer_path))
+    args.data_path = os.path.abspath(os.path.expanduser(args.data_path))
+    args.save_dir = os.path.abspath(os.path.expanduser(args.save_dir))
 
-    # Create save_dir on rank 0 equivalent (main process before spawn) if it doesn't exist
-    # This is safer as all ranks might try to create it simultaneously later.
-    if not os.path.exists(args.save_dir):
+    if args.gen_input_path:
+        args.gen_input_path = os.path.abspath(os.path.expanduser(args.gen_input_path))
+    if args.gen_model_path:
+        args.gen_model_path = os.path.abspath(os.path.expanduser(args.gen_model_path))
+    if args.gen_tokenizer_path:
+        args.gen_tokenizer_path = os.path.abspath(os.path.expanduser(args.gen_tokenizer_path))
+
+    if not os.path.isabs(args.gen_script_path):
+        args.gen_script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), args.gen_script_path))
+    else:
+        args.gen_script_path = os.path.abspath(os.path.expanduser(args.gen_script_path))
+
+    os.makedirs(args.save_dir, exist_ok=True)
+
+    generate_vllm_main_func = None
+    if os.path.exists(args.gen_script_path):
+        original_sys_path = list(sys.path)
+        gen_script_module_dir = os.path.dirname(args.gen_script_path)
+        project_root_for_gen_script = os.path.dirname(gen_script_module_dir)
         try:
-            os.makedirs(args.save_dir, exist_ok=True)
-            print(f"Main process created save directory: {args.save_dir}")
-        except OSError as e:
-            print(f"Main process: Error creating directory {args.save_dir}: {e}")
-            # Decide if to exit or let DDP ranks handle it. For now, proceed.
+            sys.path.insert(0, project_root_for_gen_script) 
+            sys.path.insert(0, gen_script_module_dir)
+            
+            spec = importlib.util.spec_from_file_location("generate_vllm_module", args.gen_script_path)
+            if spec and spec.loader:
+                generate_vllm_module = importlib.util.module_from_spec(spec)
+                sys.modules["generate_vllm_module"] = generate_vllm_module
+                spec.loader.exec_module(generate_vllm_module)
+                generate_vllm_main_func = generate_vllm_module.main
+                print(f"Successfully imported main from {args.gen_script_path}")
+            else:
+                print(f"Warning: Could not create spec or loader for {args.gen_script_path}")
+        except ImportError as e:
+            print(f"Warning: Could not import main from {args.gen_script_path} due to ImportError: {e}")
+            print(f"Current sys.path during import attempt: {sys.path}")
+        except Exception as e:
+            print(f"Warning: Could not import main from {args.gen_script_path} due to an unexpected error: {e}")
+        finally:
+            sys.path = original_sys_path
+    else:
+        print(f"Warning: Generation script path {args.gen_script_path} does not exist. Automatic data generation will not be possible.")
 
-    mp.spawn(main_worker, args=(world_size, args), nprocs=world_size, join=True)
-    print("All DDP processes finished.")
+    if not os.path.exists(args.data_path):
+        if args.gen_input_path and generate_vllm_main_func:
+            print(f"Data file not found at {args.data_path}. Attempting to generate it using {args.gen_script_path}...")
+            
+            actual_gen_model_path = args.gen_model_path if args.gen_model_path else args.final_model_path
+            actual_gen_tokenizer_path = args.gen_tokenizer_path if args.gen_tokenizer_path else \
+                                       (args.tokenizer_path if args.tokenizer_path else actual_gen_model_path)
+
+            gen_params = {
+                "input_file": args.gen_input_path,
+                "output_file": args.data_path,
+                "model_path": actual_gen_model_path,
+                "tokenizer_path": actual_gen_tokenizer_path,
+                "remove_system": args.gen_remove_system,
+                "template": args.gen_template,
+                "temperature": args.gen_temperature,
+                "top_p": args.gen_top_p,
+                "max_tokens": args.gen_max_new_tokens,
+                "n": args.gen_n,
+                "force_generate": args.gen_overwrite_output,
+                "add_think_before_answer": args.gen_add_think_before_answer,
+                "add_oat_evaluate": args.gen_add_oat_evaluate,
+                "skip_scoring": args.gen_skip_scoring,
+                "no_split_think": args.gen_no_split_think,
+                "tensor_parallel_size": args.gen_tp_size,
+            }
+
+            if args.correctness_column and args.correctness_column.strip():
+                if gen_params["skip_scoring"]:
+                    print(f"Warning: --correctness_column ('{args.correctness_column}') is set, "
+                          f"but --gen_skip_scoring was also True. Overriding gen_skip_scoring to False for generation.")
+                gen_params["skip_scoring"] = False
+            
+            print(f"Calling {args.gen_script_path} main function with parameters:")
+            for key, value in gen_params.items():
+                print(f"  {key}: {value}")
+
+            try:
+                os.makedirs(os.path.dirname(args.data_path), exist_ok=True)
+                generate_vllm_main_func(**gen_params)
+                print(f"Successfully generated data at {args.data_path}.")
+                if not os.path.exists(args.data_path):
+                    potential_decoded_file = args.data_path.replace('.jsonl', '') + '.decoded.jsonl'
+                    if os.path.exists(potential_decoded_file):
+                         print(f"Note: The primary output file {args.data_path} was not found, "
+                               f"but its .decoded version {potential_decoded_file} exists. "
+                               "This might indicate an issue in the scoring/final saving step of generate_vllm.py. "
+                               "diff_prob_ddp.py will proceed with the main data_path if it now exists, or fail if it's still missing.")
+                    else:
+                        print(f"Error: Generation script seemed to complete, but the output file {args.data_path} was not created, "
+                              f"and its intermediate .decoded.jsonl version was also not found.")
+                    raise RuntimeError(f"Failed to generate data file {args.data_path}: File not found after generation call.")
+
+            except Exception as e:
+                print(f"Error during data generation with {args.gen_script_path}: {e}")
+                potential_decoded_file = args.data_path.replace('.jsonl', '') + '.decoded.jsonl'
+                if os.path.exists(potential_decoded_file):
+                    print(f"An intermediate decoded file was found: {potential_decoded_file}. "
+                          "This might contain the generated texts but not the full scored output. "
+                          "The error likely occurred during the scoring or final saving phase in generate_vllm.py.")
+                raise RuntimeError(f"Failed to generate data file {args.data_path} using {args.gen_script_path}") from e
+
+        elif not args.gen_input_path and generate_vllm_main_func:
+            print(f"Data file not found at {args.data_path}, but --gen_input_path (for the Parquet source) is not provided. Cannot auto-generate.")
+            raise FileNotFoundError(f"Required data file {args.data_path} not found and --gen_input_path missing.")
+        elif not generate_vllm_main_func:
+            print(f"Data file not found at {args.data_path}, and the generation script's main function could not be loaded from {args.gen_script_path}. Cannot auto-generate.")
+            raise FileNotFoundError(f"Required data file {args.data_path} not found and generation script main function unavailable/unloadable from {args.gen_script_path}.")
+        else: 
+             raise FileNotFoundError(f"Required data file {args.data_path} not found and unable to determine generation possibility due to an unexpected state.")
+
+    if not os.path.exists(args.data_path):
+        raise FileNotFoundError(f"Data file {args.data_path} still not found after checking/attempting generation. Cannot proceed.")
+
+    world_size = torch.cuda.device_count()
+    if world_size == 0:
+        raise RuntimeError("No CUDA devices found. DDP requires CUDA.")
+    print(f"Found {world_size} CUDA devices.")
+
+    os.environ['MASTER_ADDR'] = 'localhost'
+    os.environ['MASTER_PORT'] = args.master_port
+
+    mp.spawn(main_worker, nprocs=world_size, args=(world_size, args))
 

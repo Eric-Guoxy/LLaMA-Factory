@@ -657,6 +657,7 @@ def vllm_calculate_text_log_probs(
 
 def pipeline(prompts: List[str], 
              responses: List[str], 
+             all_correctness: List[str],
              data_sources: List[str], 
              all_token_log_probs: List[List[Dict[str, Union[str, float]]]], 
              save_path: str, 
@@ -798,7 +799,8 @@ def pipeline(prompts: List[str],
             "mean_diff": sum(prob_diffs) / len(prob_diffs) if prob_diffs else None,
             "max_diff": max(prob_diffs) if prob_diffs else None,
             "min_diff": min(prob_diffs) if prob_diffs else None,
-            "std_diff": np.std(prob_diffs) if prob_diffs else None
+            "std_diff": np.std(prob_diffs) if prob_diffs else None,
+            "correctness": all_correctness[i]
         }
         saved_diff_probs_overall.append(diff_entry)
     
@@ -868,9 +870,11 @@ if __name__ == "__main__":
     data = read_jsonl_file(generated_text_path)
     prompts = []
     responses = []
+    all_correctness = []
     for item in data:
         prompts.append(item.get('prompt', ''))
         responses.append(item.get('generated_text', item.get('answer', '')))
+        all_correctness.append(item.get('correctness', ''))
     
     if not prompts:
         print(f"No prompts/responses loaded from {generated_text_path}. Exiting.")
@@ -929,6 +933,7 @@ if __name__ == "__main__":
     pipeline(
         prompts=prompts,
         responses=responses,
+        all_correctness=all_correctness,
         data_sources=data_sources,
         all_token_log_probs=all_token_log_probs,
         save_path=save_path_root,
