@@ -26,9 +26,17 @@ def labeling_responses(responses: list[str], golden_answer: str):
 
 def apply_qwen_math_template(question: str):
     return (
-        "<|im_start|>system Your task is to follow a systematic, thorough reasoning process before providing the final solution. This involves analyzing, summarizing, exploring, reassessing, and refining your thought process through multiple iterations. Structure your response into two sections: Thought and Solution. In the Thought section, present your reasoning using the format: \"<think>\n {{thoughts}} </think>\n\". Each thought should include detailed analysis, brainstorming, verification, and refinement of ideas. After \"</think>\n,\" in the Solution section, provide the final, logical, and accurate answer, clearly derived from the exploration in the Thought section. If applicable, include the answer in \\boxed{{}} for closed-form results like multiple choices or mathematical solutions. "
+        "<|im_start|>system\nPlease reason step by step, and put your final answer within \\boxed{}.<|im_end|>\n<|im_start|>user\n"
         + question
         + "<|im_end|>\n<|im_start|>assistant\n"
+    )
+
+def apply_oat_template(question: str):
+    return (
+        "A conversation between User and Assistant. The User asks a question, and the Assistant solves it. The Assistant first thinks about the reasoning process in the mind and then provides the User with the answer. "
+        "The reasoning process is enclosed within <think> </think> and answer is enclosed within <answer> </answer> tags, respectively, i.e., <think> reasoning process here </think> <answer> answer here </answer>.\nUser: "
+        + question
+        + "\nAssistant: <think>"
     )
 
 def main(
@@ -58,7 +66,6 @@ def main(
     if force_generate or (not os.path.exists(dec_output_path)):
         # 数据处理
         messages = df['prompt'].tolist()
-        assert remove_system is False
         if remove_system:
             print('remove system')
             assert messages[0][0]['role'] == 'system'
@@ -209,6 +216,10 @@ def generate_vllm(messages, model_path, template='own', temperature=0.6, top_p=0
                 tokenize=False,
                 add_generation_prompt=True
         )
+        elif template == 'qwen_basic':
+            gen_prompt = apply_qwen_math_template(cur_message[0]['content']) # cur_message[0] for 'system' dict, cur_message[1] for 'user' dict. If remove_system=True, cur_message[0] for 'user' dict
+        elif template == 'oat':
+            gen_prompt = apply_oat_template(cur_message[0]['content'])
         elif template == 'no':
             gen_prompt = cur_message[0]['content']
         else: raise ValueError(f'Invalid template: {template}')

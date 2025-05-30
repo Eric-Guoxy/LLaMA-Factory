@@ -1,6 +1,8 @@
 # This file extracts one question for each data source in the benchmark.
 import json
 import os
+from transformers import AutoTokenizer
+import tqdm
 
 def read_jsonl_file(file_path):
     """
@@ -86,12 +88,26 @@ def add_correctness(jsonl_file_path, dataset_path, output_jsonl_path):
         new_diffs_items.append(diffs_item)
 
     write_jsonl_file(new_diffs_items, output_jsonl_path)
+
+def avg_tokens_response(tokenizer_path, data_jsonl_file):
+    data = read_jsonl_file(data_jsonl_file)
+    responses = [item['generated_text'] for item in data]
+
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
     
+    responses_tokenized = tokenizer(
+        responses,
+        return_tensors="pt",
+        padding=True,
+        truncation=True,
+        max_length=16384,
+        add_special_tokens=True
+    )
 
     
 
 
 if __name__ == '__main__':
-    output_jsonl_path = "/home/inspur/cth/LLaMA-Factory/visualize/models/Qwen2.5-Math-7B-curr-part2/Qwen2.5-Math-7B_base/all_samples_diff_probs_summary_add_correctness.jsonl"
+    output_jsonl_path = "/home/inspur/cth/LLaMA-Factory/visualize/models/Qwen2.5-Math-7B-Oat-Zero/Qwen2.5-Math-7B-Oat-Zero-eval.jsonl"
     data = read_jsonl_file(output_jsonl_path)
     import pdb; pdb.set_trace()

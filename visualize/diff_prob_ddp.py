@@ -550,7 +550,7 @@ if __name__ == "__main__":
     parser.add_argument("--tokenizer_path", type=str, default=None, help="Path to tokenizer (if different from model path).")
     parser.add_argument("--data_path", type=str, required=True, help="Path to the .jsonl data file.")
     parser.add_argument("--prompt_column", type=str, default="prompt", help="Column name for prompts in the JSONL file.")
-    parser.add_argument("--response_column", type=str, default="response", help="Column name for responses in the JSONL file.")
+    parser.add_argument("--response_column", type=str, default="generated_text", help="Column name for responses in the JSONL file.")
     parser.add_argument("--correctness_column", type=str, default="correctness", help="Column name for correctness data in the JSONL file (optional).")
     # parser.add_argument("--source_column", type=str, default="source", help="Column name for data source (optional).")
     parser.add_argument("--save_dir", type=str, default="./vis_results_ddp", help="Directory to save visualizations.")

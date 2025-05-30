@@ -326,7 +326,7 @@ def batched_calculate_text_log_probs(
             return_tensors="pt",
             padding=True,
             truncation=True,
-            max_length=model_config.max_position_embeddings if hasattr(model_config, 'max_position_embeddings') else 2048,
+            max_length=16384,
             add_special_tokens=True
         )
 
@@ -811,7 +811,7 @@ def pipeline(prompts: List[str],
     
     # Clean up the reference model and GPU memory
     print(f"Deleting reference model: {ref_model_name}")
-    del ref_model 
+    del _ref_model 
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
     # If torch.distributed was initialized by this model and needs specific cleanup:
@@ -822,11 +822,11 @@ def pipeline(prompts: List[str],
 
 if __name__ == "__main__":
     # ... (setup paths, names, etc.) ...
-    generated_text_path = "/data/cth/results/Qwen2.5-Math-7B/full/sft_curr_part2/Qwen2.5-Math-7B-full-sft-curr-part2-final-sft.jsonl"
-    model_name_final_hf = "/data/cth/saves/Qwen2.5-Math-7B/full/sft_curr_part2" # Renamed for clarity
+    generated_text_path = "/home/inspur/cth/LLaMA-Factory/visualize/models/Qwen2.5-Math-7B-Oat-Zero-oat-prompt/Qwen2.5-Math-7B-Oat-Zero-oat-prompt-eval.jsonl"
+    model_name_final_hf = "/home/inspur/cth/models/Qwen2.5-Math-7B-Oat-Zero" # Renamed for clarity
     model_name_base_hf = "/home/inspur/cth/models/Qwen2.5-Math-7B" # Renamed for clarity
     dataset_path = "~/cth/LLaMA-Factory/data/valid.all.parquet"
-    final_model_display_name = "Qwen2.5-Math-7B-curr-part2"
+    final_model_display_name = "Qwen2.5-Math-7B-Oat-Zero-oat-prompt"
     ref_model_display_name = "Qwen2.5-Math-7B (base)"
     
     save_path_root = os.path.join("models", final_model_display_name) 
@@ -856,10 +856,11 @@ if __name__ == "__main__":
             output_file=generated_text_path,
             model_path=model_name_final_hf, # Assuming vLLM uses the same path
             tokenizer_path=model_name_final_hf,
-            remove_system=False, 
-            template='qwen',     
+            max_tokens=16384,
+            remove_system=True, 
+            template='oat',     
             add_oat_evaluate=True, 
-            tensor_parallel_size=torch.cuda.device_count() if torch.cuda.is_available() else 1
+            tensor_parallel_size=4
         )
     else:
         print(f"Using existing generated text file: {generated_text_path}")

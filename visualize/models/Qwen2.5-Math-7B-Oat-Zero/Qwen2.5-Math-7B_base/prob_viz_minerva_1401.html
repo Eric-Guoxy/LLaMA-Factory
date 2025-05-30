@@ -1,0 +1,68 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; padding: 20px; background-color: #f9f9f9; color: #333; }
+    .text-container { background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; line-height: 1.8; font-size: 16px; overflow-wrap: break-word; }
+    .token { display: inline; padding: 2px 1px; border-radius: 2px; }
+    .legend { display: flex; margin: 10px 0 20px; justify-content: center; font-size: 14px; }
+    .legend-item { margin: 0 15px; display: flex; align-items: center; }
+    .color-box { width: 20px; height: 20px; margin-right: 5px; border-radius: 3px; }
+    h1 { text-align: center; color: #444; margin-bottom: 25px; }
+    .model-info-container {
+        display: flex;
+        justify-content: center; /* Centers the items horizontally */
+        align-items: center; /* Aligns items vertically if they have different heights */
+        gap: 25px; /* Adds space between the model info items */
+        padding: 12px; /* Adds some internal spacing */
+        margin-bottom: 20px; /* Space below this section */
+        background-color: #f0f0f0; /* A light background to distinguish the section */
+        border-radius: 5px; /* Rounded corners for a softer look */
+        font-size: 14px; /* Consistent font size, similar to legend */
+        color: #555; /* Slightly muted text color */
+        flex-wrap: wrap; /* Allows items to wrap to the next line on smaller screens */
+    }
+    </style>
+    </head>
+    <body>
+    <h1>Token Probability Visualization</h1>
+    <div class="model-info-container">
+        <span><strong>Generate Model:</strong> Qwen2.5-Math-7B-Oat-Zero </span>
+        <span><strong>Reference Model:</strong> Qwen2.5-Math-7B (base) </span>
+    </div>
+    <div class="legend">
+        <div class="legend-item">
+            <div class="color-box" style="background-color: rgba(100, 149, 237, 0.7);"></div>
+            <span>Lower Probability After LUFFY</span>
+        </div>
+        <div class="legend-item">
+            <div class="color-box" style="background-color: white;"></div>
+            <span>Similar Probability</span>
+        </div>
+        <div class="legend-item">
+            <div class="color-box" style="background-color: rgba(240, 128, 128, 0.7);"></div>
+            <span>Higher Probability After LUFFY</span>
+        </div>
+    </div>
+    <div class="text-container">
+    <span><|im_start|>system
+Your task is to follow a systematic, thorough reasoning process before providing the final solution. This involves analyzing, summarizing, exploring, reassessing, and refining your thought process through multiple iterations. Structure your response into two sections: Thought and Solution. In the Thought section, present your reasoning using the format: "<think>
+ {thoughts} </think>
+". Each thought should include detailed analysis, brainstorming, verification, and refinement of ideas. After "</think>
+," in the Solution section, provide the final, logical, and accurate answer, clearly derived from the exploration in the Thought section. If applicable, include the answer in \boxed{} for closed-form results like multiple choices or mathematical solutions.<|im_end|>
+<|im_start|>user
+Subproblem 0: What is the working temperature for silica glass in Celsius?
+
+
+Solution: \boxed{1950}.
+
+Final answer: The final answer is 1950. I hope it is correct.
+
+Subproblem 1: What is the softening temperature for silica glass in Celsius?<|im_end|>
+<|im_start|>assistant
+</span><br><span class="token" style="background-color: rgba(100, 149, 237, 0.22883929728266805)" title="Prob M1: 0.601811, Prob M2: 0.830650, Diff: -0.228839">Sub</span><span class="token" style="background-color: rgba(240, 128, 128, 0.001698832387656557)" title="Prob M1: 0.999367, Prob M2: 0.997668, Diff: 0.001699">problem</span><span class="token" style="background-color: rgba(240, 128, 128, 0.0025367157740563417)" title="Prob M1: 0.996755, Prob M2: 0.994218, Diff: 0.002537"> </span><span class="token" style="background-color: rgba(100, 149, 237, 0.07252117624032373)" title="Prob M1: 0.583295, Prob M2: 0.655816, Diff: -0.072521">1</span><span class="token" style="background-color: rgba(240, 128, 128, 0.0022220007801044828)" title="Prob M1: 0.985037, Prob M2: 0.982815, Diff: 0.002222">:</span><span class="token" style="background-color: rgba(240, 128, 128, 0.32177439253691886)" title="Prob M1: 0.599464, Prob M2: 0.277690, Diff: 0.321774"> The</span><span class="token" style="background-color: rgba(240, 128, 128, 0.031952489428521136)" title="Prob M1: 0.987325, Prob M2: 0.955372, Diff: 0.031952"> soft</span><span class="token" style="background-color: rgba(240, 128, 128, 0.0005985820053967528)" title="Prob M1: 0.999756, Prob M2: 0.999157, Diff: 0.000599">ening</span><span class="token" style="background-color: rgba(240, 128, 128, 0.007539837356482004)" title="Prob M1: 0.992036, Prob M2: 0.984496, Diff: 0.007540"> temperature</span><span class="token" style="background-color: rgba(240, 128, 128, 0.02346412333835557)" title="Prob M1: 0.987505, Prob M2: 0.964041, Diff: 0.023464"> for</span><span class="token" style="background-color: rgba(240, 128, 128, 0.007423281579173713)" title="Prob M1: 0.996557, Prob M2: 0.989134, Diff: 0.007423"> silica</span><span class="token" style="background-color: rgba(240, 128, 128, 0.0014285239137139527)" title="Prob M1: 0.999325, Prob M2: 0.997897, Diff: 0.001429"> glass</span><span class="token" style="background-color: rgba(240, 128, 128, 0.03833222876509168)" title="Prob M1: 0.720273, Prob M2: 0.681941, Diff: 0.038332"> is</span><span class="token" style="background-color: rgba(240, 128, 128, 0.1496217387322541)" title="Prob M1: 0.402461, Prob M2: 0.252840, Diff: 0.149622"> approximately</span><span class="token" style="background-color: rgba(240, 128, 128, 0.040254922130669724)" title="Prob M1: 0.879056, Prob M2: 0.838801, Diff: 0.040255"> </span><span class="token" style="background-color: rgba(240, 128, 128, 0.03907370161523094)" title="Prob M1: 0.978028, Prob M2: 0.938954, Diff: 0.039074">1</span><span class="token" style="background-color: rgba(240, 128, 128, 0.14486960102765373)" title="Prob M1: 0.512749, Prob M2: 0.367879, Diff: 0.144870">6</span><span class="token" style="background-color: rgba(240, 128, 128, 0.025289480919649443)" title="Prob M1: 0.552252, Prob M2: 0.526963, Diff: 0.025289">0</span><span class="token" style="background-color: rgba(240, 128, 128, 0.0028276317210563784)" title="Prob M1: 0.997714, Prob M2: 0.994886, Diff: 0.002828">0</span><span class="token" style="background-color: rgba(240, 128, 128, 0.05039346105668008)" title="Prob M1: 0.470525, Prob M2: 0.420132, Diff: 0.050393">°C</span><span class="token" style="background-color: rgba(240, 128, 128, 0.39380528699419626)" title="Prob M1: 0.728763, Prob M2: 0.334958, Diff: 0.393805">.</span>
+    </div>
+    </body>
+    </html>
+    
