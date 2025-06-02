@@ -824,15 +824,16 @@ def pipeline(prompts: List[str],
 
 if __name__ == "__main__":
     # ... (setup paths, names, etc.) ...
-    generated_text_path = "/home/inspur/cth/LLaMA-Factory/visualize/models/Qwen2.5-Math-7B-Oat-Zero-oat-prompt/Qwen2.5-Math-7B-Oat-Zero-oat-prompt-eval.jsonl"
-    model_name_final_hf = "/home/inspur/cth/models/Qwen2.5-Math-7B-Oat-Zero" # Renamed for clarity
-    model_name_base_hf = "/home/inspur/cth/models/Qwen2.5-Math-7B" # Renamed for clarity
-    dataset_path = "~/cth/LLaMA-Factory/data/valid.all.parquet"
-    final_model_display_name = "Qwen2.5-Math-7B-Oat-Zero-oat-prompt"
+    generated_text_path = "/root/cth/cth/LLaMA-Factory/visualize/models/Qwen2.5-Math-7B-final-sft/Qwen2.5-Math-7B-final-sft-eval.jsonl"
+    model_name_final_hf = "/root/cth/cth/LLaMA-Factory/saves/Qwen2.5-Math-7B/full/sft_correct" # Renamed for clarity
+    model_name_base_hf = "/root/cth/cth/models/Qwen--Qwen2.5-Math-7B" # Renamed for clarity
+    dataset_path = "/root/cth/cth/LLaMA-Factory/data/valid.all.parquet"
+    final_model_display_name = "Qwen2.5-Math-7B-final-sft"
     ref_model_display_name = "Qwen2.5-Math-7B (base)"
     
     save_path_root = os.path.join("models", final_model_display_name) 
     os.makedirs(save_path_root, exist_ok=True)
+    generated_text_path = os.path.expanduser(generated_text_path)
     dataset_path = os.path.expanduser(dataset_path)
 
     # Determine primary device for model loading
@@ -859,8 +860,8 @@ if __name__ == "__main__":
             model_path=model_name_final_hf, # Assuming vLLM uses the same path
             tokenizer_path=model_name_final_hf,
             max_tokens=16384,
-            remove_system=True, 
-            template='oat',     
+            remove_system=False, 
+            template='qwen',     
             add_oat_evaluate=True, 
             tensor_parallel_size=4
         )
@@ -920,7 +921,7 @@ if __name__ == "__main__":
         tokenizer=tokenizer,
         responses=responses,
         prompts=prompts,
-        processing_batch_size=4, # This will be split across GPUs by DataParallel
+        processing_batch_size=2, # This will be split across GPUs by DataParallel
         primary_device=primary_device_for_models # Specify primary device
     )
 
@@ -941,7 +942,7 @@ if __name__ == "__main__":
         ref_model_path=model_name_base_hf,
         final_model_name=final_model_display_name,
         ref_model_name=ref_model_display_name,
-        hf_processing_batch_size=4 # This will be split across GPUs by DataParallel inside pipeline
+        hf_processing_batch_size=2 # This will be split across GPUs by DataParallel inside pipeline
     )
 
     print("Visualization pipeline finished.")
