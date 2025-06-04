@@ -4,6 +4,8 @@ DATA=$ROOT/data/valid.all.parquet
 OUTPUT_DIR=$ROOT/results/DeepScaleR-1.5B-Preview/base
 mkdir -p $OUTPUT_DIR
 
+output_log_name=""
+
 export NCCL_NVLS_ENABLE=0
 export CUDA_VISIBLE_DEVICES=4,5,6,7
 
@@ -27,7 +29,7 @@ fi
 run_evaluation() {
   local current_model_to_eval_path="$1"
   local name_suffix="$2"
-  local output_log_name="${BASE_MODEL_NAME}-${name_suffix}"
+  output_log_name="${BASE_MODEL_NAME}-${name_suffix}"
 
   echo ""
   echo "========================================================================"
@@ -98,4 +100,17 @@ echo "Starting visualization..."
 echo "Log directory: $OUTPUT_DIR"
 echo "========================================================================"
 
+# --- Calculating Entropy Section --- 
+echo ""
+echo "========================================================================"
+echo "Starting evaluation for: $current_model_to_eval_path"
+echo "Output files will be named: ${output_log_name}.jsonl / .log"
+echo "========================================================================"
+output_file="$OUTPUT_DIR/${output_log_name}.jsonl"
+
+(python $ROOT/evaluation/entropy.py \
+  --generated_text_path "$output_file" \
+  --model_path "$BASE_MODEL_PATH" \
+  --save_path "$OUTPUT_DIR/${BASE_MODEL_NAME}-entropies.jsonl" \
+  --use_batched_version False) 2>&1 | tee "$OUTPUT_DIR/${output_log_name}.log" 
 

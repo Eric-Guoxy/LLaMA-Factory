@@ -192,3 +192,15 @@ all_samples*
 prob.json
 probs.json
 openr1_8k_incorrect_sft.json
+*.decode.jsonl
+*-eval.jsonl
+visualize/compare/Qwen2.5-Math-7B-base.jsonl
+visualize/compare/dataset-oat-base.json                     
+visualize/compare/dataset_oat_base_sample.json              
+visualize/compare/dataset_sft_base_sample.json  
+openr1_merged.json
+visualize/compare/Qwen2.5-Math-7B-full-sft-final-sft.jsonl
+visualize/models/DeepScaleR-1.5B-Preview/DeepScaleR-1.5B-Preview-eval.decoded.jsonl 
+visualize/models/Qwen2.5-Math-7B-final-sft/Qwen2.5-Math-7B-final-sft-eval.decoded.jsonl  
+visualize/compare/dataset_sft_base.json
+visualize/models/Qwen2.5-Math-7B-sft/Qwen2.5-Math-7B/response_log_probs_Qwen2.5-Math-7B-sft.json
