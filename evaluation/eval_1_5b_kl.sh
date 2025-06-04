@@ -19,7 +19,7 @@ if [ $MODEL_NAME == "eurus-2-7b-prime-zero" ]; then
 elif [ $MODEL_NAME == "simple-rl-zero" ]; then
   TEMPLATE=qwen
 else
-  TEMPLATE=own
+  TEMPLATE=qwen
 fi
 
 # --- Function to run evaluation ---

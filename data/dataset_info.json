@@ -745,11 +745,27 @@
       "system": "system"
     }
   },
+  "openr1_8k_incorrect_sft": {
+    "file_name": "openr1_8k_incorrect_sft.json",
+    "columns": {
+      "prompt": "prompt",
+      "response": "response",
+      "system": "system"
+    }
+  },
   "openr1_5k_samples": {
     "file_name": "openr1_5k_samples.json",
     "columns": {
       "prompt": "query",
       "response": "answer",
+      "system": "system"
+    }
+  },
+  "openr1_merged": {
+    "file_name": "openr1_merged.json",
+    "columns": {
+      "prompt": "prompt",
+      "response": "response",
       "system": "system"
     }
   }

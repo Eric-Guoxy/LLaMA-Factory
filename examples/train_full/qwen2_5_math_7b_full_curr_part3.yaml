@@ -1,5 +1,5 @@
 ### model
-model_name_or_path: /data/cth/saves/Qwen2.5-Math-7B/full/sft_curr_part2
+model_name_or_path: /data/cth/saves/Qwen2.5-Math-7B/sft_curr_part2/checkpoint-396
 trust_remote_code: true
 
 ### method
@@ -39,7 +39,7 @@ lr_scheduler_type: cosine
 warmup_ratio: 0.0
 bf16: true
 ddp_timeout: 180000000
-resume_from_checkpoint: /data/cth/saves/Qwen2.5-Math-7B/full/sft_curr_part2
+resume_from_checkpoint: /data/cth/saves/Qwen2.5-Math-7B/sft_curr_part2/checkpoint-396
 
 ### eval
 # eval_dataset: alpaca_en_demo

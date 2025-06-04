@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from utils.utils import read_file
+from utils import read_jsonl_file
 import torch
 import argparse
 import math
@@ -207,7 +207,7 @@ if __name__ == '__main__':
 
     print(f"Using device: {device}")
     print(f"Loading data from {generated_text_path}...")
-    data = read_file(generated_text_path) # Ensure read_jsonl_file is defined/imported
+    data = read_jsonl_file(generated_text_path) # Ensure read_jsonl_file is defined/imported
 
     print(f"Loading model and tokenizer from {model_path}...")
     try:
