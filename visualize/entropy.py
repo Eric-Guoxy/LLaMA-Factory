@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from utils import read_jsonl_file
+from utils.utils import read_file
 import torch
 import argparse
 import math
@@ -67,107 +67,117 @@ def mean_entropy(generated_text, model, tokenizer, device):
     
     return final_token_entropies, mean_entropy
 
-def batched_mean_entropy(texts: list[str], model, tokenizer, device):
+def batched_mean_entropy(texts: list[str], model, tokenizer, device, batch_size: int = 32):
     """
-    Calculates the mean entropy for a batch of texts.
+    Calculates the mean entropy for a list of texts, processing them in batches.
     The mean entropy is the average of the conditional entropies of the model's
     predictive distribution for each token in a given text.
+    Uses DataParallel if multiple CUDA GPUs are available.
     """
     if not texts:
         return []
 
-    # 1. Tokenize content (no special tokens yet, no padding yet)
-    # Truncation is on by default if texts are too long for the model
-    content_tokenizations = tokenizer(
-        texts, 
-        add_special_tokens=False, 
-        padding=False, # We'll pad after manually adding BOS if needed
-        truncation=True
-    )
-    content_ids_list = content_tokenizations["input_ids"]
-    num_content_tokens_list = [len(ids) for ids in content_ids_list]
-
-    # 2. Prepare model input sequences (add BOS if tokenizer uses it)
-    model_input_ids_list = []
-    has_bos_prepended = tokenizer.bos_token_id is not None
-    for ids in content_ids_list:
-        if has_bos_prepended:
-            model_input_ids_list.append([tokenizer.bos_token_id] + ids)
+    model_for_inference = model
+    if isinstance(device, torch.device) and device.type == 'cuda' and torch.cuda.device_count() > 1:
+        # Check if the model is not already a DataParallel instance to avoid re-wrapping
+        if not isinstance(model, torch.nn.DataParallel):
+            print(f"Using torch.nn.DataParallel for batched_mean_entropy across {torch.cuda.device_count()} GPUs.")
+            model_for_inference = torch.nn.DataParallel(model)
         else:
-            model_input_ids_list.append(ids)
-
-    # 3. Pad model input sequences for batching
-    # Ensure tokenizer has a pad_token_id; if not, set it (e.g., to eos_token_id)
-    if tokenizer.pad_token_id is None:
-        if tokenizer.eos_token_id is not None:
-            tokenizer.pad_token_id = tokenizer.eos_token_id
-        else:
-            # Fallback: Add a new pad token if necessary, though this is less ideal
-            # For most pretrained models, eos_token_id or an existing pad_token_id should be available.
-            # tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-            # model.resize_token_embeddings(len(tokenizer)) # If new token added
-            raise ValueError("Tokenizer must have a pad_token_id for batch padding.")
-
-    padded_inputs = tokenizer.pad(
-        {"input_ids": model_input_ids_list},
-        padding=True, # Pad to the longest sequence in the batch
-        return_tensors="pt",
-        return_attention_mask=True
-    )
-    batch_input_ids = padded_inputs["input_ids"].to(device)
-    batch_attention_mask = padded_inputs["attention_mask"].to(device)
-
-    # 4. Model Inference
-    with torch.no_grad():
-        outputs = model(input_ids=batch_input_ids, attention_mask=batch_attention_mask)
-    batch_all_logits = outputs.logits  # Shape: (batch_size, seq_len_model_input, vocab_size)
-
-    # 5. Calculate mean entropies for each text in the batch
-    mean_entropies_result = []
-    for i in range(len(texts)):
-        item_num_content_tokens = num_content_tokens_list[i]
+            # Model is already DataParallel, use as is
+            print(f"Model is already a torch.nn.DataParallel instance.")
+            model_for_inference = model 
+            
+    all_mean_entropies_result = []
+    
+    # Process texts in mini-batches
+    for i in tqdm(range(0, len(texts), batch_size), desc="Processing batches"):
+        batch_texts = texts[i:i + batch_size]
         
-        if item_num_content_tokens == 0: # Handle empty original texts
-            mean_entropies_result.append(0.0)
+        if not batch_texts:
             continue
 
-        # Get logits for the current item, considering only the unpadded part
-        # The model outputs logits for each position in batch_input_ids (up to padded length)
-        item_logits = batch_all_logits[i]  # Shape: (seq_len_model_input, vocab_size)
+        # 1. Tokenize content (no special tokens yet, no padding yet)
+        # Truncation is on by default if texts are too long for the model
+        # print(f"--- Start Tokenizations for batch {i//batch_size + 1} ---")
+        content_tokenizations = tokenizer(
+            batch_texts, 
+            add_special_tokens=False, 
+            padding=False, # We'll pad after manually adding BOS if needed
+            truncation=True,
+            max_length=tokenizer.model_max_length if hasattr(tokenizer, 'model_max_length') and tokenizer.model_max_length else 512 # Ensure max_length
+        )
+        # print(f"--- Finish Tokenizations for batch {i//batch_size + 1} ---")
+        content_ids_list = content_tokenizations["input_ids"]
+        num_content_tokens_list = [len(ids) for ids in content_ids_list]
 
-        logits_to_consider_for_entropy = torch.empty((0, item_logits.shape[-1]), device=device)
+        # 2. Prepare model input sequences (add BOS if tokenizer uses it)
+        model_input_ids_list = []
+        has_bos_prepended = tokenizer.bos_token_id is not None
+        for ids in content_ids_list:
+            if has_bos_prepended:
+                model_input_ids_list.append([tokenizer.bos_token_id] + ids)
+            else:
+                model_input_ids_list.append(ids)
 
-        if has_bos_prepended:
-            # If BOS was prepended, model input was [BOS, t1, ..., tN].
-            # Logits item_logits[0] predicts t1 (given BOS).
-            # Logits item_logits[N-1] predicts tN (given BOS, t1, ..., tN-1).
-            # We need item_num_content_tokens logit vectors.
-            end_idx_for_logits = item_num_content_tokens
-            # Slice item_logits: take rows 0 to end_idx_for_logits-1
-            # These correspond to predictions for each of the content tokens.
-            logits_to_consider_for_entropy = item_logits[:end_idx_for_logits, :]
-        else:  # No BOS prepended
-            # Model input was [t1, ..., tN].
-            # Logits item_logits[0] predicts t2 (given t1).
-            # Logits item_logits[N-2] predicts tN (given t1, ..., tN-1).
-            # We need item_num_content_tokens - 1 logit vectors.
-            if item_num_content_tokens > 1:
-                end_idx_for_logits = item_num_content_tokens - 1
-                logits_to_consider_for_entropy = item_logits[:end_idx_for_logits, :]
-            else:  # Single content token, no BOS: no conditional entropy can be computed this way
-                mean_entropies_result.append(0.0)
-                continue
-        
-        if logits_to_consider_for_entropy.nelement() > 0:
-            probs = torch.softmax(logits_to_consider_for_entropy, dim=-1)
-            # Add a small epsilon for numerical stability before log2
-            entropies_tensor = -torch.sum(probs * torch.log2(probs.clamp_min(1e-9)), dim=-1)
-            current_mean_entropy = torch.mean(entropies_tensor).item()
-            mean_entropies_result.append(current_mean_entropy)
-        else: # No logits were considered (e.g. single token without BOS, or already handled empty string)
-            mean_entropies_result.append(0.0)
+        # 3. Pad model input sequences for batching
+        if tokenizer.pad_token_id is None:
+            if tokenizer.eos_token_id is not None:
+                tokenizer.pad_token_id = tokenizer.eos_token_id
+            else:
+                raise ValueError("Tokenizer must have a pad_token_id for batch padding.")
+
+        padded_inputs = tokenizer.pad(
+            {"input_ids": model_input_ids_list},
+            padding=True, 
+            return_tensors="pt",
+            return_attention_mask=True
+        )
+        batch_input_ids = padded_inputs["input_ids"].to(device)
+        batch_attention_mask = padded_inputs["attention_mask"].to(device)
+
+        # 4. Model Inference
+        # print(f"--- Start Model Inference for batch {i//batch_size + 1} ---")
+        with torch.no_grad():
+            outputs = model_for_inference(input_ids=batch_input_ids, attention_mask=batch_attention_mask)
+        batch_all_logits = outputs.logits  # Shape: (current_batch_size, seq_len_model_input, vocab_size)
+        # print(f"--- End Model Inference for batch {i//batch_size + 1} ---")
+
+        # 5. Calculate mean entropies for each text in the current batch
+        current_batch_mean_entropies = []
+        for j in range(len(batch_texts)): # Iterate over items in the current mini-batch
+            item_num_content_tokens = num_content_tokens_list[j]
             
-    return mean_entropies_result
+            if item_num_content_tokens == 0: 
+                current_batch_mean_entropies.append(0.0)
+                continue
+
+            item_logits = batch_all_logits[j]  
+
+            logits_to_consider_for_entropy = torch.empty((0, item_logits.shape[-1]), device=device)
+
+            if has_bos_prepended:
+                end_idx_for_logits = item_num_content_tokens
+                logits_to_consider_for_entropy = item_logits[:end_idx_for_logits, :]
+            else: 
+                if item_num_content_tokens > 1:
+                    end_idx_for_logits = item_num_content_tokens - 1
+                    logits_to_consider_for_entropy = item_logits[:end_idx_for_logits, :]
+                else: 
+                    current_batch_mean_entropies.append(0.0)
+                    continue
+            
+            if logits_to_consider_for_entropy.nelement() > 0:
+                probs = torch.softmax(logits_to_consider_for_entropy, dim=-1)
+                entropies_tensor = -torch.sum(probs * torch.log2(probs.clamp_min(1e-9)), dim=-1)
+                current_mean_entropy = torch.mean(entropies_tensor).item()
+                current_batch_mean_entropies.append(current_mean_entropy)
+            else: 
+                current_batch_mean_entropies.append(0.0)
+        
+        all_mean_entropies_result.extend(current_batch_mean_entropies)
+            
+    return all_mean_entropies_result
     
 
 if __name__ == '__main__':
@@ -186,6 +196,8 @@ if __name__ == '__main__':
                         help="Random seed for sampling (default: 43).")
     parser.add_argument("--use_batched_version", action='store_true',
                         help="Use the batched version for entropy calculation.")
+    parser.add_argument("--batch_size", type=int, default=32,
+                        help="Batch size for batched entropy calculation (default: 32).")
 
 
     args = parser.parse_args()
@@ -207,7 +219,7 @@ if __name__ == '__main__':
 
     print(f"Using device: {device}")
     print(f"Loading data from {generated_text_path}...")
-    data = read_jsonl_file(generated_text_path) # Ensure read_jsonl_file is defined/imported
+    data = read_file(generated_text_path) # Ensure read_jsonl_file is defined/imported
 
     print(f"Loading model and tokenizer from {model_path}...")
     try:
@@ -237,15 +249,18 @@ if __name__ == '__main__':
     if args.use_batched_version:
         all_generated_texts = [sample_item.get('generated_text', '') for sample_item in samples]
 
-        print(f"Calculating mean entropies for {len(all_generated_texts)} texts in batch...")
+        print(f"Calculating mean entropies for {len(all_generated_texts)} texts with batch size {args.batch_size}...")
         # Call the batched function
         all_calculated_mean_entropies = batched_mean_entropy(
             texts=all_generated_texts,
             model=model,
             tokenizer=tokenizer,
-            device=device
+            device=device,
+            batch_size=args.batch_size
         )
         print("Batch entropy calculation complete.")
+
+        print("mean_entropy: ", torch.mean(all_calculated_mean_entropies))
 
         with open(save_path, "w", encoding="utf-8") as f:
             for i, sample_item in tqdm(enumerate(samples), desc="Saving batched results", total=len(samples)):
@@ -259,6 +274,7 @@ if __name__ == '__main__':
                 }
                 f.write(json.dumps(metrics) + "\n")
     else: 
+        all_calculated_mean_entropies = []
         with open(save_path, "w", encoding="utf-8") as f:
             for i, sample_item in tqdm(enumerate(samples), desc="Saving results", total=len(samples)):
                 prompt_text = sample_item.get('prompt', '')
@@ -272,6 +288,8 @@ if __name__ == '__main__':
                     "prompt": prompt_text,
                     "mean_entropy": avg_entropy
                 }
+                all_calculated_mean_entropies.append(avg_entropy)
                 f.write(json.dumps(metrics) + "\n")
+        print("mean_entropy: ", torch.mean(all_calculated_mean_entropies))
     
     print(f"Results saved to {save_path}")
