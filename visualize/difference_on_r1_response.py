@@ -150,9 +150,9 @@ if __name__ == "__main__":
     # Load models and tokenizer
 
     model_name_1 = "/home/inspur/cth/models/Qwen2.5-Math-7B"
-    model_name_2 = "saves/Qwen2.5-Math-7B/full/sft_correct/checkpoint-1000"
+    model_name_2 = "/home/inspur/cth/models/Qwen2.5-Math-7B-Oat-Zero"
     # Set device
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cpu"
     print(f"Using device: {device}")
 
     # Load tokenizer (using the first model's tokenizer)
@@ -173,7 +173,7 @@ if __name__ == "__main__":
     
     
     from utils.utils import read_file
-    texts = read_file('case.json')
+    texts = read_file('compare/dataset_oat_base_sample.json')
     text = texts[0]
     prompt = text['prompt']
     temp = tokenizer.apply_chat_template(prompt, tokenize=False, add_generation_prompt=True)

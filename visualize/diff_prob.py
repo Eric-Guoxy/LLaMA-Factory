@@ -827,8 +827,8 @@ if __name__ == "__main__":
     generated_text_path = "/home/inspur/cth/LLaMA-Factory/visualize/models/Qwen2.5-Math-7B-Oat-Zero-oat-prompt/Qwen2.5-Math-7B-Oat-Zero-oat-prompt-eval.jsonl"
     model_name_final_hf = "/home/inspur/cth/models/Qwen2.5-Math-7B-Oat-Zero" # Renamed for clarity
     model_name_base_hf = "/home/inspur/cth/models/Qwen2.5-Math-7B" # Renamed for clarity
-    dataset_path = "~/cth/LLaMA-Factory/data/valid.all.parquet"
-    final_model_display_name = "Qwen2.5-Math-7B-Oat-Zero-oat-prompt"
+    dataset_path = "/home/inspur/cth/LLaMA-Factory/visualize/compare/dataset_oat_base.parquet"
+    final_model_display_name = "Qwen2.5-Math-7B-Oat-Zero-filtered"
     ref_model_display_name = "Qwen2.5-Math-7B (base)"
     
     save_path_root = os.path.join("models", final_model_display_name) 

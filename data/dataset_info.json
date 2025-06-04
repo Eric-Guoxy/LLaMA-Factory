@@ -736,5 +736,21 @@
       "response": "response",
       "system": "system"
     }
+  },
+  "openr1_16k_sft":  {
+    "file_name": "openr1_16k_sft.json",
+    "columns": {
+      "prompt": "prompt",
+      "response": "response",
+      "system": "system"
+    }
+  },
+  "openr1_5k_samples": {
+    "file_name": "openr1_5k_samples.json",
+    "columns": {
+      "prompt": "query",
+      "response": "answer",
+      "system": "system"
+    }
   }
 }

@@ -191,3 +191,9 @@ openr1_hard_sft.json
 all_samples*
 prob.json
 probs.json
+temp.py
+openr1_16k_sft.json
+openr1_5k_samples.json
+visualize/compare/Qwen2.5-Math-7B-Oat-Zero-eval.jsonl
+visualize/compare/Qwen2.5-Math-7B-base.jsonl
+visualize/compare/Qwen2.5-Math-7B-full-sft-final-sft.jsonl
